@@ -1,11 +1,25 @@
 // Constantes generales para la app "Tiempo con Dios"
 
+// Tiempo requerido para completar la semilla (en minutos)
+export const SEED_MINUTES = 5;
+
 // Opciones de tiempo para sesiones
 export const SESSION_DURATIONS = [
   { id: 1, minutes: 5, label: '5 minutos', seconds: 300 },
   { id: 2, minutes: 10, label: '10 minutos', seconds: 600 },
   { id: 3, minutes: 15, label: '15 minutos', seconds: 900 },
   { id: 4, minutes: 30, label: '30 minutos', seconds: 1800 },
+];
+
+// Plantas disponibles para seleccionar
+export const PLANTS = [
+  { id: 'cactus', name: 'Cactus de la Resistencia', image: require('../../assets/plants/cactuus.webp'), minutes: 120 },
+  { id: 'cedro', name: 'Cedro de la Fortaleza', image: require('../../assets/plants/cedro.webp'), minutes: 120 },
+  { id: 'flor-azul', name: 'Flor Azul de la Serenidad', image: require('../../assets/plants/flor-azul.webp'), minutes: 120 },
+  { id: 'flor-celestial', name: 'Flor Celestial de la Esperanza', image: require('../../assets/plants/flor-celestial.webp'), minutes: 120 },
+  { id: 'lirio', name: 'Lirio de la Pureza', image: require('../../assets/plants/lirio.webp'), minutes: 120 },
+  { id: 'rosa', name: 'Rosa del Amor Divino', image: require('../../assets/plants/rosa.webp'), minutes: 120 },
+  
 ];
 
 // Estados de la planta espiritual
@@ -149,6 +163,7 @@ export const MESSAGES = {
 
 export default {
   SESSION_DURATIONS,
+  PLANTS,
   PLANT_STAGES,
   BIBLE_VERSES,
   INSPIRATIONAL_QUOTES,

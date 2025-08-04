@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Dimensions,
+  Image,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
@@ -19,54 +20,39 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { useAuth } from '../context/AuthContext';
+import { usePlantProgress } from '../hooks/usePlantProgress';
+import { useSessionHistory } from '../hooks/useSessionHistory';
+import { PLANTS } from '../constants/Constants';
 import Colors from '../constants/Colors';
 
 const { width } = Dimensions.get('window');
 
+const moodEmojis = {
+  peaceful: '😌',
+  grateful: '🙏',
+  calm: '😊',
+  joyful: '😄',
+  inspired: '✨',
+  loved: '💕',
+  strengthened: '💪',
+  comforted: '🤗'
+};
+
 const HistoryScreen = () => {
   const { user } = useAuth();
+  const { obtainedPlants } = usePlantProgress();
+  const { getStats } = useSessionHistory();
   const [selectedPeriod, setSelectedPeriod] = useState('week');
   
   // Animaciones
   const fadeIn = useSharedValue(0);
   const slideUp = useSharedValue(30);
 
-  // Datos simulados para el historial
-  const [historyData] = useState({
-    week: {
-      totalMinutes: user?.weeklyMinutes || 45,
-      totalSessions: user?.weeklySessions || 6,
-      streak: 3,
-      sessions: [
-        { date: '2024-01-15', duration: 10, mood: 'peaceful', completed: true },
-        { date: '2024-01-14', duration: 15, mood: 'grateful', completed: true },
-        { date: '2024-01-13', duration: 5, mood: 'inspired', completed: true },
-        { date: '2024-01-12', duration: 10, mood: 'loved', completed: false },
-        { date: '2024-01-11', duration: 15, mood: 'strengthened', completed: true },
-        { date: '2024-01-10', duration: 5, mood: 'comforted', completed: true },
-      ]
-    },
-    month: {
-      totalMinutes: 180,
-      totalSessions: 24,
-      streak: 7,
-      sessions: [
-        { date: '2024-01-15', duration: 45, mood: 'peaceful', completed: true },
-        { date: '2024-01-08', duration: 60, mood: 'grateful', completed: true },
-        { date: '2024-01-01', duration: 75, mood: 'inspired', completed: true },
-      ]
-    },
-    year: {
-      totalMinutes: 2160,
-      totalSessions: 288,
-      streak: 15,
-      sessions: [
-        { date: '2024-01-01', duration: 180, mood: 'peaceful', completed: true },
-        { date: '2023-12-01', duration: 165, mood: 'grateful', completed: true },
-        { date: '2023-11-01', duration: 150, mood: 'inspired', completed: true },
-      ]
-    }
-  });
+  // Obtener datos dinámicos del historial
+  const currentData = getStats(selectedPeriod);
+  
+  // Agregar plantas de prueba si no hay plantas obtenidas
+  const displayPlants = obtainedPlants.length > 0 ? obtainedPlants : ['cactus', 'cedro', 'flor-azul'];
 
   const periods = [
     { key: 'week', label: 'Esta semana' },
@@ -95,9 +81,7 @@ const HistoryScreen = () => {
     });
   };
 
-  const getCurrentData = () => {
-    return historyData[selectedPeriod];
-  };
+
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -142,7 +126,7 @@ const HistoryScreen = () => {
     };
   });
 
-  const currentData = getCurrentData();
+
   const plantStage = getPlantStage(currentData.totalSessions);
 
   return (
@@ -156,6 +140,38 @@ const HistoryScreen = () => {
           <View style={styles.header}>
             <Text style={styles.title}>Mi Progreso Espiritual</Text>
             <Text style={styles.subtitle}>Tu camino con Dios</Text>
+          </View>
+
+          {/* Medallas de plantas obtenidas - Slider */}
+          <View style={styles.gardenSection}>
+            <Text style={styles.gardenTitle}>Plantas Obtenidas</Text>
+            <ScrollView 
+              horizontal 
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.plantsSlider}
+              style={styles.sliderContainer}
+            >
+              {displayPlants.map((plantId, index) => {
+                const plant = PLANTS.find(p => p.id === plantId);
+                return (
+                  <View key={index} style={styles.plantMedal}>
+                    <Image 
+                      source={plant?.image} 
+                      style={styles.medalImage}
+                      resizeMode="cover"
+                    />
+                    <Text style={styles.medalName}>{plant?.name}</Text>
+                  </View>
+                );
+              })}
+              {/* Espacios vacíos para mostrar progreso */}
+              {Array.from({ length: Math.max(0, 10 - displayPlants.length) }).map((_, index) => (
+                <View key={`empty-${index}`} style={[styles.plantMedal, styles.emptyMedal]}>
+                  <Ionicons name="leaf-outline" size={24} color={Colors.text.secondary} style={styles.emptyIcon} />
+                  <Text style={styles.emptyMedalText}>?</Text>
+                </View>
+              ))}
+            </ScrollView>
           </View>
 
           {/* Selector de período */}
@@ -318,6 +334,74 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.text.secondary,
     opacity: 0.8,
+  },
+  gardenSection: {
+    marginHorizontal: 20,
+    marginBottom: 25,
+    backgroundColor: Colors.surface,
+    borderRadius: 16,
+    padding: 20,
+    shadowColor: Colors.shadow.medium,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  gardenTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: Colors.text.primary,
+    marginBottom: 16,
+    textAlign: 'center',
+  },
+  sliderContainer: {
+    maxHeight: 120,
+  },
+  plantsSlider: {
+    paddingHorizontal: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  plantsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+  },
+  plantMedal: {
+    width: 80,
+    alignItems: 'center',
+    marginBottom: 15,
+    marginRight: 20,
+  },
+  medalImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    borderWidth: 2,
+    borderColor: Colors.plant.healthy,
+    marginBottom: 6,
+  },
+  medalName: {
+    fontSize: 10,
+    color: Colors.text.primary,
+    textAlign: 'center',
+    fontWeight: '500',
+    lineHeight: 12,
+  },
+  emptyMedal: {
+    opacity: 0.3,
+  },
+  emptyIcon: {
+    marginBottom: 6,
+  },
+  emptyMedalText: {
+    fontSize: 12,
+    color: Colors.text.secondary,
+    fontWeight: 'bold',
   },
   periodSelector: {
     flexDirection: 'row',

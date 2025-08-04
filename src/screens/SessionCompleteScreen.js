@@ -27,12 +27,16 @@ import Animated, {
 import { useAuth } from '../context/AuthContext';
 import { APP_CONFIG } from '../constants/Constants';
 import Colors from '../constants/Colors';
+import { usePlantProgress } from '../hooks/usePlantProgress';
+import { useSessionHistory } from '../hooks/useSessionHistory';
 
 const { width } = Dimensions.get('window');
 
 const SessionCompleteScreen = ({ navigation, route }) => {
   const { duration } = route.params;
   const { user } = useAuth();
+  const { addSessionMinutes } = usePlantProgress();
+  const { addSession } = useSessionHistory();
   
   const [selectedMood, setSelectedMood] = useState(null);
   const [note, setNote] = useState('');
@@ -93,20 +97,23 @@ const SessionCompleteScreen = ({ navigation, route }) => {
 
   const handleSaveSession = async () => {
     try {
-      // En una app real, aquí guardarías la información de la sesión
+      // Agregar los minutos de la sesión al progreso de la planta
+      await addSessionMinutes(duration.minutes);
+      
+      // Guardar la sesión en el historial
       const sessionData = {
         duration: duration.minutes,
         mood: selectedMood,
         note: note.trim(),
-        completedAt: new Date().toISOString(),
       };
       
+      await addSession(sessionData);
       console.log('Session saved:', sessionData);
       
       // Mostrar mensaje de confirmación
       Alert.alert(
           'Sesión guardada',
-          'Tu momento con Dios ha sido registrado. ¡Que tengas un día bendecido!',
+          `Tu momento con Dios de ${duration.minutes} minutos ha sido registrado y agregado a tu progreso. ¡Que tengas un día bendecido!`,
           [
             {
               text: 'Continuar',
@@ -123,7 +130,21 @@ const SessionCompleteScreen = ({ navigation, route }) => {
     }
   };
 
-  const handleSkip = () => {
+  const handleSkip = async () => {
+    try {
+      // Incluso si se salta, agregar los minutos al progreso
+      await addSessionMinutes(duration.minutes);
+      
+      // Guardar sesión básica sin mood ni nota
+      await addSession({
+        duration: duration.minutes,
+        mood: null,
+        note: '',
+      });
+    } catch (error) {
+      console.error('Error adding session minutes:', error);
+    }
+    
     navigation.reset({
       index: 0,
       routes: [{ name: 'Main' }],

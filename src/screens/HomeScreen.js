@@ -112,10 +112,6 @@ const HomeScreen = ({ navigation }) => {
           <View style={styles.plantCircle}>
             <Animated.View style={[styles.plantIconContainer, animatedPlantStyle]}>
               <SpiritualPlant 
-                stage={currentPlantStage.id}
-                health={100}
-                lastWatered={plant.lastWatered}
-                totalMinutes={sessions.totalMinutes || 0}
                 animated={true}
               />
             </Animated.View>
@@ -188,12 +184,7 @@ const styles = StyleSheet.create({
   plantCircle: {
     width: 280,
     height: 280,
-    borderRadius: 140,
-    backgroundColor: 'rgba(255, 255, 255, 0.15)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 3,
-    borderColor: 'rgba(255, 255, 255, 0.2)',
+   
   },
   plantIconContainer: {
     justifyContent: 'center',

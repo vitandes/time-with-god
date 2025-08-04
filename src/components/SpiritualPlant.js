@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,8 @@ import {
   Dimensions,
   Image,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import PlantSelector from './PlantSelector';
 
 import Animated, {
   useSharedValue,
@@ -18,30 +20,64 @@ import Animated, {
   Easing,
 } from 'react-native-reanimated';
 
-import { PLANT_STAGES } from '../constants/Constants';
+import { PLANT_STAGES, SEED_MINUTES, PLANTS } from '../constants/Constants';
 import Colors from '../constants/Colors';
+import { usePlantProgress } from '../hooks/usePlantProgress';
+
+// Mapeo de imágenes de plantas
+const PLANT_IMAGES = {
+  'cactus': require('../../assets/plants/cactuus.webp'),
+  'cedro': require('../../assets/plants/cedro.webp'),
+  'flor-azul': require('../../assets/plants/flor-azul.webp'),
+  'flor-celestial': require('../../assets/plants/flor-celestial.webp'),
+  'lirio': require('../../assets/plants/lirio.webp'),
+  'rosa': require('../../assets/plants/rosa.webp'),
+};
 
 const { width } = Dimensions.get('window');
 
 const SpiritualPlant = ({ 
-  stage = 'seed', 
-  health = 100, 
-  lastWatered, 
   onPlantPress,
-  animated = true,
-  totalMinutes = 0
+  animated = true
 }) => {
+  // Estado para el modal de selección
+  const [showPlantSelector, setShowPlantSelector] = useState(false);
+  
+  // Usar el hook de progreso de plantas
+  const { obtainedPlants, currentPlant, totalMinutes, selectNewPlant, completePlant } = usePlantProgress();
+  
   // Animaciones
   const plantScale = useSharedValue(1);
   const breathingScale = useSharedValue(1);
-
-  const currentStage = Object.values(PLANT_STAGES).find(s => s.id === stage) || Object.values(PLANT_STAGES)[0];
   
-  // Calcular progreso hacia la angel-flower (120 minutos)
-  const ANGEL_FLOWER_MINUTES = 120;
-  const progressPercentage = Math.min((totalMinutes / ANGEL_FLOWER_MINUTES) * 100, 100);
-  const remainingMinutes = Math.max(ANGEL_FLOWER_MINUTES - totalMinutes, 0);
-  const hasAngelFlower = totalMinutes >= ANGEL_FLOWER_MINUTES;
+  // Validar que totalMinutes sea un número válido
+  const validTotalMinutes = typeof totalMinutes === 'number' && !isNaN(totalMinutes) ? totalMinutes : 0;
+  
+  // Lógica para determinar qué mostrar
+  const seedCompleted = validTotalMinutes >= SEED_MINUTES;
+  
+  // Determinar si la planta actual está completa
+  const plantCompleted = currentPlant && validTotalMinutes >= (SEED_MINUTES + currentPlant.minutes);
+  
+  // Calcular progreso y tiempo restante
+  let remainingMinutes = 0;
+  let progressPercentage = 0;
+  
+  if (!currentPlant) {
+    // Solo semilla - mostrar progreso hacia completar la semilla
+    remainingMinutes = Math.max(SEED_MINUTES - validTotalMinutes, 0);
+    progressPercentage = Math.min((validTotalMinutes / SEED_MINUTES) * 100, 100);
+  } else {
+    // Hay planta seleccionada - calcular progreso de la planta
+    const minutesForPlant = Math.max(validTotalMinutes - SEED_MINUTES, 0);
+    remainingMinutes = Math.max(currentPlant.minutes - minutesForPlant, 0);
+    progressPercentage = Math.min((minutesForPlant / currentPlant.minutes) * 100, 100);
+    
+    // Si la planta está completa, marcarla como obtenida
+    if (remainingMinutes === 0 && minutesForPlant >= currentPlant.minutes) {
+      completePlant(currentPlant);
+    }
+  }
   
 
 
@@ -71,6 +107,16 @@ const SpiritualPlant = ({
     }
   };
 
+  // Manejar selección de nueva planta
+  const handleSelectNewPlant = (plant) => {
+    selectNewPlant(plant);
+  };
+
+  // Mostrar selector de plantas
+  const handleShowPlantSelector = () => {
+    setShowPlantSelector(true);
+  };
+
   const animatedPlantStyle = useAnimatedStyle(() => {
     return {
       transform: [
@@ -90,30 +136,64 @@ const SpiritualPlant = ({
         activeOpacity={0.8}
       >
         <Animated.View style={[styles.flower, animatedPlantStyle]}>
-          {hasAngelFlower ? (
+          {remainingMinutes > 0 && !currentPlant ? (
+            // Mostrar semilla inicial mientras falten minutos
             <Image 
-              source={require('../../assets/angel-flower.png')} 
-              style={styles.angelFlowerImage}
-              resizeMode="contain"
+              source={require('../../assets/plants/semilla.webp')} 
+              style={styles.seedImage}
+              resizeMode="cover"
+            />
+          ) : currentPlant && remainingMinutes > 0 ? (
+            // Mostrar planta seleccionada mientras falten minutos
+            <Image 
+              source={PLANT_IMAGES[currentPlant.id]} 
+              style={styles.seedImage}
+              resizeMode="cover"
+            />
+          ) : currentPlant && remainingMinutes <= 0 ? (
+            // Mostrar planta completada
+            <Image 
+              source={PLANT_IMAGES[currentPlant.id]} 
+              style={styles.seedImage}
+              resizeMode="cover"
             />
           ) : (
-            <Image 
-              source={require('../../assets/angel-flower.png')} 
-              style={[styles.angelFlowerImage, { opacity: 1 }]}
-              resizeMode="contain"
-            />
+            // Mostrar botón "+" cuando la semilla esté completa y no haya planta seleccionada
+            <TouchableOpacity 
+              style={styles.addButton}
+              onPress={handleShowPlantSelector}
+            >
+              <Ionicons name="add" size={50} color="rgba(255, 255, 255, 0.9)" />
+            </TouchableOpacity>
           )}
         </Animated.View>
       </TouchableOpacity>
       
-      {/* Solo mostrar tiempo restante */}
-      {!hasAngelFlower && (
-        <View style={styles.timeInfo}>
+      {/* Mostrar información de tiempo y planta */}
+      <View style={styles.timeInfo}>
+        {currentPlant ? (
+          <>
+            <Text style={styles.timeText}>
+              {remainingMinutes} minutos restantes
+            </Text>
+            <Text style={styles.plantNameText}>
+              {currentPlant.name}
+            </Text>
+          </>
+        ) : (
           <Text style={styles.timeText}>
             {remainingMinutes} minutos restantes
           </Text>
-        </View>
-      )}
+        )}
+      </View>
+      
+      {/* Modal de selección de plantas */}
+      <PlantSelector
+        visible={showPlantSelector}
+        onClose={() => setShowPlantSelector(false)}
+        onSelectPlant={handleSelectNewPlant}
+        obtainedPlants={obtainedPlants}
+      />
     </View>
   );
 };
@@ -126,24 +206,62 @@ const styles = StyleSheet.create({
   flowerContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 20,
+    marginBottom: 10,
+    width: 230,
+    height: 230,
+    borderRadius: 20,
+    borderRadius: 140,
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 3,
+    borderColor: 'rgba(255, 255, 255, 0.2)',
+    overflow: 'hidden',
   },
   flower: {
     alignItems: 'center',
     justifyContent: 'center',
+    width: '100%',
+    height: '100%',
   },
-  angelFlowerImage: {
-    width: 150,
-    height: 150,
+  seedImage: {
+    width: '100%',
+    height: '100%',
+  },
+  addButton: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    borderRadius: 115,
+    borderWidth: 3,
+    borderColor: 'rgba(255, 255, 255, 0.6)',
+    borderStyle: 'dashed',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   timeInfo: {
     alignItems: 'center',
+    marginTop: 10,
   },
   timeText: {
-    marginTop: -20,
     fontSize: 16,
     color: Colors.white,
     fontWeight: '500',
+  },
+  plantNameText: {
+    fontSize: 14,
+    color: Colors.white,
+    opacity: 0.8,
+    marginTop: 5,
+    textAlign: 'center',
   },
 
 

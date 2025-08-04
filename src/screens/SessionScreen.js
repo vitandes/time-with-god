@@ -23,15 +23,18 @@ import Animated, {
 import { useAuth } from '../context/AuthContext';
 import { BIBLE_VERSES, INSPIRATIONAL_QUOTES, APP_CONFIG } from '../constants/Constants';
 import Colors from '../constants/Colors';
+import { usePlantProgress } from '../hooks/usePlantProgress';
 
 const { width, height } = Dimensions.get('window');
 
 const SessionScreen = ({ navigation, route }) => {
   const { duration } = route.params;
   const { completeSession } = useAuth();
+  const { addSessionMinutes } = usePlantProgress();
   
   //const [timeLeft, setTimeLeft] = useState(duration.minutes * 60);
-  const [timeLeft, setTimeLeft] = useState(1);
+  const [timeLeft, setTimeLeft] = useState(2);
+
   const [isPlaying, setIsPlaying] = useState(true);
   const [currentVerseIndex, setCurrentVerseIndex] = useState(0);
   const [musicEnabled, setMusicEnabled] = useState(true);
