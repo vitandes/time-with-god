@@ -120,7 +120,7 @@ const HomeScreen = ({ navigation }) => {
 
         {/* Sección de tiempo */}
         <View style={styles.timeSection}>
-          <Text style={styles.timeLabel}>Oración</Text>
+          <Text style={styles.timeLabel}>Tiempo con Dios</Text>
           <View style={styles.timeContainer}>
             <TouchableOpacity 
               style={styles.timeButton}
@@ -147,7 +147,7 @@ const HomeScreen = ({ navigation }) => {
             onPress={handleStartSession}
             activeOpacity={0.8}
           >
-            <Text style={styles.plantButtonText}>Orar</Text>
+            <Text style={styles.plantButtonText}>Comenzar</Text>
           </TouchableOpacity>
         </View>
 

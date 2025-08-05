@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Dimensions,
   Image,
+  Modal,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import PlantSelector from './PlantSelector';
@@ -20,7 +21,7 @@ import Animated, {
   Easing,
 } from 'react-native-reanimated';
 
-import { PLANT_STAGES, SEED_MINUTES, PLANTS } from '../constants/Constants';
+import { PLANT_STAGES, SEED_MINUTES, PLANTS, SEED_PLANT } from '../constants/Constants';
 import Colors from '../constants/Colors';
 import { usePlantProgress } from '../hooks/usePlantProgress';
 
@@ -42,6 +43,8 @@ const SpiritualPlant = ({
 }) => {
   // Estado para el modal de selección
   const [showPlantSelector, setShowPlantSelector] = useState(false);
+  // Estado para el modal de información de la planta
+  const [showPlantInfo, setShowPlantInfo] = useState(false);
   
   // Usar el hook de progreso de plantas
   const { obtainedPlants, currentPlant, totalMinutes, selectNewPlant, completePlant } = usePlantProgress();
@@ -95,12 +98,31 @@ const SpiritualPlant = ({
     );
   }, [animated]);
 
+  // Efecto para completar la semilla automáticamente
+  useEffect(() => {
+    // Verificar si la semilla está completa y no hay planta actual
+    if (seedCompleted && !currentPlant && validTotalMinutes >= SEED_MINUTES) {
+      // Verificar si la semilla ya está en las plantas obtenidas
+      const seedAlreadyObtained = obtainedPlants.some(plant => plant.id === 'semilla');
+      
+      if (!seedAlreadyObtained) {
+        // Completar la semilla automáticamente
+        completePlant(SEED_PLANT);
+      }
+    }
+  }, [seedCompleted, currentPlant, validTotalMinutes, obtainedPlants, completePlant]);
+
   // Animación cuando se toca la planta
   const handlePlantPress = () => {
     plantScale.value = withSequence(
       withTiming(1.2, { duration: 150 }),
       withSpring(1, { damping: 10, stiffness: 100 })
     );
+    
+    // Si hay una planta actual, mostrar información
+    if (currentPlant) {
+      setShowPlantInfo(true);
+    }
     
     if (onPlantPress) {
       onPlantPress();
@@ -194,6 +216,44 @@ const SpiritualPlant = ({
         onSelectPlant={handleSelectNewPlant}
         obtainedPlants={obtainedPlants}
       />
+      
+      {/* Modal de información de la planta */}
+      <Modal
+        visible={showPlantInfo}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setShowPlantInfo(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <TouchableOpacity
+              style={styles.modalCloseButton}
+              onPress={() => setShowPlantInfo(false)}
+            >
+              <Ionicons name="close" size={24} color={Colors.text.secondary} />
+            </TouchableOpacity>
+            
+            {currentPlant && (
+              <>
+                <Image
+                  source={PLANT_IMAGES[currentPlant.id]}
+                  style={styles.modalPlantImage}
+                  resizeMode="cover"
+                />
+                <Text style={styles.modalPlantName}>{currentPlant.name}</Text>
+                <Text style={styles.modalPlantDescription}>{currentPlant.description}</Text>
+                <Text style={styles.modalPlantMeaning}>{currentPlant.meaning}</Text>
+                <Text style={styles.modalPlantProgress}>
+                  {remainingMinutes > 0 
+                    ? `${remainingMinutes} minutos restantes` 
+                    : "¡Planta completada!"
+                  }
+                </Text>
+              </>
+            )}
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -263,8 +323,77 @@ const styles = StyleSheet.create({
     marginTop: 5,
     textAlign: 'center',
   },
-
-
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: Colors.surface,
+    borderRadius: 20,
+    padding: 30,
+    alignItems: 'center',
+    marginHorizontal: 40,
+    shadowColor: Colors.shadow.medium,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  modalCloseButton: {
+    position: 'absolute',
+    top: 15,
+    right: 15,
+    zIndex: 1,
+  },
+  modalPlantImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    borderWidth: 3,
+    borderColor: Colors.plant.healthy,
+    marginBottom: 20,
+  },
+  modalPlantName: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: Colors.text.primary,
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  modalPlantDescription: {
+    fontSize: 16,
+    color: Colors.text.secondary,
+    textAlign: 'center',
+    lineHeight: 22,
+    marginBottom: 15,
+    fontWeight: '500',
+  },
+  modalPlantMeaning: {
+    fontSize: 15,
+    color: Colors.text.primary,
+    textAlign: 'center',
+    lineHeight: 20,
+    marginBottom: 20,
+    fontStyle: 'italic',
+    paddingHorizontal: 10,
+  },
+  modalPlantProgress: {
+    fontSize: 16,
+    color: Colors.plant.healthy,
+    fontWeight: '700',
+    textAlign: 'center',
+    backgroundColor: 'rgba(76, 175, 80, 0.1)',
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: Colors.plant.healthy,
+  },
 });
 
 export default SpiritualPlant;

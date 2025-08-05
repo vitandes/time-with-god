@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
   Image,
+  Modal,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
@@ -22,7 +23,7 @@ import Animated, {
 import { useAuth } from '../context/AuthContext';
 import { usePlantProgress } from '../hooks/usePlantProgress';
 import { useSessionHistory } from '../hooks/useSessionHistory';
-import { PLANTS } from '../constants/Constants';
+import { PLANTS, SEED_PLANT } from '../constants/Constants';
 import Colors from '../constants/Colors';
 
 const { width } = Dimensions.get('window');
@@ -43,6 +44,8 @@ const HistoryScreen = () => {
   const { obtainedPlants } = usePlantProgress();
   const { getStats } = useSessionHistory();
   const [selectedPeriod, setSelectedPeriod] = useState('week');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedMedal, setSelectedMedal] = useState(null);
   
   // Animaciones
   const fadeIn = useSharedValue(0);
@@ -51,8 +54,24 @@ const HistoryScreen = () => {
   // Obtener datos dinámicos del historial
   const currentData = getStats(selectedPeriod);
   
-  // Agregar plantas de prueba si no hay plantas obtenidas
-  const displayPlants = obtainedPlants.length > 0 ? obtainedPlants : ['cactus', 'cedro', 'flor-azul'];
+  // Mostrar solo plantas reales obtenidas por el usuario
+  const displayPlants = obtainedPlants;
+
+  const handleMedalPress = (plantData) => {
+    // Buscar primero en PLANTS, luego en SEED_PLANT
+    let plant = PLANTS.find(p => p.id === plantData.id);
+    if (!plant && plantData.id === 'semilla') {
+      plant = SEED_PLANT;
+    }
+    
+    if (plant) {
+      setSelectedMedal({
+        ...plant,
+        completedDate: plantData.completedDateFormatted
+      });
+      setModalVisible(true);
+    }
+  };
 
   const periods = [
     { key: 'week', label: 'Esta semana' },
@@ -145,33 +164,51 @@ const HistoryScreen = () => {
           {/* Medallas de plantas obtenidas - Slider */}
           <View style={styles.gardenSection}>
             <Text style={styles.gardenTitle}>Plantas Obtenidas</Text>
-            <ScrollView 
-              horizontal 
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.plantsSlider}
-              style={styles.sliderContainer}
-            >
-              {displayPlants.map((plantId, index) => {
-                const plant = PLANTS.find(p => p.id === plantId);
-                return (
-                  <View key={index} style={styles.plantMedal}>
-                    <Image 
-                      source={plant?.image} 
-                      style={styles.medalImage}
-                      resizeMode="cover"
-                    />
-                    <Text style={styles.medalName}>{plant?.name}</Text>
-                  </View>
-                );
-              })}
-              {/* Espacios vacíos para mostrar progreso */}
-              {Array.from({ length: Math.max(0, 10 - displayPlants.length) }).map((_, index) => (
-                <View key={`empty-${index}`} style={[styles.plantMedal, styles.emptyMedal]}>
-                  <Ionicons name="leaf-outline" size={24} color={Colors.text.secondary} style={styles.emptyIcon} />
-                  <Text style={styles.emptyMedalText}>?</Text>
-                </View>
-              ))}
-            </ScrollView>
+            {displayPlants.length > 0 ? (
+               <ScrollView 
+                 horizontal 
+                 showsHorizontalScrollIndicator={false}
+                 contentContainerStyle={styles.plantsSlider}
+                 style={styles.sliderContainer}
+               >
+                 {displayPlants.map((plantData, index) => {
+                   const plantId = typeof plantData === 'string' ? plantData : plantData.id;
+                   // Buscar primero en PLANTS, luego en SEED_PLANT
+                   let plant = PLANTS.find(p => p.id === plantId);
+                   if (!plant && plantId === 'semilla') {
+                     plant = SEED_PLANT;
+                   }
+                   return (
+                     <TouchableOpacity 
+                       key={index} 
+                       style={styles.plantMedal}
+                       onPress={() => handleMedalPress(typeof plantData === 'string' ? { id: plantData } : plantData)}
+                     >
+                       <Image 
+                         source={plant?.image} 
+                         style={styles.medalImage}
+                         resizeMode="cover"
+                       />
+                       <Text style={styles.medalName}>{plant?.name}</Text>
+                     </TouchableOpacity>
+                   );
+                 })}
+                 {Array.from({ length: Math.max(0, 10 - displayPlants.length) }).map((_, index) => (
+                   <View key={`empty-${index}`} style={[styles.plantMedal, styles.emptyMedal]}>
+                     <View style={[styles.medalImage, { backgroundColor: 'rgba(200, 200, 200, 0.3)', justifyContent: 'center', alignItems: 'center' }]}>
+                       <Ionicons name="leaf-outline" size={24} color={Colors.text.secondary} />
+                     </View>
+                     <Text style={styles.medalName}>?</Text>
+                   </View>
+                 ))}
+               </ScrollView>
+             ) : (
+               <View style={styles.emptyGardenContainer}>
+                 <Ionicons name="leaf-outline" size={48} color="#7B8794" />
+                 <Text style={styles.emptyGardenText}>Aún no has obtenido ninguna planta</Text>
+                 <Text style={styles.emptyGardenSubtext}>Completa sesiones de meditación para obtener tus primeras medallas</Text>
+               </View>
+             )}
           </View>
 
           {/* Selector de período */}
@@ -199,19 +236,19 @@ const HistoryScreen = () => {
             {/* Estadísticas principales */}
             <View style={styles.statsContainer}>
               <View style={styles.statCard}>
-                <Ionicons name="time" size={24} color={Colors.primary} />
+                <Ionicons name="time" size={24} color="#3F51B5" />
                 <Text style={styles.statNumber}>{currentData.totalMinutes}</Text>
                 <Text style={styles.statLabel}>minutos</Text>
               </View>
               
               <View style={styles.statCard}>
-                <Ionicons name="checkmark-circle" size={24} color={Colors.secondary} />
+                <Ionicons name="checkmark-circle" size={24} color="#4CAF50" />
                 <Text style={styles.statNumber}>{currentData.totalSessions}</Text>
                 <Text style={styles.statLabel}>sesiones</Text>
               </View>
               
               <View style={styles.statCard}>
-                <Ionicons name="flame" size={24} color={Colors.accent} />
+                <Ionicons name="flame" size={24} color="#FF5722" />
                 <Text style={styles.statNumber}>{currentData.streak}</Text>
                 <Text style={styles.statLabel}>días seguidos</Text>
               </View>
@@ -244,7 +281,7 @@ const HistoryScreen = () => {
             {/* Racha actual */}
             <View style={styles.streakCard}>
               <View style={styles.streakHeader}>
-                <Ionicons name="calendar" size={20} color={Colors.text.primary} />
+                <Ionicons name="calendar" size={20} color="#34495E" />
                 <Text style={styles.streakTitle}>Racha actual</Text>
               </View>
               
@@ -303,6 +340,43 @@ const HistoryScreen = () => {
             </View>
           </Animated.View>
         </ScrollView>
+
+        {/* Modal para mostrar detalles de la medalla */}
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              <TouchableOpacity 
+                style={styles.modalCloseButton}
+                onPress={() => setModalVisible(false)}
+              >
+                <Ionicons name="close" size={24} color={Colors.text.secondary} />
+              </TouchableOpacity>
+              
+              {selectedMedal && (
+                <>
+                  <Image 
+                    source={selectedMedal.image} 
+                    style={styles.modalMedalImage}
+                    resizeMode="cover"
+                  />
+                  <Text style={styles.modalMedalName}>{selectedMedal.name}</Text>
+                   <Text style={styles.modalMedalDescription}>{selectedMedal.description}</Text>
+                   <Text style={styles.modalMedalMeaning}>{selectedMedal.meaning}</Text>
+                   {selectedMedal.completedDate && (
+                     <Text style={styles.modalCompletedDate}>
+                       🎉 Obtenida el {selectedMedal.completedDate}
+                     </Text>
+                   )}
+                </>
+              )}
+            </View>
+          </View>
+        </Modal>
       </SafeAreaView>
     </LinearGradient>
   );
@@ -327,12 +401,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: Colors.text.primary,
+    color: Colors.white,
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
-    color: Colors.text.secondary,
+    color: Colors.white,
     opacity: 0.8,
   },
   gardenSection: {
@@ -372,18 +446,37 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   plantMedal: {
-    width: 80,
+    width: 100,
     alignItems: 'center',
     marginBottom: 15,
     marginRight: 20,
+    padding: 10,
+    borderRadius: 15,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    shadowColor: Colors.shadow.light,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   medalImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    borderWidth: 2,
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    borderWidth: 3,
     borderColor: Colors.plant.healthy,
-    marginBottom: 6,
+    marginBottom: 8,
+    shadowColor: Colors.shadow.medium,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 4,
   },
   medalName: {
     fontSize: 10,
@@ -393,15 +486,7 @@ const styles = StyleSheet.create({
     lineHeight: 12,
   },
   emptyMedal: {
-    opacity: 0.3,
-  },
-  emptyIcon: {
-    marginBottom: 6,
-  },
-  emptyMedalText: {
-    fontSize: 12,
-    color: Colors.text.secondary,
-    fontWeight: 'bold',
+    opacity: 0.5,
   },
   periodSelector: {
     flexDirection: 'row',
@@ -646,6 +731,97 @@ const styles = StyleSheet.create({
     marginTop: 8,
     lineHeight: 20,
   },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: Colors.surface,
+    borderRadius: 20,
+    padding: 30,
+    alignItems: 'center',
+    marginHorizontal: 40,
+    shadowColor: Colors.shadow.medium,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  modalCloseButton: {
+    position: 'absolute',
+    top: 15,
+    right: 15,
+    zIndex: 1,
+  },
+  modalMedalImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    borderWidth: 3,
+    borderColor: Colors.plant.healthy,
+    marginBottom: 20,
+  },
+  modalMedalName: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: Colors.text.primary,
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  modalMedalDescription: {
+     fontSize: 16,
+     color: Colors.text.secondary,
+     textAlign: 'center',
+     lineHeight: 22,
+     marginBottom: 15,
+     fontWeight: '500',
+   },
+   modalMedalMeaning: {
+     fontSize: 15,
+     color: Colors.text.primary,
+     textAlign: 'center',
+     lineHeight: 20,
+     marginBottom: 20,
+     fontStyle: 'italic',
+     paddingHorizontal: 10,
+   },
+   modalCompletedDate: {
+     fontSize: 16,
+     color: Colors.plant.healthy,
+     fontWeight: '700',
+     textAlign: 'center',
+     backgroundColor: 'rgba(76, 175, 80, 0.1)',
+     paddingVertical: 8,
+     paddingHorizontal: 15,
+     borderRadius: 20,
+     borderWidth: 1,
+     borderColor: Colors.plant.healthy,
+   },
+   emptyGardenContainer: {
+     alignItems: 'center',
+     justifyContent: 'center',
+     paddingVertical: 40,
+     paddingHorizontal: 20,
+   },
+   emptyGardenText: {
+     fontSize: 18,
+     fontWeight: '600',
+     color: Colors.text.primary,
+     textAlign: 'center',
+     marginTop: 15,
+     marginBottom: 8,
+   },
+   emptyGardenSubtext: {
+     fontSize: 14,
+     color: Colors.text.secondary,
+     textAlign: 'center',
+     lineHeight: 20,
+   },
 });
 
 export default HistoryScreen;

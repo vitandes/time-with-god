@@ -2,25 +2,25 @@
 export const Colors = {
   // Colores principales
   white: '#FFFFFF', // Blanco puro
-  primary: '#E6E0FF', // Lavanda suave
-  secondary: '#87CEEB', // Azul cielo
+  primary: '#4A5FE7', // Azul más oscuro para mejor contraste
+  secondary: '#2196F3', // Azul más oscuro
   background: '#F8F6FF', // Blanco con tinte lavanda
   surface: '#FFFFFF', // Blanco puro
-  accent: '#F5F5DC', // Beige
+  accent: '#F39C12', // Naranja para mejor contraste
   
   // Colores de texto
   text: {
-    primary: '#2C2C54', // Azul oscuro para texto principal
-    secondary: '#6C7B7F', // Gris azulado para texto secundario
+    primary: '#1A252F', // Azul más oscuro para mejor contraste
+    secondary: '#5D6D7E', // Gris más oscuro para mejor legibilidad
     light: '#FFFFFF', // Texto blanco
     muted: '#9B9B9B', // Texto deshabilitado
   },
   
   // Estados de la planta
   plant: {
-    healthy: '#4CAF50', // Verde saludable
-    growing: '#8BC34A', // Verde claro crecimiento
-    withering: '#FF9800', // Naranja marchitándose
+    healthy: '#27AE60', // Verde más oscuro para mejor contraste
+    growing: '#2ECC71', // Verde más vibrante
+    withering: '#E67E22', // Naranja más oscuro
     dead: '#795548', // Marrón muerta
     flowering: '#E91E63', // Rosa floreciendo
     sacred: '#9C27B0', // Púrpura sagrada

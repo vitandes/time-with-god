@@ -66,8 +66,17 @@ export const usePlantProgress = () => {
 
   const completePlant = async (plant) => {
     try {
-      // Agregar planta a las obtenidas solo cuando se complete
-      const newObtained = [...obtainedPlants, plant.id];
+      // Agregar planta a las obtenidas con fecha de obtención
+      const plantWithDate = {
+        id: plant.id,
+        completedDate: new Date().toISOString(),
+        completedDateFormatted: new Date().toLocaleDateString('es-ES', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        })
+      };
+      const newObtained = [...obtainedPlants, plantWithDate];
       setObtainedPlants(newObtained);
       
       // Resetear la planta actual cuando se completa

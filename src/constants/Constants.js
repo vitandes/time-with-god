@@ -3,6 +3,16 @@
 // Tiempo requerido para completar la semilla (en minutos)
 export const SEED_MINUTES = 5;
 
+// Definición de la semilla como planta especial
+export const SEED_PLANT = {
+  id: 'semilla',
+  name: 'Semilla de la Fe',
+  image: require('../../assets/plants/semilla.webp'),
+  minutes: 5,
+  description: 'El comienzo de tu viaje espiritual.',
+  meaning: 'Esta primera medalla representa el inicio de tu camino espiritual. Como toda gran obra comienza con una pequeña semilla, tu dedicación inicial de tiempo con Dios ha plantado la base para un crecimiento espiritual extraordinario. ¡Felicidades por dar el primer paso!'
+};
+
 // Opciones de tiempo para sesiones
 export const SESSION_DURATIONS = [
   { id: 1, minutes: 5, label: '5 minutos', seconds: 300 },
@@ -13,13 +23,54 @@ export const SESSION_DURATIONS = [
 
 // Plantas disponibles para seleccionar
 export const PLANTS = [
-  { id: 'cactus', name: 'Cactus de la Resistencia', image: require('../../assets/plants/cactuus.webp'), minutes: 120 },
-  { id: 'cedro', name: 'Cedro de la Fortaleza', image: require('../../assets/plants/cedro.webp'), minutes: 120 },
-  { id: 'flor-azul', name: 'Flor Azul de la Serenidad', image: require('../../assets/plants/flor-azul.webp'), minutes: 120 },
-  { id: 'flor-celestial', name: 'Flor Celestial de la Esperanza', image: require('../../assets/plants/flor-celestial.webp'), minutes: 120 },
-  { id: 'lirio', name: 'Lirio de la Pureza', image: require('../../assets/plants/lirio.webp'), minutes: 120 },
-  { id: 'rosa', name: 'Rosa del Amor Divino', image: require('../../assets/plants/rosa.webp'), minutes: 120 },
-  
+  { 
+    id: 'cactus', 
+    name: 'Cactus de la Resistencia', 
+    image: require('../../assets/plants/cactuus.webp'), 
+    minutes: 120,
+    description: 'Representa la perseverancia y resistencia en los momentos difíciles de la vida.',
+    meaning: 'Esta medalla simboliza tu capacidad de mantenerte firme en la fe, incluso en las circunstancias más desafiantes. Como el cactus que florece en el desierto, has demostrado que puedes encontrar belleza y crecimiento espiritual en cualquier situación.'
+  },
+  { 
+    id: 'cedro', 
+    name: 'Cedro de la Fortaleza', 
+    image: require('../../assets/plants/cedro.webp'), 
+    minutes: 120,
+    description: 'Simboliza la fortaleza interior y la estabilidad espiritual.',
+    meaning: 'El cedro es conocido por su longevidad y resistencia. Esta medalla representa tu crecimiento en fortaleza espiritual y tu capacidad de ser un refugio para otros, manteniéndote firme en tus convicciones y valores.'
+  },
+  { 
+    id: 'flor-azul', 
+    name: 'Flor Azul de la Serenidad', 
+    image: require('../../assets/plants/flor-azul.webp'), 
+    minutes: 120,
+    description: 'Representa la paz interior y la tranquilidad del alma.',
+    meaning: 'Esta hermosa flor azul simboliza tu logro en encontrar la serenidad en medio del caos. Has cultivado un corazón en paz que refleja la tranquilidad divina y la capacidad de transmitir calma a quienes te rodean.'
+  },
+  { 
+    id: 'flor-celestial', 
+    name: 'Flor Celestial de la Esperanza', 
+    image: require('../../assets/plants/flor-celestial.webp'), 
+    minutes: 120,
+    description: 'Simboliza la esperanza eterna y la conexión con lo divino.',
+    meaning: 'Esta medalla celestial representa tu fe inquebrantable y tu capacidad de mantener la esperanza viva. Como una flor que mira hacia el cielo, has demostrado que siempre buscas lo mejor y confías en el plan divino para tu vida.'
+  },
+  { 
+    id: 'lirio', 
+    name: 'Lirio de la Pureza', 
+    image: require('../../assets/plants/lirio.webp'), 
+    minutes: 120,
+    description: 'Representa la pureza de corazón y la inocencia espiritual.',
+    meaning: 'El lirio ha sido símbolo de pureza desde tiempos antiguos. Esta medalla celebra tu corazón puro y tu búsqueda constante de la santidad. Representa tu deseo de vivir con integridad y transparencia ante Dios y los demás.'
+  },
+  { 
+    id: 'rosa', 
+    name: 'Rosa del Amor Divino', 
+    image: require('../../assets/plants/rosa.webp'), 
+    minutes: 120,
+    description: 'Simboliza el amor incondicional y la devoción espiritual.',
+    meaning: 'La rosa, reina de las flores, representa el amor en su forma más pura. Esta medalla honra tu capacidad de amar incondicionalmente y tu devoción profunda. Como la rosa que da su fragancia sin pedir nada a cambio, has aprendido a amar como Dios ama.'
+  },
 ];
 
 // Estados de la planta espiritual
