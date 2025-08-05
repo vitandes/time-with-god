@@ -542,6 +542,7 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontSize: 12,
+    textAlign: 'center',
     color: Colors.text.secondary,
     marginTop: 4,
   },

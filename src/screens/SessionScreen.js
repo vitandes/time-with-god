@@ -56,10 +56,22 @@ const SessionScreen = ({ navigation, route }) => {
 
   // Lista de canciones disponibles
   const songs = [
+    require('../../assets/songs/Heaven\'s Light.mp3'),
+    require('../../assets/songs/Heaven\'s Open Door (1).mp3'),
+    require('../../assets/songs/Heaven\'s Open Door.mp3'),
+    require('../../assets/songs/Heaven\'s Whisper.mp3'),
+    require('../../assets/songs/Inner Seed (1).mp3'),
     require('../../assets/songs/Inner Seed.mp3'),
+    require('../../assets/songs/Lift Me Higher (1).mp3'),
     require('../../assets/songs/Lift Me Higher.mp3'),
+    require('../../assets/songs/Light the Way (1).mp3'),
     require('../../assets/songs/Light the Way.mp3'),
+    require('../../assets/songs/Rise Above (1).mp3'),
+    require('../../assets/songs/Rise Above.mp3'),
+    require('../../assets/songs/Rise and Shine.mp3'),
+    require('../../assets/songs/Shine Through Me (1).mp3'),
     require('../../assets/songs/Shine Through Me.mp3'),
+    require('../../assets/songs/Whispers of the Divine (1).mp3'),
     require('../../assets/songs/Whispers of the Divine.mp3'),
   ];
 
