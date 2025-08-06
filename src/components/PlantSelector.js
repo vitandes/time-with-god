@@ -29,7 +29,7 @@ const { width } = Dimensions.get('window');
 
 const PlantSelector = ({ visible, onClose, onSelectPlant, obtainedPlants = [] }) => {
   // Filtrar plantas que no han sido obtenidas
-  const availablePlants = PLANTS.filter(plant => !obtainedPlants.includes(plant.id));
+  const availablePlants = PLANTS.filter(plant => !obtainedPlants.some(obtained => obtained.id === plant.id));
   const [currentPage, setCurrentPage] = useState(0);
   
   // Configuración para paginación

@@ -57,7 +57,7 @@ export const usePlantProgress = () => {
       // Guardar en storage
       await Promise.all([
         AsyncStorage.setItem(STORAGE_KEYS.CURRENT_PLANT, JSON.stringify(plant)),
-        AsyncStorage.setItem(STORAGE_KEYS.TOTAL_MINUTES, '0')
+        AsyncStorage.setItem(STORAGE_KEYS.TOTAL_MINUTES, '5')
       ]);
     } catch (error) {
       console.error('Error selecting new plant:', error);
