@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Alert } from 'react-native';
 
 const STORAGE_KEYS = {
   OBTAINED_PLANTS: '@obtained_plants',
@@ -66,6 +67,24 @@ export const usePlantProgress = () => {
 
   const completePlant = async (plant) => {
     try {
+      // Verificar si la planta ya fue obtenida antes
+      const alreadyObtained = obtainedPlants.some(obtained => obtained.id === plant.id);
+      
+      if (!alreadyObtained) {
+        // Mostrar mensaje de felicitación solo si es la primera vez
+        Alert.alert(
+          '🌟 ¡Planta Obtenida! 🌟',
+          `¡Felicidades! Has obtenido la medalla:\n\n🌱 ${plant.name}\n\n${plant.description}\n\nContinúa tu hermoso camino espiritual.`,
+          [
+            {
+              text: 'Continuar',
+              style: 'default'
+            }
+          ],
+          { cancelable: false }
+        );
+      }
+      
       // Agregar planta a las obtenidas con fecha de obtención
       const plantWithDate = {
         id: plant.id,

@@ -22,7 +22,20 @@ const PLANT_IMAGES = {
   'flor-celestial': require('../../assets/plants/flor-celestial.webp'),
   'lirio': require('../../assets/plants/lirio.webp'),
   'rosa': require('../../assets/plants/rosa.webp'),
-  
+  'acacia': require('../../assets/plants/acacia.webp'),
+  'aloe': require('../../assets/plants/aloe.webp'),
+  'canela': require('../../assets/plants/canela.webp'),
+  'espino-blanco': require('../../assets/plants/espino-blanco.webp'),
+  'girasol': require('../../assets/plants/girasol.webp'),
+  'higuera': require('../../assets/plants/higuera.webp'),
+  'jacinto': require('../../assets/plants/Jacinto.webp'),
+  'laurel': require('../../assets/plants/laurel.webp'),
+  'lirio2': require('../../assets/plants/lirio2.webp'),
+  'mirra': require('../../assets/plants/mirra.webp'),
+  'mostaza': require('../../assets/plants/moztaza.webp'),
+  'palma': require('../../assets/plants/palma.webp'),
+  'trigo': require('../../assets/plants/trigo.webp'),
+  'vid': require('../../assets/plants/vid.webp'),
 };
 
 const { width } = Dimensions.get('window');
@@ -274,7 +287,7 @@ const styles = StyleSheet.create({
   pageText: {
     fontSize: 12,
     fontWeight: '600',
-    color: Colors.text.primary,
+    color: Colors.white,
   },
 });
 

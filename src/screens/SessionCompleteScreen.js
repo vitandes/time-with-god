@@ -36,7 +36,10 @@ const SessionCompleteScreen = ({ navigation, route }) => {
   const { duration } = route.params;
   const { user } = useAuth();
   const { addSessionMinutes } = usePlantProgress();
-  const { addSession } = useSessionHistory();
+  const { addSession, getStats } = useSessionHistory();
+  
+  // Obtener estadísticas dinámicas de la semana
+  const weeklyStats = getStats('week');
   
   const [selectedMood, setSelectedMood] = useState(null);
   const [note, setNote] = useState('');
@@ -296,7 +299,7 @@ const SessionCompleteScreen = ({ navigation, route }) => {
           {/* Estadísticas rápidas */}
           <Animated.View style={[styles.stats, animatedContentStyle, animatedBackgroundStyle]}>
             <Text style={styles.statsText}>
-              Total esta semana: {user?.weeklyMinutes || 0} minutos • {user?.weeklySessions || 0} sesiones
+              Total esta semana: {weeklyStats.totalMinutes} minutos • {weeklyStats.totalSessions} sesiones
             </Text>
           </Animated.View>
           </ScrollView>

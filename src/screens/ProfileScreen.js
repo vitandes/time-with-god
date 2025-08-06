@@ -19,14 +19,25 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { useAuth } from '../context/AuthContext';
+import { useSessionHistory } from '../hooks/useSessionHistory';
+import { useMorningNotifications } from '../hooks/useMorningNotifications';
 import { SUBSCRIPTION_PLANS } from '../constants/Constants';
 import Colors from '../constants/Colors';
 
 const ProfileScreen = ({ navigation }) => {
   const { user, logout, updateSubscription } = useAuth();
-  const [notifications, setNotifications] = useState(true);
+  const { getStats } = useSessionHistory();
+  const {
+    notificationsEnabled,
+    notificationTime,
+    permissionStatus,
+    toggleNotifications,
+    updateNotificationTime
+  } = useMorningNotifications();
+  
+  // Obtener estadísticas dinámicas totales
+  const allTimeStats = getStats('year'); // Usar 'year' para obtener todas las estadísticas
   const [musicEnabled, setMusicEnabled] = useState(true);
-  const [reminderTime, setReminderTime] = useState('09:00');
   
   // Animaciones
   const fadeIn = useSharedValue(0);
@@ -96,6 +107,47 @@ const ProfileScreen = ({ navigation }) => {
     );
   };
 
+  const handleNotificationToggle = async (enabled) => {
+    const success = await toggleNotifications(enabled);
+    if (!success && enabled) {
+      Alert.alert(
+        'Permisos requeridos',
+        'Para recibir mensajes matutinos, necesitamos permiso para enviarte notificaciones.',
+        [{ text: 'OK' }]
+      );
+    }
+  };
+
+  const handleTimeChange = () => {
+    Alert.alert(
+      'Configurar hora',
+      'Selecciona la hora para recibir tu mensaje matutino diario',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: '8:00 AM',
+          onPress: () => updateNotificationTime('08:00')
+        },
+        {
+          text: '9:00 AM',
+          onPress: () => updateNotificationTime('09:00')
+        },
+        {
+          text: '10:00 AM',
+          onPress: () => updateNotificationTime('10:00')
+        }
+      ]
+    );
+  };
+
+
+
+  const getNotificationSubtitle = () => {
+    if (!notificationsEnabled) return 'Desactivadas';
+    if (permissionStatus !== 'granted') return 'Permisos requeridos';
+    return `Mensajes matutinos a las ${notificationTime}`;
+  };
+
   const getSubscriptionStatus = () => {
     if (user?.subscription?.isActive) {
       const plan = SUBSCRIPTION_PLANS.find(p => p.id === user.subscription.planId);
@@ -140,13 +192,6 @@ const ProfileScreen = ({ navigation }) => {
           title: 'Información personal',
           subtitle: user?.email || 'usuario@ejemplo.com',
           onPress: () => Alert.alert('Información', 'Funcionalidad en desarrollo')
-        },
-        {
-          icon: subscriptionStatus.icon,
-          title: 'Suscripción',
-          subtitle: `${subscriptionStatus.status} • ${subscriptionStatus.plan}`,
-          color: subscriptionStatus.color,
-          onPress: user?.subscription?.isActive ? handleSubscriptionManagement : handleUpgradeSubscription
         }
       ]
     },
@@ -155,14 +200,14 @@ const ProfileScreen = ({ navigation }) => {
       items: [
         {
           icon: 'notifications',
-          title: 'Notificaciones',
-          subtitle: 'Recordatorios diarios',
+          title: 'Mensajes matutinos',
+          subtitle: getNotificationSubtitle(),
           rightComponent: (
             <Switch
-              value={notifications}
-              onValueChange={setNotifications}
+              value={notificationsEnabled}
+              onValueChange={handleNotificationToggle}
               trackColor={{ false: Colors.secondary, true: Colors.primary }}
-              thumbColor={notifications ? Colors.text.light : Colors.text.secondary}
+              thumbColor={notificationsEnabled ? Colors.text.light : Colors.text.secondary}
             />
           )
         },
@@ -181,10 +226,11 @@ const ProfileScreen = ({ navigation }) => {
         },
         {
           icon: 'time',
-          title: 'Recordatorio diario',
-          subtitle: `${reminderTime} cada día`,
-          onPress: () => Alert.alert('Recordatorio', 'Configuración de hora en desarrollo')
-        }
+          title: 'Hora del mensaje',
+          subtitle: `${notificationTime} cada día`,
+          onPress: handleTimeChange
+        },
+
       ]
     },
     {
@@ -226,7 +272,7 @@ const ProfileScreen = ({ navigation }) => {
       ]
     },
     {
-      title: 'Zona peligrosa',
+      
       items: [
         {
           icon: 'log-out',
@@ -266,17 +312,17 @@ const ProfileScreen = ({ navigation }) => {
             {/* Estadísticas rápidas */}
             <View style={styles.quickStats}>
               <View style={styles.statItem}>
-                <Text style={styles.statNumber}>{user?.totalSessions || 0}</Text>
+                <Text style={styles.statNumber}>{allTimeStats.totalSessions}</Text>
                 <Text style={styles.statLabel}>Sesiones</Text>
               </View>
               <View style={styles.statDivider} />
               <View style={styles.statItem}>
-                <Text style={styles.statNumber}>{user?.totalMinutes || 0}</Text>
+                <Text style={styles.statNumber}>{allTimeStats.totalMinutes}</Text>
                 <Text style={styles.statLabel}>Minutos</Text>
               </View>
               <View style={styles.statDivider} />
               <View style={styles.statItem}>
-                <Text style={styles.statNumber}>{user?.currentStreak || 0}</Text>
+                <Text style={styles.statNumber}>{allTimeStats.streak}</Text>
                 <Text style={styles.statLabel}>Días seguidos</Text>
               </View>
             </View>
@@ -403,6 +449,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   statLabel: {
+    textAlign: 'center',
     fontSize: 12,
     color: Colors.text.light,
     opacity: 0.8,
