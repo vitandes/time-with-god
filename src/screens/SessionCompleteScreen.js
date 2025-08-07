@@ -282,18 +282,13 @@ const SessionCompleteScreen = ({ navigation, route }) => {
           <Animated.View style={[styles.actions, animatedContentStyle, animatedBackgroundStyle]}>
             <TouchableOpacity
               style={styles.primaryButton}
-              onPress={handleSaveSession}
+              onPress={handleSkip}
             >
-              <Text style={styles.primaryButtonText}>Guardar mi momento</Text>
+              <Text style={styles.primaryButtonText}>Continuar</Text>
               <Ionicons name="heart" size={20} color={Colors.text.light} />
             </TouchableOpacity>
             
-            <TouchableOpacity
-              style={styles.secondaryButton}
-              onPress={handleSkip}
-            >
-              <Text style={styles.secondaryButtonText}>Continuar sin guardar</Text>
-            </TouchableOpacity>
+            
           </Animated.View>
 
           {/* Estadísticas rápidas */}
