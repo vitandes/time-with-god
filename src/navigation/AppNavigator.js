@@ -8,7 +8,7 @@ import Colors from '../constants/Colors';
 
 // Importar pantallas
 import LoadingScreen from '../screens/LoadingScreen';
-import WelcomeScreen from '../screens/WelcomeScreen';
+import OnboardingScreen from '../screens/OnboardingScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import SubscriptionScreen from '../screens/SubscriptionScreen';
@@ -85,7 +85,7 @@ const AuthNavigator = () => {
         cardStyle: { backgroundColor: Colors.background },
       }}
     >
-      <Stack.Screen name="Welcome" component={WelcomeScreen} />
+      <Stack.Screen name="Welcome" component={OnboardingScreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen name="Subscription" component={SubscriptionScreen} />
