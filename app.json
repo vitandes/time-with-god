@@ -34,7 +34,8 @@
     },
     "plugins": [
       "expo-av",
-      "expo-notifications"
+      "expo-notifications",
+      "expo-font"
     ],
     "extra": {
       "eas": {
