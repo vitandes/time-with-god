@@ -23,7 +23,11 @@
         "backgroundColor": "#F8F6FF"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.tiempoconDios.app"
+      "package": "com.tiempoconDios.app",
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -31,6 +35,11 @@
     "plugins": [
       "expo-av",
       "expo-notifications"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "7486e489-d926-482b-bd78-514b6c4b40ac"
+      }
+    }
   }
 }
