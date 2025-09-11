@@ -1,14 +1,15 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
   Dimensions,
-  ScrollView,
   Image,
   FlatList,
+  Animated,
 } from 'react-native';
+
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -20,38 +21,61 @@ const { width, height } = Dimensions.get('window');
 const OnboardingScreen = ({ navigation }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedTime, setSelectedTime] = useState(null);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [feedbackMessage, setFeedbackMessage] = useState('');
   const flatListRef = useRef(null);
+  
+  // Animaciones
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const scaleAnim = useRef(new Animated.Value(0.9)).current;
+  const feedbackAnim = useRef(new Animated.Value(0)).current;
+  
+  useEffect(() => {
+    // Animación de entrada para cada paso
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 600,
+        useNativeDriver: true,
+      }),
+      Animated.timing(scaleAnim, {
+        toValue: 1,
+        duration: 600,
+        useNativeDriver: true,
+      })
+    ]).start();
+  }, [currentStep]);
 
   const timeOptions = [
-    { value: 5, label: '5 min ⏳' },
+    { value: 5, label: '5 min' },
     { value: 10, label: '10 min' },
     { value: 15, label: '15 min' },
     { value: 30, label: '30 min' },
-    { value: 'custom', label: 'Personalizar' },
+    { value: 'custom', label: 'Personalizado' },
   ];
 
   const onboardingSteps = [
     // Pantalla 1 - Bienvenida
     {
       id: 'welcome',
-      title: '✨ Bienvenido(a) a tu espacio con Dios',
-      content: 'Un lugar diseñado para que cada día puedas detenerte, respirar y dedicarle un tiempo a tu Creador.\n\nAquí no importa cuánto, sino cómo: lo importante es conectar de verdad con Él.',
-      buttonText: 'Empezar mi camino',
+      title: 'Un espacio para ti y Dios',
+      content: 'En medio del ruido, hay un lugar donde puedes respirar, orar y escuchar Su voz. Este es tu espacio.',
+      buttonText: 'Comenzar',
       image: require('../../assets/angel-flower.png'),
     },
-    // Pantalla 2 - Inspiración
+    // Pantalla 2 - Motivación
     {
       id: 'inspiration',
-      title: 'Un momento solo para ti y para Dios',
-      content: 'Vivimos rodeados de ruido y ocupaciones. Esta app quiere regalarte un espacio íntimo de oración, palabra y música.\n\nTú decides el ritmo. Nosotros te acompañamos.',
-      buttonText: 'Continuar',
+      title: 'Tiempo que transforma',
+      content: 'Dedicar unos minutos cada día puede cambiar tu corazón, tu mente y tu vida. ¿Quieres descubrir cómo?',
+      buttonText: 'Sí, quiero',
       image: require('../../assets/plants/flor-celestial.webp'),
     },
-    // Pantalla 3 - Pregunta clave
+    // Pantalla 3 - Elección del tiempo
     {
       id: 'time-selection',
-      title: '¿Cuánto tiempo quieres dedicarle a Dios cada día?',
-      content: 'No importa si son 5 minutos o 30 minutos.\n\nLo importante es dar ese paso y mantenerlo.',
+      title: '¿Cuánto tiempo deseas dedicarle a Dios?',
+      content: 'No importa si son 5 o 30 minutos, lo importante es empezar y ser constante.',
       buttonText: 'Continuar',
       image: require('../../assets/plants/lirio.webp'),
       showTimeSelection: true,
@@ -59,37 +83,66 @@ const OnboardingScreen = ({ navigation }) => {
     // Pantalla 4 - Motivación personalizada
     {
       id: 'motivation',
-      title: 'Tu tiempo con Dios',
+      title: '¿Cómo quieres conectar hoy?',
       getContent: (time) => {
         if (!time) return '';
         
         if (time === 'custom') {
-          return 'Dedicar un tiempo personalizado cada día puede transformar tu corazón.\n\nEn este espacio podrás orar, leer la palabra y escuchar música que inspire tu alma.';
+          return 'Elige la manera que más te acerque: lectura, música o silencio en oración.\n\nCada momento personalizado con Dios es único y valioso.';
         }
         
-        return `${time} minutos cada día pueden transformar tu corazón.\n\nEn este tiempo podrás orar, leer la palabra y escuchar música que inspire tu alma.`;
+        return `Tus ${time} minutos diarios pueden incluir lectura, música o silencio en oración.\n\nElige la manera que más te acerque a Él en este tiempo especial.`;
       },
-      buttonText: 'Quiero comenzar',
+      buttonText: 'Continuar',
       image: require('../../assets/plants/rosa.webp'),
     },
-    // Pantalla 5 - Cierre del onboarding
+    // Pantalla 5 - Compromiso inspirador
     {
       id: 'finish',
-      title: 'Listo, este es tu espacio con Dios 🙏',
-      content: 'Cada día encontrarás aquí una guía sencilla para acercarte más a Él.\n\nEste es solo el inicio de una nueva etapa en tu vida espiritual.',
-      buttonText: '✨ Entrar a mi primer tiempo con Dios',
+      title: 'Tu viaje empieza hoy',
+      content: 'Lo que siembres en este tiempo con Dios dará fruto en tu vida. ¡Este es tu comienzo!',
+      buttonText: 'Empezar mi tiempo con Dios',
       image: require('../../assets/plants/flor-azul.webp'),
       isLastStep: true,
     },
   ];
 
+  const showFeedbackMessage = (message, duration = 2000) => {
+    setFeedbackMessage(message);
+    setShowFeedback(true);
+    
+    // Animar la aparición del mensaje
+    Animated.sequence([
+      Animated.timing(feedbackAnim, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+      Animated.delay(duration),
+      Animated.timing(feedbackAnim, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      })
+    ]).start(() => {
+      setShowFeedback(false);
+    });
+  };
+  
   const handleNext = () => {
     const nextStep = currentStep + 1;
     
     // Si estamos en la pantalla de selección de tiempo y no se ha seleccionado ninguno
     if (currentStep === 2 && selectedTime === null) {
-      // Establecer un valor predeterminado o mostrar un mensaje
-      setSelectedTime(10); // Valor predeterminado de 10 minutos
+      // Mostrar mensaje de feedback en lugar de establecer valor predeterminado
+      showFeedbackMessage('Por favor, selecciona cuánto tiempo deseas dedicarle a Dios');
+      return;
+    }
+    
+    // Si acabamos de seleccionar el tiempo, mostrar mensaje de refuerzo
+    if (currentStep === 2 && selectedTime) {
+      const timeText = selectedTime === 'custom' ? 'personalizado' : `${selectedTime} minutos`;
+      showFeedbackMessage(`¡Excelente elección! ${timeText} de tiempo con Dios transformarán tu día.`);
     }
     
     if (nextStep < onboardingSteps.length) {
@@ -102,11 +155,16 @@ const OnboardingScreen = ({ navigation }) => {
   };
 
   const finishOnboarding = () => {
-    // Aquí se guardarían las preferencias del usuario
+    // Mostrar mensaje de refuerzo emocional antes de navegar
+    showFeedbackMessage('Hoy diste tu primer paso para acercarte más a Dios. Estamos contigo en este camino 🙏✨', 2500);
+    
+    // Guardar las preferencias del usuario
     // Por ejemplo, el tiempo seleccionado para la sesión diaria
     
-    // Navegar a la pantalla de registro
-    navigation.navigate('Register');
+    // Navegar a la pantalla de registro después de un breve retraso
+    setTimeout(() => {
+      navigation.navigate('Register');
+    }, 2000);
   };
 
   const renderTimeOption = ({ item }) => (
@@ -128,54 +186,123 @@ const OnboardingScreen = ({ navigation }) => {
     </TouchableOpacity>
   );
 
+  // Animación para cada opción de tiempo - movido fuera de renderOnboardingStep
+  const timeOptionAnimScale = useRef(new Animated.Value(1)).current;
+  
+  // Animación de pulsación para botones - movido fuera de renderOnboardingStep
+  const handlePressIn = (animValue) => {
+    Animated.spring(animValue, {
+      toValue: 0.95,
+      friction: 5,
+      tension: 40,
+      useNativeDriver: true,
+    }).start();
+  };
+  
+  const handlePressOut = (animValue) => {
+    Animated.spring(animValue, {
+      toValue: 1,
+      friction: 3,
+      tension: 40,
+      useNativeDriver: true,
+    }).start();
+  };
+  
   const renderOnboardingStep = ({ item, index }) => {
     const isCurrentStep = index === currentStep;
     
     return (
-      <View style={styles.stepContainer}>
+      <Animated.View 
+        style={[
+          styles.stepContainer,
+          {
+            opacity: fadeAnim,
+            transform: [{ scale: scaleAnim }],
+            width: width,
+          }
+        ]}
+      >
         <View style={styles.contentContainer}>
           {item.image && (
-            <Image source={item.image} style={styles.stepImage} resizeMode="contain" />
+            <Animated.Image 
+              source={item.image} 
+              style={[styles.stepImage, { transform: [{ scale: scaleAnim }] }]} 
+              resizeMode="contain" 
+            />
           )}
           
-          <Text style={styles.stepTitle}>{item.title}</Text>
+          <Animated.Text style={[styles.stepTitle, { opacity: fadeAnim }]}>
+            {item.title}
+          </Animated.Text>
           
-          <Text style={styles.stepContent}>
+          <Animated.Text style={[styles.stepContent, { opacity: fadeAnim }]}>
             {item.getContent ? item.getContent(selectedTime) : item.content}
-          </Text>
+          </Animated.Text>
           
           {item.showTimeSelection && (
-            <View style={styles.timeOptionsContainer}>
-              {timeOptions.map((option) => (
-                <TouchableOpacity
-                  key={option.value}
-                  style={[
-                    styles.timeOption,
-                    selectedTime === option.value && styles.timeOptionSelected,
-                  ]}
-                  onPress={() => setSelectedTime(option.value)}
-                >
-                  <Text
+            <Animated.View 
+              style={[styles.timeOptionsContainer, { opacity: fadeAnim }]}
+            >
+              {timeOptions && timeOptions.map((option) => {
+                const isSelected = selectedTime === option.value;
+                return (
+                  <TouchableOpacity
+                    key={option.value}
                     style={[
-                      styles.timeOptionText,
-                      selectedTime === option.value && styles.timeOptionTextSelected,
+                      styles.timeOption,
+                      isSelected && styles.timeOptionSelected,
                     ]}
+                    onPress={() => {
+                      // Usar la animación global en lugar de una específica para cada opción
+                      // Esto evita crear hooks dentro del renderizado
+                      Animated.sequence([
+                        Animated.timing(timeOptionAnimScale, {
+                          toValue: 0.9,
+                          duration: 100,
+                          useNativeDriver: true,
+                        }),
+                        Animated.spring(timeOptionAnimScale, {
+                          toValue: 1,
+                          friction: 3,
+                          tension: 40,
+                          useNativeDriver: true,
+                        })
+                      ]).start();
+                      
+                      setSelectedTime(option.value);
+                    }}
+                    activeOpacity={0.7}
                   >
-                    {option.label}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
+                    <Text
+                      style={[
+                        styles.timeOptionText,
+                        isSelected && styles.timeOptionTextSelected,
+                      ]}
+                    >
+                      {option.label}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </Animated.View>
           )}
         </View>
         
         <TouchableOpacity
-          style={styles.nextButton}
+          style={[styles.nextButton, item.isLastStep ? styles.successButton : styles.primaryButton]}
           onPress={item.isLastStep ? finishOnboarding : handleNext}
+          activeOpacity={0.8}
+          onPressIn={() => handlePressIn(scaleAnim)}
+          onPressOut={() => handlePressOut(scaleAnim)}
         >
           <Text style={styles.nextButtonText}>{item.buttonText}</Text>
+          {item.isLastStep ? (
+            <Ionicons name="heart" size={20} color="white" style={styles.buttonIcon} />
+          ) : (
+            <Ionicons name="arrow-forward" size={20} color="white" style={styles.buttonIcon} />
+          )}
         </TouchableOpacity>
-      </View>
+      </Animated.View>
     );
   };
 
@@ -194,20 +321,51 @@ const OnboardingScreen = ({ navigation }) => {
           pagingEnabled
           showsHorizontalScrollIndicator={false}
           scrollEnabled={false}
+          onMomentumScrollEnd={(event) => {
+            // Detectar cambio de pantalla por gesto de deslizamiento
+            const newIndex = Math.floor(event.nativeEvent.contentOffset.x / width);
+            if (newIndex !== currentStep) {
+              setCurrentStep(newIndex);
+            }
+          }}
         />
         
         {/* Indicadores de paso */}
         <View style={styles.indicatorsContainer}>
-          {onboardingSteps.map((_, index) => (
-            <View
+          {onboardingSteps && onboardingSteps.map((_, index) => (
+            <TouchableOpacity
               key={index}
               style={[
                 styles.indicator,
                 index === currentStep && styles.indicatorActive,
               ]}
+              onPress={() => {
+                setCurrentStep(index);
+                flatListRef.current?.scrollToIndex({ index, animated: true });
+              }}
+              activeOpacity={0.7}
             />
           ))}
         </View>
+        
+        {/* Mensaje de feedback */}
+        {showFeedback && (
+          <Animated.View 
+            style={[
+              styles.feedbackContainer,
+              { opacity: feedbackAnim }
+            ]}
+          >
+            <LinearGradient
+              colors={Colors.gradients.success}
+              style={styles.feedbackGradient}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+            >
+              <Text style={styles.feedbackText}>{feedbackMessage}</Text>
+            </LinearGradient>
+          </Animated.View>
+        )}
       </SafeAreaView>
     </LinearGradient>
   );
@@ -216,9 +374,11 @@ const OnboardingScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.primary,
   },
   safeArea: {
     flex: 1,
+    position: 'relative',
   },
   stepContainer: {
     width,
@@ -240,17 +400,19 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   stepTitle: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
     color: Colors.white,
     textAlign: 'center',
     marginBottom: 20,
+    letterSpacing: 0.5,
   },
   stepContent: {
-    fontSize: 16,
+    fontSize: 17,
     color: Colors.white,
     textAlign: 'center',
-    lineHeight: 24,
+    lineHeight: 26,
+    letterSpacing: 0.3,
   },
   timeOptionsContainer: {
     width: '100%',
@@ -260,30 +422,44 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   timeOption: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
     paddingVertical: 12,
     paddingHorizontal: 20,
-    borderRadius: 12,
+    borderRadius: 15,
     margin: 6,
     minWidth: 100,
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2,
+    borderWidth: 1,
+    borderColor: Colors.primary,
   },
   timeOptionSelected: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.primary,
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3,
+    transform: [{ scale: 1.05 }],
   },
   timeOptionText: {
-    color: Colors.white,
+    color: Colors.primary,
     fontSize: 16,
     fontWeight: '500',
+    letterSpacing: 0.3,
   },
   timeOptionTextSelected: {
-    color: Colors.primary,
+    color: Colors.white,
+    fontWeight: 'bold',
   },
   nextButton: {
-    backgroundColor: Colors.white,
-    paddingVertical: 16,
-    paddingHorizontal: 24,
-    borderRadius: 24,
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    borderRadius: 20,
+    flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
     marginTop: 30,
     shadowColor: Colors.shadow.dark,
@@ -295,10 +471,20 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 8,
   },
+  primaryButton: {
+    backgroundColor: Colors.primary,
+  },
+  successButton: {
+    backgroundColor: Colors.success,
+  },
   nextButtonText: {
-    color: Colors.primary,
-    fontSize: 16,
+    color: Colors.white,
+    fontSize: 18,
     fontWeight: '600',
+    letterSpacing: 0.5,
+  },
+  buttonIcon: {
+    marginLeft: 5,
   },
   indicatorsContainer: {
     flexDirection: 'row',
@@ -311,10 +497,42 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: 'rgba(255, 255, 255, 0.4)',
     marginHorizontal: 4,
+    opacity: 0.6,
   },
   indicatorActive: {
     backgroundColor: Colors.white,
-    width: 20,
+    width: 24,
+    opacity: 1,
+  },
+  feedbackContainer: {
+    position: 'absolute',
+    bottom: 90,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+  },
+  feedbackGradient: {
+    borderRadius: 20,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    minWidth: '80%',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 6,
+  },
+  successFeedback: {
+    backgroundColor: Colors.success,
+  },
+  feedbackText: {
+    color: Colors.white,
+    fontSize: 16,
+    fontWeight: '600',
+    textAlign: 'center',
+    letterSpacing: 0.3,
   },
 });
 

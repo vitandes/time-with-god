@@ -239,7 +239,7 @@ const SessionCompleteScreen = ({ navigation, route }) => {
            <Animated.View style={[styles.moodSection, animatedBackgroundStyle]}>
             <Text style={styles.sectionTitle}>¿Cómo te sientes?</Text>
             <View style={styles.moodGrid}>
-              {moods.map((mood, index) => (
+              {moods && moods.map((mood, index) => (
                 <TouchableOpacity
                   key={mood.value}
                   style={[

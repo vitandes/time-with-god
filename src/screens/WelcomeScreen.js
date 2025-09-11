@@ -66,7 +66,7 @@ const WelcomeScreen = ({ navigation }) => {
 
           {/* Características principales */}
           <View style={styles.featuresContainer}>
-            {features.map((feature, index) => (
+            {features && features.map((feature, index) => (
               <View key={index} style={styles.featureItem}>
                 <View style={styles.featureIcon}>
                   <Ionicons

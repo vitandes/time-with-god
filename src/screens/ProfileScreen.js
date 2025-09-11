@@ -330,11 +330,11 @@ const ProfileScreen = ({ navigation }) => {
 
           <Animated.View style={animatedStyle}>
             {/* Menú de opciones */}
-            {menuSections.map((section, sectionIndex) => (
+            {menuSections && menuSections.map((section, sectionIndex) => (
               <View key={sectionIndex} style={styles.section}>
                 <Text style={styles.sectionTitle}>{section.title}</Text>
                 <View style={styles.sectionContent}>
-                  {section.items.map((item, itemIndex) => (
+                  {section.items && section.items.map((item, itemIndex) => (
                     <TouchableOpacity
                       key={itemIndex}
                       style={[

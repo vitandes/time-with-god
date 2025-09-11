@@ -37,6 +37,7 @@ export const Colors = {
     primary: ['#4A90E2', '#7B68EE'],
     sky: ['#87CEEB', '#B0E0E6'],
     sunset: ['#FFE4E1', '#FFF0F5'],
+    success: ['#4CAF50', '#27AE60'],
   },
   
   // Sombras

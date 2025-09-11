@@ -212,7 +212,7 @@ const SubscriptionScreen = ({ navigation }) => {
           <View style={styles.featuresContainer}>
             <Text style={styles.sectionTitle}>Todo lo que incluye</Text>
             
-            {features.map((feature, index) => (
+            {features && features.map((feature, index) => (
               <View key={index} style={styles.featureItem}>
                 <Ionicons
                   name={feature.icon}

@@ -103,7 +103,7 @@ const PlantSelector = ({ visible, onClose, onSelectPlant, obtainedPlants = [] })
               <>
                 <ScrollView showsVerticalScrollIndicator={false} style={styles.plantsScrollView}>
                   <View style={styles.plantsGrid}>
-                    {currentPlants.map((plant) => (
+                    {currentPlants && currentPlants.map((plant) => (
                       <TouchableOpacity
                         key={plant.id}
                         style={styles.plantCard}

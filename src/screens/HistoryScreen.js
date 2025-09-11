@@ -171,7 +171,7 @@ const HistoryScreen = () => {
                  contentContainerStyle={styles.plantsSlider}
                  style={styles.sliderContainer}
                >
-                 {displayPlants.map((plantData, index) => {
+                 {displayPlants && displayPlants.map((plantData, index) => {
                    const plantId = typeof plantData === 'string' ? plantData : plantData.id;
                    // Buscar primero en PLANTS, luego en SEED_PLANT
                    let plant = PLANTS.find(p => p.id === plantId);
@@ -193,7 +193,7 @@ const HistoryScreen = () => {
                      </TouchableOpacity>
                    );
                  })}
-                 {Array.from({ length: Math.max(0, 10 - displayPlants.length) }).map((_, index) => (
+                 {displayPlants && Array.from({ length: Math.max(0, 10 - displayPlants.length) }).map((_, index) => (
                    <View key={`empty-${index}`} style={[styles.plantMedal, styles.emptyMedal]}>
                      <View style={[styles.medalImage, { backgroundColor: 'rgba(200, 200, 200, 0.3)', justifyContent: 'center', alignItems: 'center' }]}>
                        <Ionicons name="leaf-outline" size={24} color={Colors.text.secondary} />
@@ -213,7 +213,7 @@ const HistoryScreen = () => {
 
           {/* Selector de período */}
           <View style={styles.periodSelector}>
-            {periods.map((period) => (
+            {periods && periods.map((period) => (
               <TouchableOpacity
                 key={period.key}
                 style={[
@@ -289,7 +289,7 @@ const HistoryScreen = () => {
               <Text style={styles.streakMessage}>{getStreakMessage(currentData.streak)}</Text>
               
               <View style={styles.streakVisual}>
-                {[...Array(7)].map((_, index) => (
+                {Array(7).fill().map((_, index) => (
                   <View
                     key={index}
                     style={[
