@@ -191,10 +191,14 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const login = async (userInfo) => {
+  const login = async (userInfo, provider = 'email') => {
     try {
+      // Añadir información del proveedor de autenticación
       const userData = {
-        user: userInfo,
+        user: {
+          ...userInfo,
+          authProvider: provider
+        },
         isAuthenticated: true,
         subscription: {
           isActive: false,

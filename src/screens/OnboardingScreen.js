@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,28 +8,28 @@ import {
   Image,
   FlatList,
   Animated,
-} from 'react-native';
+} from "react-native";
 
-import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons } from '@expo/vector-icons';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from "expo-linear-gradient";
+import { Ionicons } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import Colors from '../constants/Colors';
+import Colors from "../constants/Colors";
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 
 const OnboardingScreen = ({ navigation }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedTime, setSelectedTime] = useState(null);
   const [showFeedback, setShowFeedback] = useState(false);
-  const [feedbackMessage, setFeedbackMessage] = useState('');
+  const [feedbackMessage, setFeedbackMessage] = useState("");
   const flatListRef = useRef(null);
-  
+
   // Animaciones
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.9)).current;
   const feedbackAnim = useRef(new Animated.Value(0)).current;
-  
+
   useEffect(() => {
     // Animación de entrada para cada paso
     Animated.parallel([
@@ -42,67 +42,71 @@ const OnboardingScreen = ({ navigation }) => {
         toValue: 1,
         duration: 600,
         useNativeDriver: true,
-      })
+      }),
     ]).start();
   }, [currentStep]);
 
   const timeOptions = [
-    { value: 5, label: '5 min' },
-    { value: 10, label: '10 min' },
-    { value: 15, label: '15 min' },
-    { value: 30, label: '30 min' },
-    { value: 'custom', label: 'Personalizado' },
+    { value: 5, label: "5 min" },
+    { value: 10, label: "10 min" },
+    { value: 15, label: "15 min" },
+    { value: 30, label: "30 min" },
+    { value: "custom", label: "Personalizado" },
   ];
 
   const onboardingSteps = [
     // Pantalla 1 - Bienvenida
     {
-      id: 'welcome',
-      title: 'Un espacio para ti y Dios',
-      content: 'En medio del ruido, hay un lugar donde puedes respirar, orar y escuchar Su voz. Este es tu espacio.',
-      buttonText: 'Comenzar',
-      image: require('../../assets/angel-flower.png'),
+      id: "welcome",
+      title: "Un espacio para ti y Dios",
+      content:
+        "En medio del ruido, hay un lugar donde puedes respirar, orar y escuchar Su voz. Este es tu espacio.",
+      buttonText: "Comenzar",
+      image: require("../../assets/onboarding/ob1.webp"),
     },
     // Pantalla 2 - Motivación
     {
-      id: 'inspiration',
-      title: 'Tiempo que transforma',
-      content: 'Dedicar unos minutos cada día puede cambiar tu corazón, tu mente y tu vida. ¿Quieres descubrir cómo?',
-      buttonText: 'Sí, quiero',
-      image: require('../../assets/plants/flor-celestial.webp'),
+      id: "inspiration",
+      title: "Tiempo que transforma",
+      content:
+        "Dedicar unos minutos cada día puede cambiar tu corazón, tu mente y tu vida. ¿Quieres descubrir cómo?",
+      buttonText: "Sí, quiero",
+      image: require("../../assets/onboarding/ob2.webp"),
     },
     // Pantalla 3 - Elección del tiempo
     {
-      id: 'time-selection',
-      title: '¿Cuánto tiempo deseas dedicarle a Dios?',
-      content: 'No importa si son 5 o 30 minutos, lo importante es empezar y ser constante.',
-      buttonText: 'Continuar',
-      image: require('../../assets/plants/lirio.webp'),
+      id: "time-selection",
+      title: "¿Cuánto tiempo deseas dedicarle a Dios?",
+      content:
+        "No importa si son 5 o 30 minutos, lo importante es empezar y ser constante.",
+      buttonText: "Continuar",
+      image: require("../../assets/onboarding/ob3.webp"),
       showTimeSelection: true,
     },
     // Pantalla 4 - Motivación personalizada
     {
-      id: 'motivation',
-      title: '¿Cómo quieres conectar hoy?',
+      id: "motivation",
+      title: "¿Cómo quieres conectar hoy?",
       getContent: (time) => {
-        if (!time) return '';
-        
-        if (time === 'custom') {
-          return 'Elige la manera que más te acerque: lectura, música o silencio en oración.\n\nCada momento personalizado con Dios es único y valioso.';
+        if (!time) return "";
+
+        if (time === "custom") {
+          return "Elige la manera que más te acerque: lectura, música o silencio en oración.\n\nCada momento personalizado con Dios es único y valioso.";
         }
-        
+
         return `Tus ${time} minutos diarios pueden incluir lectura, música o silencio en oración.\n\nElige la manera que más te acerque a Él en este tiempo especial.`;
       },
-      buttonText: 'Continuar',
-      image: require('../../assets/plants/rosa.webp'),
+      buttonText: "Continuar",
+      image: require("../../assets/onboarding/ob40.webp"),
     },
     // Pantalla 5 - Compromiso inspirador
     {
-      id: 'finish',
-      title: 'Tu viaje empieza hoy',
-      content: 'Lo que siembres en este tiempo con Dios dará fruto en tu vida. ¡Este es tu comienzo!',
-      buttonText: 'Empezar mi tiempo con Dios',
-      image: require('../../assets/plants/flor-azul.webp'),
+      id: "finish",
+      title: "Tu viaje empieza hoy",
+      content:
+        "Lo que siembres en este tiempo con Dios dará fruto en tu vida. ¡Este es tu comienzo!",
+      buttonText: "Empezar mi tiempo con Dios",
+      image: require("../../assets/onboarding/ob5.webp"),
       isLastStep: true,
     },
   ];
@@ -110,7 +114,7 @@ const OnboardingScreen = ({ navigation }) => {
   const showFeedbackMessage = (message, duration = 2000) => {
     setFeedbackMessage(message);
     setShowFeedback(true);
-    
+
     // Animar la aparición del mensaje
     Animated.sequence([
       Animated.timing(feedbackAnim, {
@@ -123,28 +127,33 @@ const OnboardingScreen = ({ navigation }) => {
         toValue: 0,
         duration: 300,
         useNativeDriver: true,
-      })
+      }),
     ]).start(() => {
       setShowFeedback(false);
     });
   };
-  
+
   const handleNext = () => {
     const nextStep = currentStep + 1;
-    
+
     // Si estamos en la pantalla de selección de tiempo y no se ha seleccionado ninguno
     if (currentStep === 2 && selectedTime === null) {
       // Mostrar mensaje de feedback en lugar de establecer valor predeterminado
-      showFeedbackMessage('Por favor, selecciona cuánto tiempo deseas dedicarle a Dios');
+      showFeedbackMessage(
+        "Por favor, selecciona cuánto tiempo deseas dedicarle a Dios"
+      );
       return;
     }
-    
+
     // Si acabamos de seleccionar el tiempo, mostrar mensaje de refuerzo
     if (currentStep === 2 && selectedTime) {
-      const timeText = selectedTime === 'custom' ? 'personalizado' : `${selectedTime} minutos`;
-      showFeedbackMessage(`¡Excelente elección! ${timeText} de tiempo con Dios transformarán tu día.`);
+      const timeText =
+        selectedTime === "custom" ? "personalizado" : `${selectedTime} minutos`;
+      showFeedbackMessage(
+        `¡Excelente elección! ${timeText} de tiempo con Dios transformarán tu día.`
+      );
     }
-    
+
     if (nextStep < onboardingSteps.length) {
       setCurrentStep(nextStep);
       flatListRef.current?.scrollToIndex({ index: nextStep, animated: true });
@@ -156,14 +165,17 @@ const OnboardingScreen = ({ navigation }) => {
 
   const finishOnboarding = () => {
     // Mostrar mensaje de refuerzo emocional antes de navegar
-    showFeedbackMessage('Hoy diste tu primer paso para acercarte más a Dios. Estamos contigo en este camino 🙏✨', 2500);
-    
+    showFeedbackMessage(
+      "Hoy diste tu primer paso para acercarte más a Dios. Estamos contigo en este camino 🙏✨",
+      2500
+    );
+
     // Guardar las preferencias del usuario
     // Por ejemplo, el tiempo seleccionado para la sesión diaria
-    
+
     // Navegar a la pantalla de registro después de un breve retraso
     setTimeout(() => {
-      navigation.navigate('Register');
+      navigation.navigate("Register");
     }, 2000);
   };
 
@@ -188,7 +200,7 @@ const OnboardingScreen = ({ navigation }) => {
 
   // Animación para cada opción de tiempo - movido fuera de renderOnboardingStep
   const timeOptionAnimScale = useRef(new Animated.Value(1)).current;
-  
+
   // Animación de pulsación para botones - movido fuera de renderOnboardingStep
   const handlePressIn = (animValue) => {
     Animated.spring(animValue, {
@@ -198,7 +210,7 @@ const OnboardingScreen = ({ navigation }) => {
       useNativeDriver: true,
     }).start();
   };
-  
+
   const handlePressOut = (animValue) => {
     Animated.spring(animValue, {
       toValue: 1,
@@ -207,89 +219,98 @@ const OnboardingScreen = ({ navigation }) => {
       useNativeDriver: true,
     }).start();
   };
-  
+
   const renderOnboardingStep = ({ item, index }) => {
     const isCurrentStep = index === currentStep;
-    
+
     return (
-      <Animated.View 
+      <Animated.View
         style={[
           styles.stepContainer,
           {
             opacity: fadeAnim,
             transform: [{ scale: scaleAnim }],
             width: width,
-          }
+          },
         ]}
       >
         <View style={styles.contentContainer}>
           {item.image && (
-            <Animated.Image 
-              source={item.image} 
-              style={[styles.stepImage, { transform: [{ scale: scaleAnim }] }]} 
-              resizeMode="contain" 
-            />
+            <View style={styles.imageContainer}>
+              <Animated.Image
+                source={item.image}
+                style={[
+                  styles.stepImage,
+                  { transform: [{ scale: scaleAnim }] },
+                ]}
+                resizeMode="cover"
+              />
+            </View>
           )}
-          
+
           <Animated.Text style={[styles.stepTitle, { opacity: fadeAnim }]}>
             {item.title}
           </Animated.Text>
-          
+
           <Animated.Text style={[styles.stepContent, { opacity: fadeAnim }]}>
             {item.getContent ? item.getContent(selectedTime) : item.content}
           </Animated.Text>
-          
+
           {item.showTimeSelection && (
-            <Animated.View 
+            <Animated.View
               style={[styles.timeOptionsContainer, { opacity: fadeAnim }]}
             >
-              {timeOptions && timeOptions.map((option) => {
-                const isSelected = selectedTime === option.value;
-                return (
-                  <TouchableOpacity
-                    key={option.value}
-                    style={[
-                      styles.timeOption,
-                      isSelected && styles.timeOptionSelected,
-                    ]}
-                    onPress={() => {
-                      // Usar la animación global en lugar de una específica para cada opción
-                      // Esto evita crear hooks dentro del renderizado
-                      Animated.sequence([
-                        Animated.timing(timeOptionAnimScale, {
-                          toValue: 0.9,
-                          duration: 100,
-                          useNativeDriver: true,
-                        }),
-                        Animated.spring(timeOptionAnimScale, {
-                          toValue: 1,
-                          friction: 3,
-                          tension: 40,
-                          useNativeDriver: true,
-                        })
-                      ]).start();
-                      
-                      setSelectedTime(option.value);
-                    }}
-                    activeOpacity={0.7}
-                  >
-                    <Text
+              {timeOptions &&
+                timeOptions.map((option) => {
+                  const isSelected = selectedTime === option.value;
+                  return (
+                    <TouchableOpacity
+                      key={option.value}
                       style={[
-                        styles.timeOptionText,
-                        isSelected && styles.timeOptionTextSelected,
+                        styles.timeOption,
+                        isSelected && styles.timeOptionSelected,
                       ]}
+                      onPress={() => {
+                        // Usar la animación global en lugar de una específica para cada opción
+                        // Esto evita crear hooks dentro del renderizado
+                        Animated.sequence([
+                          Animated.timing(timeOptionAnimScale, {
+                            toValue: 0.9,
+                            duration: 100,
+                            useNativeDriver: true,
+                          }),
+                          Animated.spring(timeOptionAnimScale, {
+                            toValue: 1,
+                            friction: 3,
+                            tension: 40,
+                            useNativeDriver: true,
+                          }),
+                        ]).start();
+
+                        setSelectedTime(option.value);
+                      }}
+                      activeOpacity={0.7}
                     >
-                      {option.label}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
+                      <Text
+                        style={[
+                          styles.timeOptionText,
+                          isSelected && styles.timeOptionTextSelected,
+                        ]}
+                      >
+                        {option.label}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
             </Animated.View>
           )}
         </View>
-        
+
         <TouchableOpacity
-          style={[styles.nextButton, item.isLastStep ? styles.successButton : styles.primaryButton]}
+          style={[
+            styles.nextButton,
+            item.isLastStep ? styles.successButton : styles.primaryButton,
+          ]}
           onPress={item.isLastStep ? finishOnboarding : handleNext}
           activeOpacity={0.8}
           onPressIn={() => handlePressIn(scaleAnim)}
@@ -297,9 +318,19 @@ const OnboardingScreen = ({ navigation }) => {
         >
           <Text style={styles.nextButtonText}>{item.buttonText}</Text>
           {item.isLastStep ? (
-            <Ionicons name="heart" size={20} color="white" style={styles.buttonIcon} />
+            <Ionicons
+              name="heart"
+              size={20}
+              color="white"
+              style={styles.buttonIcon}
+            />
           ) : (
-            <Ionicons name="arrow-forward" size={20} color="white" style={styles.buttonIcon} />
+            <Ionicons
+              name="arrow-forward"
+              size={20}
+              color="white"
+              style={styles.buttonIcon}
+            />
           )}
         </TouchableOpacity>
       </Animated.View>
@@ -308,31 +339,34 @@ const OnboardingScreen = ({ navigation }) => {
 
   return (
     <LinearGradient
-      colors={Colors.gradients.primary}
+      colors={[Colors.gradients.primary.start, Colors.gradients.primary.end]}
       style={styles.container}
     >
-      <SafeAreaView style={styles.safeArea}>
-        <FlatList
-          ref={flatListRef}
-          data={onboardingSteps}
-          renderItem={renderOnboardingStep}
-          keyExtractor={(item) => item.id}
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          scrollEnabled={false}
-          onMomentumScrollEnd={(event) => {
-            // Detectar cambio de pantalla por gesto de deslizamiento
-            const newIndex = Math.floor(event.nativeEvent.contentOffset.x / width);
-            if (newIndex !== currentStep) {
-              setCurrentStep(newIndex);
-            }
-          }}
-        />
-        
-        {/* Indicadores de paso */}
-        <View style={styles.indicatorsContainer}>
-          {onboardingSteps && onboardingSteps.map((_, index) => (
+      {/* <SafeAreaView style={styles.safeArea}> */}
+      <FlatList
+        ref={flatListRef}
+        data={onboardingSteps}
+        renderItem={renderOnboardingStep}
+        keyExtractor={(item) => item.id}
+        horizontal
+        pagingEnabled
+        showsHorizontalScrollIndicator={false}
+        scrollEnabled={false}
+        onMomentumScrollEnd={(event) => {
+          // Detectar cambio de pantalla por gesto de deslizamiento
+          const newIndex = Math.floor(
+            event.nativeEvent.contentOffset.x / width
+          );
+          if (newIndex !== currentStep) {
+            setCurrentStep(newIndex);
+          }
+        }}
+      />
+
+      {/* Indicadores de paso */}
+      <View style={styles.indicatorsContainer}>
+        {onboardingSteps &&
+          onboardingSteps.map((_, index) => (
             <TouchableOpacity
               key={index}
               style={[
@@ -346,27 +380,27 @@ const OnboardingScreen = ({ navigation }) => {
               activeOpacity={0.7}
             />
           ))}
-        </View>
-        
-        {/* Mensaje de feedback */}
-        {showFeedback && (
-          <Animated.View 
-            style={[
-              styles.feedbackContainer,
-              { opacity: feedbackAnim }
+      </View>
+
+      {/* Mensaje de feedback */}
+      {showFeedback && (
+        <Animated.View
+          style={[styles.feedbackContainer, { opacity: feedbackAnim }]}
+        >
+          <LinearGradient
+            colors={[
+              Colors.gradients.success.start,
+              Colors.gradients.success.end,
             ]}
+            style={styles.feedbackGradient}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
           >
-            <LinearGradient
-              colors={Colors.gradients.success}
-              style={styles.feedbackGradient}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-            >
-              <Text style={styles.feedbackText}>{feedbackMessage}</Text>
-            </LinearGradient>
-          </Animated.View>
-        )}
-      </SafeAreaView>
+            <Text style={styles.feedbackText}>{feedbackMessage}</Text>
+          </LinearGradient>
+        </Animated.View>
+      )}
+      {/* </SafeAreaView> */}
     </LinearGradient>
   );
 };
@@ -378,58 +412,64 @@ const styles = StyleSheet.create({
   },
   safeArea: {
     flex: 1,
-    position: 'relative',
+    position: "relative",
   },
   stepContainer: {
     width,
     flex: 1,
-    justifyContent: 'space-between',
-    paddingHorizontal: 24,
+    justifyContent: "space-between",
+    paddingHorizontal: 0,
     paddingBottom: 40,
   },
   contentContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingTop: 40,
+    justifyContent: "flex-start",
+    alignItems: "center",
+    paddingTop: 0,
+  },
+  imageContainer: {
+    width: "100%",
+    height: 380,
+    marginBottom: 20,
+    borderRadius: 20,
+    overflow: "hidden",
   },
   stepImage: {
-    width: width * 0.6,
-    height: width * 0.6,
-    marginBottom: 30,
-    borderRadius: 20,
+    width: "100%",
+    height: "100%",
+    alignSelf: "flex-start",
   },
   stepTitle: {
     fontSize: 28,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: Colors.white,
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: 20,
     letterSpacing: 0.5,
   },
   stepContent: {
     fontSize: 17,
     color: Colors.white,
-    textAlign: 'center',
+    textAlign: "center",
     lineHeight: 26,
     letterSpacing: 0.3,
   },
   timeOptionsContainer: {
-    width: '100%',
+    width: "100%",
     marginTop: 30,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
   },
   timeOption: {
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 15,
     margin: 6,
     minWidth: 100,
-    alignItems: 'center',
-    shadowColor: '#000',
+    alignItems: "center",
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
@@ -447,21 +487,22 @@ const styles = StyleSheet.create({
   timeOptionText: {
     color: Colors.primary,
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: "500",
     letterSpacing: 0.3,
   },
   timeOptionTextSelected: {
     color: Colors.white,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   nextButton: {
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 20,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 30,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 20,
+    marginHorizontal: 20,
     shadowColor: Colors.shadow.dark,
     shadowOffset: {
       width: 0,
@@ -480,22 +521,22 @@ const styles = StyleSheet.create({
   nextButtonText: {
     color: Colors.white,
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: "600",
     letterSpacing: 0.5,
   },
   buttonIcon: {
     marginLeft: 5,
   },
   indicatorsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
     marginBottom: 20,
   },
   indicator: {
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: 'rgba(255, 255, 255, 0.4)',
+    backgroundColor: "rgba(255, 255, 255, 0.4)",
     marginHorizontal: 4,
     opacity: 0.6,
   },
@@ -505,20 +546,20 @@ const styles = StyleSheet.create({
     opacity: 1,
   },
   feedbackContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 90,
     left: 0,
     right: 0,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     paddingHorizontal: 20,
   },
   feedbackGradient: {
     borderRadius: 20,
     paddingVertical: 12,
     paddingHorizontal: 20,
-    minWidth: '80%',
-    shadowColor: '#000',
+    minWidth: "80%",
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.2,
     shadowRadius: 5,
@@ -530,8 +571,8 @@ const styles = StyleSheet.create({
   feedbackText: {
     color: Colors.white,
     fontSize: 16,
-    fontWeight: '600',
-    textAlign: 'center',
+    fontWeight: "600",
+    textAlign: "center",
     letterSpacing: 0.3,
   },
 });

@@ -58,7 +58,7 @@ const LoadingScreen = () => {
 
   return (
     <LinearGradient
-      colors={Colors.gradients.primary}
+      colors={[Colors.gradients.primary.start, Colors.gradients.primary.end]}
       style={styles.container}
     >
       <View style={styles.content}>
