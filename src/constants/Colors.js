@@ -1,5 +1,5 @@
 // Paleta de colores para la app "Tiempo con Dios"
-export const Colors = {
+const Colors = {
   // Colores principales
   white: '#FFFFFF', // Blanco puro
   primary: '#4A5FE7', // Azul más oscuro para mejor contraste
@@ -34,22 +34,10 @@ export const Colors = {
   
   // Gradientes
   gradients: {
-    primary: {
-      start: '#4A90E2',
-      end: '#7B68EE'
-    },
-    sky: {
-      start: '#87CEEB',
-      end: '#B0E0E6'
-    },
-    sunset: {
-      start: '#FFE4E1',
-      end: '#FFF0F5'
-    },
-    success: {
-      start: '#4CAF50',
-      end: '#27AE60'
-    },
+    primary: ['#4A90E2', '#7B68EE'],
+    sky: ['#87CEEB', '#B0E0E6'],
+    sunset: ['#FFE4E1', '#FFF0F5'],
+    success: ['#4CAF50', '#27AE60'],
   },
   
   // Sombras

@@ -98,7 +98,7 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <LinearGradient
-      colors={[Colors.gradients.primary.start, Colors.gradients.primary.end]}
+      colors={Colors.gradients.primary}
       style={styles.container}
     >
       <SafeAreaView style={styles.safeArea}>

@@ -31,8 +31,7 @@ const RegisterScreen = ({ navigation }) => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isAppleAvailable, setIsAppleAvailable] = useState(Platform.OS === 'ios');
   const [showEmailForm, setShowEmailForm] = useState(false);
-  const [magicEmail, setMagicEmail] = useState('');
-  const [isMagicLinkSending, setIsMagicLinkSending] = useState(false);
+
   
   // Animación para los botones
   const buttonAnimation = useState(new Animated.Value(1))[0];
@@ -103,20 +102,7 @@ const RegisterScreen = ({ navigation }) => {
     return true;
   };
   
-  const validateMagicEmail = () => {
-    if (!magicEmail.trim()) {
-      Alert.alert('Correo requerido', 'Necesitamos tu correo para enviarte el enlace mágico ✨');
-      return false;
-    }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(magicEmail)) {
-      Alert.alert('Correo inválido', 'Este correo necesita una bendición extra ✨ Revisa el formato.');
-      return false;
-    }
-
-    return true;
-  };
 
   const handleRegister = async () => {
     if (!validateForm()) return;
@@ -154,14 +140,21 @@ const RegisterScreen = ({ navigation }) => {
     }
   };
 
+  // Manejar registro con Google - Firebase Auth 2025
   const handleGoogleSignUp = async () => {
     animateButton();
     setIsLoading(true);
     try {
-      // Simulación de inicio de sesión con Google
-      // En una implementación real, usarías Firebase Auth:
-      // const provider = new GoogleAuthProvider();
-      // const result = await signInWithPopup(auth, provider);
+      // Implementación Firebase Auth 2025 para Google
+      // const { GoogleSignin } = require('@react-native-google-signin/google-signin');
+      // const auth = getAuth();
+      // 
+      // await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+      // const { idToken } = await GoogleSignin.signIn();
+      // const googleCredential = GoogleAuthProvider.credential(idToken);
+      // const result = await signInWithCredential(auth, googleCredential);
+      
+      // Simulación temporal
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       // Datos simulados que vendrían de Google
@@ -185,20 +178,35 @@ const RegisterScreen = ({ navigation }) => {
         Alert.alert('Algo salió mal', result.error || 'No pudimos iniciar tu camino con Google. Inténtalo nuevamente.');
       }
     } catch (error) {
+      console.error('Error Google Sign-In:', error);
       Alert.alert('Error', 'Hubo un problema al iniciar sesión con Google. Inténtalo de nuevo con fe.');
     } finally {
       setIsLoading(false);
     }
   };
 
+  // Manejar registro con Apple - Firebase Auth 2025 (solo iOS)
   const handleAppleSignUp = async () => {
     animateButton();
     setIsLoading(true);
     try {
-      // Simulación de inicio de sesión con Apple
-      // En una implementación real, usarías Firebase Auth:
-      // const provider = new OAuthProvider('apple.com');
-      // const result = await signInWithPopup(auth, provider);
+      // Implementación Firebase Auth 2025 para Apple
+      // const { appleAuth } = require('@invertase/react-native-apple-authentication');
+      // const auth = getAuth();
+      // 
+      // const appleAuthRequestResponse = await appleAuth.performRequest({
+      //   requestedOperation: appleAuth.Operation.LOGIN,
+      //   requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+      // });
+      // 
+      // const { identityToken, nonce } = appleAuthRequestResponse;
+      // const appleCredential = OAuthProvider.credential('apple.com', {
+      //   idToken: identityToken,
+      //   rawNonce: nonce,
+      // });
+      // const result = await signInWithCredential(auth, appleCredential);
+      
+      // Simulación temporal
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       // Datos simulados que vendrían de Apple
@@ -222,39 +230,18 @@ const RegisterScreen = ({ navigation }) => {
         Alert.alert('Algo salió mal', result.error || 'No pudimos iniciar tu camino con Apple. Inténtalo nuevamente.');
       }
     } catch (error) {
+      console.error('Error Apple Sign-In:', error);
       Alert.alert('Error', 'Hubo un problema al iniciar sesión con Apple. Inténtalo de nuevo con fe.');
     } finally {
       setIsLoading(false);
     }
   };
   
-  const handleMagicLinkSignUp = async () => {
-    if (!validateMagicEmail()) return;
-    
-    setIsMagicLinkSending(true);
-    try {
-      // Simulación de envío de enlace mágico
-      // En una implementación real, usarías Firebase Auth:
-      // const actionCodeSettings = { ... };
-      // await sendSignInLinkToEmail(auth, magicEmail, actionCodeSettings);
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      Alert.alert(
-        '¡Enlace mágico enviado! ✨',
-        `Hemos enviado un enlace especial a ${magicEmail}. Revisa tu correo para continuar tu camino espiritual.`,
-        [{ text: 'Entendido' }]
-      );
-      setMagicEmail('');
-    } catch (error) {
-      Alert.alert('Error', 'No pudimos enviar el enlace mágico. Inténtalo de nuevo con fe.');
-    } finally {
-      setIsMagicLinkSending(false);
-    }
-  };
+
 
   return (
     <LinearGradient
-      colors={[Colors.gradients.sky.start, Colors.gradients.sky.end]}
+      colors={Colors.gradients.sky}
       style={styles.container}
     >
       <SafeAreaView style={styles.safeArea}>
@@ -294,7 +281,7 @@ const RegisterScreen = ({ navigation }) => {
             <View style={styles.formContainer}>
               {/* Botones principales de acceso rápido */}
               <View style={styles.quickAccessContainer}>
-                {/* Botón Google */}
+                {/* Botón Google - Primera opción */}
                 <Animated.View style={{
                   transform: [{ scale: buttonAnimation }],
                   marginBottom: 15,
@@ -312,8 +299,8 @@ const RegisterScreen = ({ navigation }) => {
                   </TouchableOpacity>
                 </Animated.View>
                 
-                {/* Botón Apple (solo iOS) */}
-                {isAppleAvailable && (
+                {/* Botón Apple - Segunda opción (solo iOS) */}
+                {Platform.OS === 'ios' && (
                   <Animated.View style={{
                     transform: [{ scale: buttonAnimation }],
                     marginBottom: 15,
@@ -331,102 +318,6 @@ const RegisterScreen = ({ navigation }) => {
                     </TouchableOpacity>
                   </Animated.View>
                 )}
-                
-                {/* Botón Correo Mágico */}
-                <Animated.View style={{
-                  transform: [{ scale: buttonAnimation }],
-                  marginBottom: 20,
-                }}>
-                  <View style={styles.magicLinkContainer}>
-                    <View style={styles.inputWrapper}>
-                      <Ionicons name="mail-outline" size={20} color={Colors.text.secondary} style={styles.inputIcon} />
-                      <TextInput
-                        style={styles.input}
-                        placeholder="Tu correo electrónico"
-                        placeholderTextColor={Colors.text.placeholder}
-                        keyboardType="email-address"
-                        autoCapitalize="none"
-                        value={magicEmail}
-                        onChangeText={setMagicEmail}
-                      />
-                    </View>
-                    
-                    <TouchableOpacity 
-                      style={styles.magicEmailButton}
-                      onPress={handleMagicLinkSignUp}
-                      activeOpacity={0.8}
-                      disabled={isLoading || isMagicLinkSending}
-                    >
-                      <LinearGradient
-                        colors={[Colors.gradients.primary.start, Colors.gradients.primary.end]}
-                        style={styles.magicEmailButtonGradient}
-                      >
-                        {isMagicLinkSending ? (
-                          <ActivityIndicator color="#fff" size="small" />
-                        ) : (
-                          <>
-                            <Text style={styles.magicEmailButtonText}>Enviarme un enlace mágico</Text>
-                            <Ionicons name="sparkles-outline" size={18} color="#fff" style={styles.magicEmailButtonIcon} />
-                          </>
-                        )}
-                      </LinearGradient>
-                    </TouchableOpacity>
-                  </View>
-                </Animated.View>
-                
-                {/* Formulario de correo mágico */}
-                {showEmailForm && (
-                  <View style={styles.magicEmailFormContainer}>
-                    <View style={styles.inputContainer}>
-                      <Text style={styles.inputLabel}>Tu correo electrónico</Text>
-                      <View style={styles.inputWrapper}>
-                        <Ionicons
-                          name="mail-outline"
-                          size={20}
-                          color={Colors.text.secondary}
-                          style={styles.inputIcon}
-                        />
-                        <TextInput
-                          style={styles.textInput}
-                          placeholder="Para enviarte el enlace mágico ✨"
-                          placeholderTextColor={Colors.text.muted}
-                          value={magicEmail}
-                          onChangeText={setMagicEmail}
-                          keyboardType="email-address"
-                          autoCapitalize="none"
-                        />
-                      </View>
-                    </View>
-                    
-                    <Animated.View style={{
-                      transform: [{ scale: buttonAnimation }],
-                      marginBottom: 20,
-                    }}>
-                      <TouchableOpacity
-                        style={[styles.magicEmailSendButton, isMagicLinkSending && styles.disabledButton]}
-                        onPress={() => {
-                          animateButton();
-                          handleMagicLinkSignUp();
-                        }}
-                        disabled={isMagicLinkSending}
-                        activeOpacity={0.8}
-                      >
-                        <LinearGradient
-                          colors={[Colors.gradients.primary.start, Colors.gradients.primary.end]}
-                          style={styles.buttonGradient}
-                          start={{ x: 0, y: 0 }}
-                          end={{ x: 1, y: 0 }}
-                        >
-                          {isMagicLinkSending ? (
-                            <Text style={styles.registerButtonText}>Enviando enlace...</Text>
-                          ) : (
-                            <Text style={styles.registerButtonText}>Enviar enlace mágico</Text>
-                          )}
-                        </LinearGradient>
-                      </TouchableOpacity>
-                    </Animated.View>
-                  </View>
-                )}
               </View>
               
               {/* Divisor */}
@@ -436,14 +327,14 @@ const RegisterScreen = ({ navigation }) => {
                 <View style={styles.dividerLine} />
               </View>
               
-              {/* Opción de registro tradicional */}
+              {/* Tercera opción: registro tradicional */}
               <TouchableOpacity 
                 style={styles.emailButton}
                 onPress={() => setShowEmailForm(!showEmailForm)}
                 activeOpacity={0.8}
                 disabled={isLoading}
               >
-                <Text style={styles.emailButtonText}>Prefiero crear una cuenta con correo y contraseña</Text>
+                <Text style={styles.emailButtonText}>Crear cuenta con correo y contraseña</Text>
                 <Ionicons 
                   name={showEmailForm ? "chevron-up-outline" : "chevron-down-outline"} 
                   size={18} 
@@ -843,58 +734,7 @@ const styles = StyleSheet.create({
     opacity: 0.9,
     lineHeight: 20,
   },
-  magicLinkContainer: {
-    width: '100%',
-    marginBottom: 15,
-  },
-  magicEmailButton: {
-    width: '100%',
-    borderRadius: 12,
-    overflow: 'hidden',
-    marginTop: 10,
-    marginBottom: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  magicEmailButtonGradient: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 14,
-    paddingHorizontal: 20,
-  },
-  magicEmailButtonText: {
-    color: '#fff',
-    fontWeight: '600',
-    fontSize: 16,
-    marginRight: 8,
-  },
-  magicEmailButtonIcon: {
-    marginLeft: 4,
-  },
-  magicEmailFormContainer: {
-    marginTop: 10,
-    marginBottom: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    borderRadius: 12,
-    padding: 15,
-  },
-  magicEmailSendButton: {
-    borderRadius: 12,
-    marginTop: 10,
-    overflow: 'hidden',
-    shadowColor: Colors.shadow.dark,
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 8,
-  },
+
   emailButton: {
     flexDirection: 'row',
     alignItems: 'center',

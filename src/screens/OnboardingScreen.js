@@ -339,7 +339,7 @@ const OnboardingScreen = ({ navigation }) => {
 
   return (
     <LinearGradient
-      colors={[Colors.gradients.primary.start, Colors.gradients.primary.end]}
+      colors={Colors.gradients.primary}
       style={styles.container}
     >
       {/* <SafeAreaView style={styles.safeArea}> */}
@@ -388,10 +388,7 @@ const OnboardingScreen = ({ navigation }) => {
           style={[styles.feedbackContainer, { opacity: feedbackAnim }]}
         >
           <LinearGradient
-            colors={[
-              Colors.gradients.success.start,
-              Colors.gradients.success.end,
-            ]}
+            colors={Colors.gradients.success}
             style={styles.feedbackGradient}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}

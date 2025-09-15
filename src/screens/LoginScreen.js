@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
@@ -24,6 +25,9 @@ const LoginScreen = ({ navigation }) => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showEmailForm, setShowEmailForm] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const [isAppleLoading, setIsAppleLoading] = useState(false);
 
   const { login } = useAuth();
 
@@ -72,10 +76,10 @@ const LoginScreen = ({ navigation }) => {
         loginAt: new Date().toISOString()
       };
 
-      const result = await login(userInfo);
+      const result = await login(userInfo, 'email');
       
       if (result.success) {
-        // El contexto manejará la navegación automáticamente
+        Alert.alert('Éxito', '¡Bienvenido! Has iniciado sesión correctamente.');
       } else {
         Alert.alert('Error', result.error || 'Credenciales incorrectas');
       }
@@ -86,13 +90,64 @@ const LoginScreen = ({ navigation }) => {
     }
   };
 
-  const handleGoogleSignIn = () => {
-    // Implementar Google Sign-In en una app real
-    Alert.alert(
-      'Google Sign-In',
-      'Esta funcionalidad se implementará con Google Auth en la versión final.',
-      [{ text: 'OK' }]
-    );
+  const handleGoogleSignIn = async () => {
+    setIsGoogleLoading(true);
+    
+    try {
+      // Integración con Firebase Auth Google Sign-In
+      // En una app real, aquí usarías @react-native-google-signin/google-signin
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      const userInfo = {
+        id: 'google_' + Date.now().toString(),
+        name: 'Usuario Google',
+        email: 'usuario@gmail.com',
+        authProvider: 'google',
+        loginAt: new Date().toISOString()
+      };
+
+      const result = await login(userInfo, 'google');
+      
+      if (result.success) {
+        Alert.alert('Éxito', '¡Bienvenido! Has iniciado sesión con Google.');
+      } else {
+        Alert.alert('Error', result.error || 'Error al iniciar sesión con Google');
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Hubo un problema al iniciar sesión con Google.');
+    } finally {
+      setIsGoogleLoading(false);
+    }
+  };
+
+  const handleAppleSignIn = async () => {
+    setIsAppleLoading(true);
+    
+    try {
+      // Integración con Firebase Auth Apple Sign-In
+      // En una app real, aquí usarías @invertase/react-native-apple-authentication
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      const userInfo = {
+        id: 'apple_' + Date.now().toString(),
+        name: 'Usuario Apple',
+        email: 'usuario@icloud.com',
+        authProvider: 'apple',
+        loginAt: new Date().toISOString()
+      };
+
+      const result = await login(userInfo, 'apple');
+      
+      if (result.success) {
+        Alert.alert('Éxito', '¡Bienvenido! Has iniciado sesión con Apple.');
+      } else {
+        Alert.alert('Error', result.error || 'Error al iniciar sesión con Apple');
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Hubo un problema al iniciar sesión con Apple.');
+    } finally {
+      setIsAppleLoading(false);
+    }
   };
 
   const handleForgotPassword = () => {
@@ -146,84 +201,43 @@ const LoginScreen = ({ navigation }) => {
               </View>
             </View>
 
-            {/* Formulario */}
-            <View style={styles.formContainer}>
-              {/* Campo Email */}
-              <View style={styles.inputContainer}>
-                <Text style={styles.inputLabel}>Correo electrónico</Text>
-                <View style={styles.inputWrapper}>
-                  <Ionicons
-                    name="mail-outline"
-                    size={20}
-                    color={Colors.text.secondary}
-                    style={styles.inputIcon}
-                  />
-                  <TextInput
-                    style={styles.textInput}
-                    placeholder="tu@correo.com"
-                    placeholderTextColor={Colors.text.muted}
-                    value={formData.email}
-                    onChangeText={(value) => handleInputChange('email', value)}
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    autoComplete="email"
-                  />
-                </View>
-              </View>
-
-              {/* Campo Contraseña */}
-              <View style={styles.inputContainer}>
-                <Text style={styles.inputLabel}>Contraseña</Text>
-                <View style={styles.inputWrapper}>
-                  <Ionicons
-                    name="lock-closed-outline"
-                    size={20}
-                    color={Colors.text.secondary}
-                    style={styles.inputIcon}
-                  />
-                  <TextInput
-                    style={styles.textInput}
-                    placeholder="Tu contraseña"
-                    placeholderTextColor={Colors.text.muted}
-                    value={formData.password}
-                    onChangeText={(value) => handleInputChange('password', value)}
-                    secureTextEntry={!showPassword}
-                    autoComplete="password"
-                  />
-                  <TouchableOpacity
-                    onPress={() => setShowPassword(!showPassword)}
-                    style={styles.eyeIcon}
-                  >
-                    <Ionicons
-                      name={showPassword ? "eye-off-outline" : "eye-outline"}
-                      size={20}
-                      color={Colors.text.secondary}
-                    />
-                  </TouchableOpacity>
-                </View>
-              </View>
-
-              {/* Enlace olvidé contraseña */}
+            {/* Botones de acceso rápido */}
+            <View style={styles.quickAccessContainer}>
+              {/* Botón Google - Prioridad 1 */}
               <TouchableOpacity
-                style={styles.forgotPassword}
-                onPress={handleForgotPassword}
-              >
-                <Text style={styles.forgotPasswordText}>¿Olvidaste tu contraseña?</Text>
-              </TouchableOpacity>
-
-              {/* Botón de login */}
-              <TouchableOpacity
-                style={[styles.loginButton, isLoading && styles.disabledButton]}
-                onPress={handleLogin}
-                disabled={isLoading}
+                style={[styles.googleButton, isGoogleLoading && styles.disabledButton]}
+                onPress={handleGoogleSignIn}
+                disabled={isGoogleLoading}
                 activeOpacity={0.8}
               >
-                {isLoading ? (
-                  <Text style={styles.loginButtonText}>Iniciando sesión...</Text>
+                {isGoogleLoading ? (
+                  <ActivityIndicator color={Colors.text.primary} size="small" />
                 ) : (
-                  <Text style={styles.loginButtonText}>Iniciar sesión</Text>
+                  <Ionicons name="logo-google" size={24} color={Colors.text.primary} />
                 )}
+                <Text style={styles.googleButtonText}>
+                  {isGoogleLoading ? 'Iniciando sesión...' : 'Iniciar sesión con Google'}
+                </Text>
               </TouchableOpacity>
+
+              {/* Botón Apple - Prioridad 2 (solo iOS) */}
+              {Platform.OS === 'ios' && (
+                <TouchableOpacity
+                  style={[styles.appleButton, isAppleLoading && styles.disabledButton]}
+                  onPress={handleAppleSignIn}
+                  disabled={isAppleLoading}
+                  activeOpacity={0.8}
+                >
+                  {isAppleLoading ? (
+                    <ActivityIndicator color="#fff" size="small" />
+                  ) : (
+                    <Ionicons name="logo-apple" size={24} color="#fff" />
+                  )}
+                  <Text style={styles.appleButtonText}>
+                    {isAppleLoading ? 'Iniciando sesión...' : 'Iniciar sesión con Apple'}
+                  </Text>
+                </TouchableOpacity>
+              )}
 
               {/* Divisor */}
               <View style={styles.divider}>
@@ -232,23 +246,116 @@ const LoginScreen = ({ navigation }) => {
                 <View style={styles.dividerLine} />
               </View>
 
-              {/* Botón Google */}
+              {/* Botón para mostrar formulario de correo - Prioridad 3 */}
               <TouchableOpacity
-                style={styles.googleButton}
-                onPress={handleGoogleSignIn}
+                style={styles.emailToggleButton}
+                onPress={() => setShowEmailForm(!showEmailForm)}
                 activeOpacity={0.8}
               >
-                <Ionicons name="logo-google" size={20} color={Colors.text.primary} />
-                <Text style={styles.googleButtonText}>Continuar con Google</Text>
+                <Ionicons 
+                  name="mail-outline" 
+                  size={20} 
+                  color={Colors.text.secondary} 
+                />
+                <Text style={styles.emailToggleButtonText}>
+                  Iniciar sesión con correo y contraseña
+                </Text>
+                <Ionicons 
+                  name={showEmailForm ? "chevron-up-outline" : "chevron-down-outline"} 
+                  size={18} 
+                  color={Colors.text.secondary} 
+                />
               </TouchableOpacity>
+            </View>
 
-              {/* Link a registro */}
-              <View style={styles.registerLink}>
-                <Text style={styles.registerLinkText}>¿No tienes una cuenta? </Text>
-                <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-                  <Text style={styles.registerLinkButton}>Regístrate</Text>
+            {/* Formulario de correo y contraseña (colapsable) */}
+            {showEmailForm && (
+              <View style={styles.emailFormContainer}>
+                {/* Campo Email */}
+                <View style={styles.inputContainer}>
+                  <Text style={styles.inputLabel}>Correo electrónico</Text>
+                  <View style={styles.inputWrapper}>
+                    <Ionicons
+                      name="mail-outline"
+                      size={20}
+                      color={Colors.text.secondary}
+                      style={styles.inputIcon}
+                    />
+                    <TextInput
+                      style={styles.textInput}
+                      placeholder="tu@correo.com"
+                      placeholderTextColor={Colors.text.muted}
+                      value={formData.email}
+                      onChangeText={(value) => handleInputChange('email', value)}
+                      keyboardType="email-address"
+                      autoCapitalize="none"
+                      autoComplete="email"
+                    />
+                  </View>
+                </View>
+
+                {/* Campo Contraseña */}
+                <View style={styles.inputContainer}>
+                  <Text style={styles.inputLabel}>Contraseña</Text>
+                  <View style={styles.inputWrapper}>
+                    <Ionicons
+                      name="lock-closed-outline"
+                      size={20}
+                      color={Colors.text.secondary}
+                      style={styles.inputIcon}
+                    />
+                    <TextInput
+                      style={styles.textInput}
+                      placeholder="Tu contraseña"
+                      placeholderTextColor={Colors.text.muted}
+                      value={formData.password}
+                      onChangeText={(value) => handleInputChange('password', value)}
+                      secureTextEntry={!showPassword}
+                      autoComplete="password"
+                    />
+                    <TouchableOpacity
+                      onPress={() => setShowPassword(!showPassword)}
+                      style={styles.eyeIcon}
+                    >
+                      <Ionicons
+                        name={showPassword ? "eye-off-outline" : "eye-outline"}
+                        size={20}
+                        color={Colors.text.secondary}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+
+                {/* Enlace olvidé contraseña */}
+                <TouchableOpacity
+                  style={styles.forgotPassword}
+                  onPress={handleForgotPassword}
+                >
+                  <Text style={styles.forgotPasswordText}>¿Olvidaste tu contraseña?</Text>
+                </TouchableOpacity>
+
+                {/* Botón de login */}
+                <TouchableOpacity
+                  style={[styles.loginButton, isLoading && styles.disabledButton]}
+                  onPress={handleLogin}
+                  disabled={isLoading}
+                  activeOpacity={0.8}
+                >
+                  {isLoading ? (
+                    <Text style={styles.loginButtonText}>Iniciando sesión...</Text>
+                  ) : (
+                    <Text style={styles.loginButtonText}>Iniciar sesión</Text>
+                  )}
                 </TouchableOpacity>
               </View>
+            )}
+
+            {/* Link a registro */}
+            <View style={styles.registerLink}>
+              <Text style={styles.registerLinkText}>¿No tienes una cuenta? </Text>
+              <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+                <Text style={styles.registerLinkButton}>Regístrate</Text>
+              </TouchableOpacity>
             </View>
 
             {/* Mensaje inspirador */}
@@ -315,6 +422,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.text.secondary,
     textAlign: 'center',
+  },
+  quickAccessContainer: {
+    marginBottom: 20,
+  },
+  emailFormContainer: {
+    marginTop: 16,
   },
   formContainer: {
     flex: 1,
@@ -411,12 +524,62 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 1,
     borderColor: Colors.text.muted,
-    marginBottom: 30,
+    marginBottom: 16,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   googleButtonText: {
     color: Colors.text.primary,
     fontSize: 16,
     fontWeight: '500',
+    marginLeft: 12,
+  },
+  appleButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#000',
+    paddingVertical: 16,
+    borderRadius: 12,
+    marginBottom: 16,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  appleButtonText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#fff',
+    marginLeft: 12,
+  },
+  emailToggleButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: 'transparent',
+    paddingVertical: 16,
+    paddingHorizontal: 20,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: Colors.text.muted,
+    marginBottom: 8,
+  },
+  emailToggleButtonText: {
+    fontSize: 15,
+    fontWeight: '500',
+    color: Colors.text.secondary,
+    flex: 1,
     marginLeft: 12,
   },
   registerLink: {
