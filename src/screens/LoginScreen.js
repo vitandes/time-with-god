@@ -29,7 +29,7 @@ const LoginScreen = ({ navigation }) => {
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [isAppleLoading, setIsAppleLoading] = useState(false);
 
-  const { login } = useAuth();
+  const { signInWithGoogle, signInWithApple, signInWithEmail } = useAuth();
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({
@@ -66,25 +66,17 @@ const LoginScreen = ({ navigation }) => {
     setIsLoading(true);
     
     try {
-      // Simular login (en una app real, aquí harías la llamada a tu API)
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      const userInfo = {
-        id: Date.now().toString(),
-        name: 'Usuario Demo',
-        email: formData.email,
-        loginAt: new Date().toISOString()
-      };
-
-      const result = await login(userInfo, 'email');
+      // Usar Firebase Auth para iniciar sesión con email y contraseña
+      const result = await signInWithEmail(formData.email, formData.password);
       
       if (result.success) {
-        Alert.alert('Éxito', '¡Bienvenido! Has iniciado sesión correctamente.');
+        Alert.alert('¡Bienvenido!', 'Has iniciado sesión exitosamente con tu cuenta.');
       } else {
-        Alert.alert('Error', result.error || 'Credenciales incorrectas');
+        Alert.alert('Error de autenticación', result.error || 'Error al iniciar sesión');
       }
     } catch (error) {
-      Alert.alert('Error', 'Hubo un problema al iniciar sesión. Inténtalo de nuevo.');
+      console.error('Login error:', error);
+      Alert.alert('Error', 'Hubo un problema al iniciar sesión. Por favor, inténtalo de nuevo.');
     } finally {
       setIsLoading(false);
     }
@@ -94,26 +86,14 @@ const LoginScreen = ({ navigation }) => {
     setIsGoogleLoading(true);
     
     try {
-      // Integración con Firebase Auth Google Sign-In
-      // En una app real, aquí usarías @react-native-google-signin/google-signin
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      const userInfo = {
-        id: 'google_' + Date.now().toString(),
-        name: 'Usuario Google',
-        email: 'usuario@gmail.com',
-        authProvider: 'google',
-        loginAt: new Date().toISOString()
-      };
-
-      const result = await login(userInfo, 'google');
-      
-      if (result.success) {
-        Alert.alert('Éxito', '¡Bienvenido! Has iniciado sesión con Google.');
-      } else {
-        Alert.alert('Error', result.error || 'Error al iniciar sesión con Google');
-      }
+      // NOTA: Esta función necesita ser refactorizada para usar useGoogleAuth hook
+      // Ver googleAuthExample.ts para la implementación correcta con useAuthRequest
+      Alert.alert(
+        'Implementación requerida', 
+        'Google Sign-In requiere usar el hook useGoogleAuth. Ver googleAuthExample.ts para la implementación correcta.'
+      );
     } catch (error) {
+      console.error('Google sign-in error:', error);
       Alert.alert('Error', 'Hubo un problema al iniciar sesión con Google.');
     } finally {
       setIsGoogleLoading(false);
@@ -124,26 +104,16 @@ const LoginScreen = ({ navigation }) => {
     setIsAppleLoading(true);
     
     try {
-      // Integración con Firebase Auth Apple Sign-In
-      // En una app real, aquí usarías @invertase/react-native-apple-authentication
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      const userInfo = {
-        id: 'apple_' + Date.now().toString(),
-        name: 'Usuario Apple',
-        email: 'usuario@icloud.com',
-        authProvider: 'apple',
-        loginAt: new Date().toISOString()
-      };
-
-      const result = await login(userInfo, 'apple');
+      // Usar Firebase Auth para iniciar sesión con Apple
+      const result = await signInWithApple();
       
       if (result.success) {
-        Alert.alert('Éxito', '¡Bienvenido! Has iniciado sesión con Apple.');
+        Alert.alert('¡Bienvenido!', 'Has iniciado sesión exitosamente con Apple. 🍎');
       } else {
-        Alert.alert('Error', result.error || 'Error al iniciar sesión con Apple');
+        Alert.alert('Error de Apple', result.error || 'Error al iniciar sesión con Apple');
       }
     } catch (error) {
+      console.error('Apple sign-in error:', error);
       Alert.alert('Error', 'Hubo un problema al iniciar sesión con Apple.');
     } finally {
       setIsAppleLoading(false);

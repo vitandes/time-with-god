@@ -1,5 +1,14 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../firebase/firebaseConfig';
+import {
+  signInWithEmail as firebaseSignInWithEmail,
+  signUpWithEmail as firebaseSignUpWithEmail,
+  signInWithGoogle as firebaseSignInWithGoogle,
+  signInWithApple as firebaseSignInWithApple,
+  signOut as firebaseSignOut,
+} from '../services/authHelpers';
 import { APP_CONFIG } from '../constants/Constants';
 
 // Estado inicial
@@ -143,6 +152,38 @@ export const AuthProvider = ({ children }) => {
     loadUserData();
   }, []);
 
+  // Listener de Firebase Auth para cambios de estado
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        // Usuario autenticado con Firebase
+        const userData = {
+          user: {
+            id: firebaseUser.uid,
+            name: firebaseUser.displayName || 'Usuario',
+            email: firebaseUser.email,
+            photoURL: firebaseUser.photoURL,
+            authProvider: firebaseUser.providerData[0]?.providerId || 'firebase'
+          },
+          isAuthenticated: true,
+          subscription: {
+            isActive: false,
+            isTrialActive: true,
+            trialEndsAt: new Date(Date.now() + APP_CONFIG.FREE_TRIAL_DAYS * 24 * 60 * 60 * 1000).toISOString()
+          }
+        };
+        
+        dispatch({ type: ActionTypes.LOGIN_SUCCESS, payload: userData });
+        await saveUserData({ ...state, ...userData });
+      } else {
+        // Usuario no autenticado
+        dispatch({ type: ActionTypes.LOGOUT });
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   // Verificar salud de la planta periódicamente
   useEffect(() => {
     const checkPlantHealth = () => {
@@ -191,6 +232,82 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // ==================== FIREBASE AUTH METHODS ====================
+  
+  // Iniciar sesión con Google
+  const signInWithGoogle = async () => {
+    try {
+      const result = await firebaseSignInWithGoogle();
+      if (result.success && result.user) {
+        return { success: true, user: result.user };
+      }
+      return { success: false, error: result.error };
+    } catch (error) {
+      console.error('Google sign-in error:', error);
+      return { success: false, error: error.message };
+    }
+  };
+
+  // Iniciar sesión con Apple
+  const signInWithApple = async () => {
+    try {
+      const result = await firebaseSignInWithApple();
+      if (result.success && result.user) {
+        return { success: true, user: result.user };
+      }
+      return { success: false, error: result.error };
+    } catch (error) {
+      console.error('Apple sign-in error:', error);
+      return { success: false, error: error.message };
+    }
+  };
+
+  // Iniciar sesión con email y contraseña
+  const signInWithEmail = async (email, password) => {
+    try {
+      const result = await firebaseSignInWithEmail(email, password);
+      if (result.success && result.user) {
+        return { success: true, user: result.user };
+      }
+      return { success: false, error: result.error };
+    } catch (error) {
+      console.error('Email sign-in error:', error);
+      return { success: false, error: error.message };
+    }
+  };
+
+  // Registrar con email y contraseña
+  const signUpWithEmail = async (email, password) => {
+    try {
+      const result = await firebaseSignUpWithEmail(email, password);
+      if (result.success && result.user) {
+        return { success: true, user: result.user };
+      }
+      return { success: false, error: result.error };
+    } catch (error) {
+      console.error('Email sign-up error:', error);
+      return { success: false, error: error.message };
+    }
+  };
+
+  // Cerrar sesión
+  const signOut = async () => {
+    try {
+      const result = await firebaseSignOut();
+      if (result.success) {
+        await AsyncStorage.removeItem('userData');
+        dispatch({ type: ActionTypes.LOGOUT });
+        return { success: true };
+      }
+      return { success: false, error: result.error };
+    } catch (error) {
+      console.error('Sign-out error:', error);
+      return { success: false, error: error.message };
+    }
+  };
+
+  // ==================== LEGACY METHODS (mantener compatibilidad) ====================
+  
   const login = async (userInfo, provider = 'email') => {
     try {
       // Añadir información del proveedor de autenticación
@@ -219,8 +336,8 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await AsyncStorage.removeItem('userData');
-      dispatch({ type: ActionTypes.LOGOUT });
+      // Usar el nuevo método signOut que maneja Firebase
+      await signOut();
     } catch (error) {
       console.error('Logout error:', error);
     }
@@ -264,6 +381,13 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     ...state,
+    // Métodos Firebase Auth
+    signInWithGoogle,
+    signInWithApple,
+    signInWithEmail,
+    signUpWithEmail,
+    signOut,
+    // Métodos legacy (compatibilidad)
     login,
     logout,
     completeSession,

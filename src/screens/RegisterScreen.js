@@ -61,7 +61,7 @@ const RegisterScreen = ({ navigation }) => {
     }
   }, [showEmailForm]);
 
-  const { login } = useAuth();
+  const { signInWithGoogle, signInWithApple, signUpWithEmail } = useAuth();
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({
@@ -110,30 +110,20 @@ const RegisterScreen = ({ navigation }) => {
     setIsLoading(true);
     
     try {
-      // Simular registro (en una app real, aquí harías la llamada a Firebase Auth)
-      // Ejemplo: await createUserWithEmailAndPassword(auth, formData.email, formData.password)
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      const userInfo = {
-        id: Date.now().toString(),
-        name: formData.name,
-        email: formData.email,
-        registeredAt: new Date().toISOString(),
-        photoURL: null
-      };
-
-      const result = await login(userInfo, 'email');
+      // Usar Firebase Auth para registrar con email y contraseña
+      const result = await signUpWithEmail(formData.email, formData.password);
       
       if (result.success) {
         Alert.alert(
           '¡Bienvenido!',
-          'Tu espacio espiritual ha sido creado. Cada día será una nueva oportunidad de crecer. ✨',
+          'Tu espacio espiritual ha sido creado exitosamente. Cada día será una nueva oportunidad de crecer. ✨',
           [{ text: 'Continuar' }]
         );
       } else {
-        Alert.alert('Algo salió mal', result.error || 'Hubo un problema al crear tu espacio espiritual');
+        Alert.alert('Error de registro', result.error || 'Hubo un problema al crear tu cuenta');
       }
     } catch (error) {
+      console.error('Registration error:', error);
       Alert.alert('Error', 'Hubo un problema al crear tu espacio. Por favor, inténtalo de nuevo.');
     } finally {
       setIsLoading(false);
@@ -145,38 +135,12 @@ const RegisterScreen = ({ navigation }) => {
     animateButton();
     setIsLoading(true);
     try {
-      // Implementación Firebase Auth 2025 para Google
-      // const { GoogleSignin } = require('@react-native-google-signin/google-signin');
-      // const auth = getAuth();
-      // 
-      // await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-      // const { idToken } = await GoogleSignin.signIn();
-      // const googleCredential = GoogleAuthProvider.credential(idToken);
-      // const result = await signInWithCredential(auth, googleCredential);
-      
-      // Simulación temporal
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Datos simulados que vendrían de Google
-      const userInfo = {
-        id: `google_${Date.now().toString()}`,
-        name: 'Usuario de Google',
-        email: 'usuario@gmail.com',
-        registeredAt: new Date().toISOString(),
-        photoURL: 'https://example.com/profile.jpg'
-      };
-      
-      const result = await login(userInfo, 'google');
-      
-      if (result.success) {
-        Alert.alert(
-          '¡Bienvenido a tu camino espiritual!',
-          'Has iniciado tu viaje con Google exitosamente. Cada día será una nueva oportunidad de crecer. ✨',
-          [{ text: 'Comenzar' }]
-        );
-      } else {
-        Alert.alert('Algo salió mal', result.error || 'No pudimos iniciar tu camino con Google. Inténtalo nuevamente.');
-      }
+      // NOTA: Esta función necesita ser refactorizada para usar useGoogleAuth hook
+      // Ver googleAuthExample.ts para la implementación correcta con useAuthRequest
+      Alert.alert(
+        'Implementación requerida', 
+        'Google Sign-In requiere usar el hook useGoogleAuth. Ver googleAuthExample.ts para la implementación correcta.'
+      );
     } catch (error) {
       console.error('Error Google Sign-In:', error);
       Alert.alert('Error', 'Hubo un problema al iniciar sesión con Google. Inténtalo de nuevo con fe.');
@@ -190,35 +154,7 @@ const RegisterScreen = ({ navigation }) => {
     animateButton();
     setIsLoading(true);
     try {
-      // Implementación Firebase Auth 2025 para Apple
-      // const { appleAuth } = require('@invertase/react-native-apple-authentication');
-      // const auth = getAuth();
-      // 
-      // const appleAuthRequestResponse = await appleAuth.performRequest({
-      //   requestedOperation: appleAuth.Operation.LOGIN,
-      //   requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
-      // });
-      // 
-      // const { identityToken, nonce } = appleAuthRequestResponse;
-      // const appleCredential = OAuthProvider.credential('apple.com', {
-      //   idToken: identityToken,
-      //   rawNonce: nonce,
-      // });
-      // const result = await signInWithCredential(auth, appleCredential);
-      
-      // Simulación temporal
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Datos simulados que vendrían de Apple
-      const userInfo = {
-        id: `apple_${Date.now().toString()}`,
-        name: 'Usuario de Apple',
-        email: 'usuario@icloud.com',
-        registeredAt: new Date().toISOString(),
-        photoURL: null
-      };
-      
-      const result = await login(userInfo, 'apple');
+      const result = await signInWithApple();
       
       if (result.success) {
         Alert.alert(
@@ -227,7 +163,7 @@ const RegisterScreen = ({ navigation }) => {
           [{ text: 'Comenzar' }]
         );
       } else {
-        Alert.alert('Algo salió mal', result.error || 'No pudimos iniciar tu camino con Apple. Inténtalo nuevamente.');
+        Alert.alert('Error de Apple', result.error || 'No pudimos iniciar tu camino con Apple. Inténtalo nuevamente.');
       }
     } catch (error) {
       console.error('Error Apple Sign-In:', error);
