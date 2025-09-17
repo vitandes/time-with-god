@@ -1,0 +1,79 @@
+{
+  "title": "Tiempo con Dios",
+  "subtitle": "Tu compañero espiritual diario",
+  "welcome": {
+    "title": "Un espacio para ti y Dios",
+    "content": "En medio del ruido, hay un lugar donde puedes respirar, orar y escuchar Su voz. Este es tu espacio.",
+    "buttonText": "Comenzar"
+  },
+  "inspiration": {
+    "title": "Tiempo que transforma",
+    "content": "Dedicar unos minutos cada día puede cambiar tu corazón, tu mente y tu vida. ¿Quieres descubrir cómo?",
+    "buttonText": "Sí, quiero"
+  },
+  "timeSelection": {
+    "title": "¿Cuánto tiempo deseas dedicarle a Dios?",
+    "content": "No importa si son 5 o 30 minutos, lo importante es empezar y ser constante.",
+    "buttonText": "Continuar"
+  },
+  "motivation": {
+    "title": "¿Cómo quieres conectar hoy?",
+    "contentCustom": "Elige la manera que más te acerque: lectura, música o silencio en oración.\n\nCada momento personalizado con Dios es único y valioso.",
+    "contentTimed": "Tus {{time}} minutos diarios pueden incluir lectura, música o silencio en oración.\n\nElige la manera que más te acerque a Él en este tiempo especial.",
+    "buttonText": "Continuar"
+  },
+  "finish": {
+    "title": "Tu viaje empieza hoy",
+    "content": "Lo que siembres en este tiempo con Dios dará fruto en tu vida. ¡Este es tu comienzo!",
+    "buttonText": "Empezar mi tiempo con Dios"
+  },
+  "timeOptions": {
+    "custom": "Personalizado"
+  },
+  "feedbackMessage": "personalizado",
+  "step1": {
+    "title": "Bienvenido a tu jardín espiritual",
+    "description": "Cultiva tu relación con Dios a través de la oración, meditación y reflexión diaria."
+  },
+  "step2": {
+    "title": "Crea tu rutina espiritual",
+    "description": "Establece momentos sagrados en tu día para conectar con lo divino."
+  },
+  "step3": {
+    "title": "Haz crecer tu fe",
+    "description": "Observa cómo tu planta espiritual florece con cada sesión de oración."
+  },
+  "step4": {
+    "title": "Únete a la comunidad",
+    "description": "Comparte tu viaje espiritual y encuentra inspiración en otros creyentes."
+  },
+  "step5": {
+    "title": "Comienza tu viaje",
+    "description": "Estás listo para comenzar esta hermosa aventura espiritual."
+  },
+  "getStarted": "Comenzar",
+  "skip": "Omitir",
+  "question1": "¿Cuánto tiempo dedicas actualmente a la oración diaria?",
+  "question2": "¿Qué tipo de actividades espirituales prefieres?",
+  "question3": "¿En qué momento del día prefieres orar?",
+  "options": {
+    "time": {
+      "none": "No oro regularmente",
+      "5min": "5-10 minutos",
+      "15min": "15-20 minutos",
+      "30min": "30+ minutos"
+    },
+    "activities": {
+      "prayer": "Oración",
+      "meditation": "Meditación",
+      "reading": "Lectura bíblica",
+      "worship": "Adoración"
+    },
+    "timeOfDay": {
+      "morning": "Mañana",
+      "afternoon": "Tarde",
+      "evening": "Noche",
+      "flexible": "Flexible"
+    }
+  }
+}

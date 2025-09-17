@@ -1,0 +1,79 @@
+{
+  "title": "Time with God",
+  "subtitle": "Your daily spiritual companion",
+  "welcome": {
+    "title": "A space for you and God",
+    "content": "In the midst of noise, there is a place where you can breathe, pray and listen to His voice. This is your space.",
+    "buttonText": "Begin"
+  },
+  "inspiration": {
+    "title": "Time that transforms",
+    "content": "Dedicating a few minutes each day can change your heart, your mind and your life. Do you want to discover how?",
+    "buttonText": "Yes, I want to"
+  },
+  "timeSelection": {
+    "title": "How much time do you want to dedicate to God?",
+    "content": "It doesn't matter if it's 5 or 30 minutes, the important thing is to start and be consistent.",
+    "buttonText": "Continue"
+  },
+  "motivation": {
+    "title": "How do you want to connect today?",
+    "contentCustom": "Choose the way that brings you closer: reading, music or silence in prayer.\n\nEach personalized moment with God is unique and valuable.",
+    "contentTimed": "Your {{time}} daily minutes can include reading, music or silence in prayer.\n\nChoose the way that brings you closest to Him in this special time.",
+    "buttonText": "Continue"
+  },
+  "finish": {
+    "title": "Your journey begins today",
+    "content": "What you sow in this time with God will bear fruit in your life. This is your beginning!",
+    "buttonText": "Start my time with God"
+  },
+  "timeOptions": {
+    "custom": "Custom"
+  },
+  "feedbackMessage": "custom",
+  "step1": {
+    "title": "Welcome to your spiritual garden",
+    "description": "Cultivate your relationship with God through daily prayer, meditation, and reflection."
+  },
+  "step2": {
+    "title": "Create your spiritual routine",
+    "description": "Establish sacred moments in your day to connect with the divine."
+  },
+  "step3": {
+    "title": "Grow your faith",
+    "description": "Watch your spiritual plant flourish with each prayer session."
+  },
+  "step4": {
+    "title": "Join the community",
+    "description": "Share your spiritual journey and find inspiration in other believers."
+  },
+  "step5": {
+    "title": "Begin your journey",
+    "description": "You're ready to start this beautiful spiritual adventure."
+  },
+  "getStarted": "Get Started",
+  "skip": "Skip",
+  "question1": "How much time do you currently dedicate to daily prayer?",
+  "question2": "What type of spiritual activities do you prefer?",
+  "question3": "What time of day do you prefer to pray?",
+  "options": {
+    "time": {
+      "none": "I don't pray regularly",
+      "5min": "5-10 minutes",
+      "15min": "15-20 minutes",
+      "30min": "30+ minutes"
+    },
+    "activities": {
+      "prayer": "Prayer",
+      "meditation": "Meditation",
+      "reading": "Bible reading",
+      "worship": "Worship"
+    },
+    "timeOfDay": {
+      "morning": "Morning",
+      "afternoon": "Afternoon",
+      "evening": "Evening",
+      "flexible": "Flexible"
+    }
+  }
+}

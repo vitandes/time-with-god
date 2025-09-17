@@ -14,11 +14,13 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
 
 import { useAuth } from '../context/AuthContext';
 import Colors from '../constants/Colors';
 
 const LoginScreen = ({ navigation }) => {
+  const { t } = useTranslation(['app', 'common']);
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -42,18 +44,18 @@ const LoginScreen = ({ navigation }) => {
     const { email, password } = formData;
 
     if (!email.trim()) {
-      Alert.alert('Error', 'Por favor ingresa tu correo electrónico');
+      Alert.alert(t('common:error'), t('app:auth.invalidEmail'));
       return false;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      Alert.alert('Error', 'Por favor ingresa un correo electrónico válido');
+      Alert.alert(t('common:error'), t('app:auth.invalidEmail'));
       return false;
     }
 
     if (!password.trim()) {
-      Alert.alert('Error', 'Por favor ingresa tu contraseña');
+      Alert.alert(t('common:error'), t('app:auth.passwordTooShort'));
       return false;
     }
 
@@ -70,13 +72,13 @@ const LoginScreen = ({ navigation }) => {
       const result = await signInWithEmail(formData.email, formData.password);
       
       if (result.success) {
-        Alert.alert('¡Bienvenido!', 'Has iniciado sesión exitosamente con tu cuenta.');
+        Alert.alert(t('common:welcome'), t('app:auth.loginSuccess'));
       } else {
-        Alert.alert('Error de autenticación', result.error || 'Error al iniciar sesión');
+        Alert.alert(t('app:auth.authError'), result.error || t('app:auth.loginError'));
       }
     } catch (error) {
       console.error('Login error:', error);
-      Alert.alert('Error', 'Hubo un problema al iniciar sesión. Por favor, inténtalo de nuevo.');
+      Alert.alert(t('common:error'), t('app:auth.loginProblem'));
     } finally {
       setIsLoading(false);
     }
@@ -94,7 +96,7 @@ const LoginScreen = ({ navigation }) => {
       );
     } catch (error) {
       console.error('Google sign-in error:', error);
-      Alert.alert('Error', 'Hubo un problema al iniciar sesión con Google.');
+      Alert.alert(t('common:error'), t('app:auth.googleError'));
     } finally {
       setIsGoogleLoading(false);
     }
@@ -108,13 +110,13 @@ const LoginScreen = ({ navigation }) => {
       const result = await signInWithApple();
       
       if (result.success) {
-        Alert.alert('¡Bienvenido!', 'Has iniciado sesión exitosamente con Apple. 🍎');
+        Alert.alert(t('common:welcome'), t('app:auth.appleSuccess'));
       } else {
-        Alert.alert('Error de Apple', result.error || 'Error al iniciar sesión con Apple');
+        Alert.alert(t('app:auth.appleError'), result.error || t('app:auth.appleLoginError'));
       }
     } catch (error) {
       console.error('Apple sign-in error:', error);
-      Alert.alert('Error', 'Hubo un problema al iniciar sesión con Apple.');
+      Alert.alert(t('common:error'), t('app:auth.appleProblem'));
     } finally {
       setIsAppleLoading(false);
     }
@@ -122,12 +124,12 @@ const LoginScreen = ({ navigation }) => {
 
   const handleForgotPassword = () => {
     Alert.alert(
-      'Recuperar contraseña',
-      'Se enviará un enlace de recuperación a tu correo electrónico.',
+      t('app:auth.recoverPassword'),
+      t('app:auth.recoverPasswordMessage'),
       [
-        { text: 'Cancelar', style: 'cancel' },
-        { text: 'Enviar', onPress: () => {
-          Alert.alert('Enviado', 'Revisa tu correo electrónico para recuperar tu contraseña.');
+        { text: t('common:cancel'), style: 'cancel' },
+        { text: t('common:send'), onPress: () => {
+          Alert.alert(t('app:auth.sent'), t('app:auth.checkEmail'));
         }}
       ]
     );
@@ -164,9 +166,9 @@ const LoginScreen = ({ navigation }) => {
                     color={Colors.text.primary}
                   />
                 </View>
-                <Text style={styles.title}>Bienvenido de vuelta</Text>
+                <Text style={styles.title}>{t('app:auth.welcomeBack')}</Text>
                 <Text style={styles.subtitle}>
-                  Continúa tu viaje espiritual
+                  {t('app:auth.continueJourney')}
                 </Text>
               </View>
             </View>
@@ -186,7 +188,7 @@ const LoginScreen = ({ navigation }) => {
                   <Ionicons name="logo-google" size={24} color={Colors.text.primary} />
                 )}
                 <Text style={styles.googleButtonText}>
-                  {isGoogleLoading ? 'Iniciando sesión...' : 'Iniciar sesión con Google'}
+                  {isGoogleLoading ? t('app:auth.signingIn') : t('app:auth.signInGoogle')}
                 </Text>
               </TouchableOpacity>
 
@@ -204,7 +206,7 @@ const LoginScreen = ({ navigation }) => {
                     <Ionicons name="logo-apple" size={24} color="#fff" />
                   )}
                   <Text style={styles.appleButtonText}>
-                    {isAppleLoading ? 'Iniciando sesión...' : 'Iniciar sesión con Apple'}
+                    {isAppleLoading ? t('app:auth.signingIn') : t('app:auth.signInApple')}
                   </Text>
                 </TouchableOpacity>
               )}
@@ -212,7 +214,7 @@ const LoginScreen = ({ navigation }) => {
               {/* Divisor */}
               <View style={styles.divider}>
                 <View style={styles.dividerLine} />
-                <Text style={styles.dividerText}>o</Text>
+                <Text style={styles.dividerText}>{t('common:or')}</Text>
                 <View style={styles.dividerLine} />
               </View>
 
@@ -228,7 +230,7 @@ const LoginScreen = ({ navigation }) => {
                   color={Colors.text.secondary} 
                 />
                 <Text style={styles.emailToggleButtonText}>
-                  Iniciar sesión con correo y contraseña
+                  {t('app:auth.signInEmail')}
                 </Text>
                 <Ionicons 
                   name={showEmailForm ? "chevron-up-outline" : "chevron-down-outline"} 
@@ -243,7 +245,7 @@ const LoginScreen = ({ navigation }) => {
               <View style={styles.emailFormContainer}>
                 {/* Campo Email */}
                 <View style={styles.inputContainer}>
-                  <Text style={styles.inputLabel}>Correo electrónico</Text>
+                  <Text style={styles.inputLabel}>{t('app:auth.email')}</Text>
                   <View style={styles.inputWrapper}>
                     <Ionicons
                       name="mail-outline"
@@ -253,7 +255,7 @@ const LoginScreen = ({ navigation }) => {
                     />
                     <TextInput
                       style={styles.textInput}
-                      placeholder="tu@correo.com"
+                      placeholder={t('app:auth.emailPlaceholder')}
                       placeholderTextColor={Colors.text.muted}
                       value={formData.email}
                       onChangeText={(value) => handleInputChange('email', value)}
@@ -266,7 +268,7 @@ const LoginScreen = ({ navigation }) => {
 
                 {/* Campo Contraseña */}
                 <View style={styles.inputContainer}>
-                  <Text style={styles.inputLabel}>Contraseña</Text>
+                  <Text style={styles.inputLabel}>{t('app:auth.password')}</Text>
                   <View style={styles.inputWrapper}>
                     <Ionicons
                       name="lock-closed-outline"
@@ -276,7 +278,7 @@ const LoginScreen = ({ navigation }) => {
                     />
                     <TextInput
                       style={styles.textInput}
-                      placeholder="Tu contraseña"
+                      placeholder={t('app:auth.passwordPlaceholder')}
                       placeholderTextColor={Colors.text.muted}
                       value={formData.password}
                       onChangeText={(value) => handleInputChange('password', value)}
@@ -301,7 +303,7 @@ const LoginScreen = ({ navigation }) => {
                   style={styles.forgotPassword}
                   onPress={handleForgotPassword}
                 >
-                  <Text style={styles.forgotPasswordText}>¿Olvidaste tu contraseña?</Text>
+                  <Text style={styles.forgotPasswordText}>{t('app:auth.forgotPassword')}</Text>
                 </TouchableOpacity>
 
                 {/* Botón de login */}
@@ -312,9 +314,9 @@ const LoginScreen = ({ navigation }) => {
                   activeOpacity={0.8}
                 >
                   {isLoading ? (
-                    <Text style={styles.loginButtonText}>Iniciando sesión...</Text>
+                    <Text style={styles.loginButtonText}>{t('app:auth.signingIn')}</Text>
                   ) : (
-                    <Text style={styles.loginButtonText}>Iniciar sesión</Text>
+                    <Text style={styles.loginButtonText}>{t('common:login')}</Text>
                   )}
                 </TouchableOpacity>
               </View>
@@ -322,9 +324,9 @@ const LoginScreen = ({ navigation }) => {
 
             {/* Link a registro */}
             <View style={styles.registerLink}>
-              <Text style={styles.registerLinkText}>¿No tienes una cuenta? </Text>
+              <Text style={styles.registerLinkText}>{t('app:auth.noAccount')} </Text>
               <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-                <Text style={styles.registerLinkButton}>Regístrate</Text>
+                <Text style={styles.registerLinkButton}>{t('common:register')}</Text>
               </TouchableOpacity>
             </View>
 

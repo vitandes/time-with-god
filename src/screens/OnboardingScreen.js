@@ -13,12 +13,15 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useTranslation } from 'react-i18next';
 
 import Colors from "../constants/Colors";
+import LanguageSwitcher from '../components/LanguageSwitcher';
 
 const { width, height } = Dimensions.get("window");
 
 const OnboardingScreen = ({ navigation }) => {
+  const { t } = useTranslation(['onboarding', 'common']);
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedTime, setSelectedTime] = useState(null);
   const [showFeedback, setShowFeedback] = useState(false);
@@ -51,61 +54,57 @@ const OnboardingScreen = ({ navigation }) => {
     { value: 10, label: "10 min" },
     { value: 15, label: "15 min" },
     { value: 30, label: "30 min" },
-    { value: "custom", label: "Personalizado" },
+    { value: "custom", label: t('timeOptions.custom') },
   ];
 
   const onboardingSteps = [
     // Pantalla 1 - Bienvenida
     {
       id: "welcome",
-      title: "Un espacio para ti y Dios",
-      content:
-        "En medio del ruido, hay un lugar donde puedes respirar, orar y escuchar Su voz. Este es tu espacio.",
-      buttonText: "Comenzar",
+      title: t('welcome.title'),
+      content: t('welcome.content'),
+      buttonText: t('welcome.buttonText'),
       image: require("../../assets/onboarding/ob1.webp"),
     },
     // Pantalla 2 - Motivación
     {
       id: "inspiration",
-      title: "Tiempo que transforma",
-      content:
-        "Dedicar unos minutos cada día puede cambiar tu corazón, tu mente y tu vida. ¿Quieres descubrir cómo?",
-      buttonText: "Sí, quiero",
+      title: t('inspiration.title'),
+      content: t('inspiration.content'),
+      buttonText: t('inspiration.buttonText'),
       image: require("../../assets/onboarding/ob2.webp"),
     },
     // Pantalla 3 - Elección del tiempo
     {
       id: "time-selection",
-      title: "¿Cuánto tiempo deseas dedicarle a Dios?",
-      content:
-        "No importa si son 5 o 30 minutos, lo importante es empezar y ser constante.",
-      buttonText: "Continuar",
+      title: t('timeSelection.title'),
+      content: t('timeSelection.content'),
+      buttonText: t('timeSelection.buttonText'),
       image: require("../../assets/onboarding/ob3.webp"),
       showTimeSelection: true,
     },
     // Pantalla 4 - Motivación personalizada
     {
       id: "motivation",
-      title: "¿Cómo quieres conectar hoy?",
+      title: t('motivation.title'),
       getContent: (time) => {
         if (!time) return "";
 
         if (time === "custom") {
-          return "Elige la manera que más te acerque: lectura, música o silencio en oración.\n\nCada momento personalizado con Dios es único y valioso.";
+          return t('motivation.contentCustom');
         }
 
-        return `Tus ${time} minutos diarios pueden incluir lectura, música o silencio en oración.\n\nElige la manera que más te acerque a Él en este tiempo especial.`;
+        return t('motivation.contentTimed', { time });
       },
-      buttonText: "Continuar",
+      buttonText: t('motivation.buttonText'),
       image: require("../../assets/onboarding/ob40.webp"),
     },
     // Pantalla 5 - Compromiso inspirador
     {
       id: "finish",
-      title: "Tu viaje empieza hoy",
-      content:
-        "Lo que siembres en este tiempo con Dios dará fruto en tu vida. ¡Este es tu comienzo!",
-      buttonText: "Empezar mi tiempo con Dios",
+      title: t('finish.title'),
+      content: t('finish.content'),
+      buttonText: t('finish.buttonText'),
       image: require("../../assets/onboarding/ob5.webp"),
       isLastStep: true,
     },
@@ -147,10 +146,10 @@ const OnboardingScreen = ({ navigation }) => {
 
     // Si acabamos de seleccionar el tiempo, mostrar mensaje de refuerzo
     if (currentStep === 2 && selectedTime) {
-      const timeText =
-        selectedTime === "custom" ? "personalizado" : `${selectedTime} minutos`;
+      const displayTime =
+      selectedTime === "custom" ? t('feedbackMessage') : `${selectedTime} minutos`;
       showFeedbackMessage(
-        `¡Excelente elección! ${timeText} de tiempo con Dios transformarán tu día.`
+        `¡Excelente elección! ${displayTime} de tiempo con Dios transformarán tu día.`
       );
     }
 
@@ -342,6 +341,11 @@ const OnboardingScreen = ({ navigation }) => {
       colors={Colors.gradients.primary}
       style={styles.container}
     >
+      {/* Selector de idioma en la parte superior */}
+      <SafeAreaView style={styles.languageSwitcherContainer}>
+        <LanguageSwitcher />
+      </SafeAreaView>
+      
       {/* <SafeAreaView style={styles.safeArea}> */}
       <FlatList
         ref={flatListRef}
@@ -406,6 +410,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.primary,
+  },
+  languageSwitcherContainer: {
+    position: 'absolute',
+    top: 0,
+    right: 20,
+    zIndex: 1000,
+    paddingTop: 10,
   },
   safeArea: {
     flex: 1,

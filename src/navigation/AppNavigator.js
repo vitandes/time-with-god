@@ -88,7 +88,7 @@ const AuthNavigator = () => {
       <Stack.Screen name="Welcome" component={OnboardingScreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
-      <Stack.Screen name="Subscription" component={SubscriptionScreen} />
+      {/* <Stack.Screen name="Subscription" component={SubscriptionScreen} /> */}
     </Stack.Navigator>
   );
 };
@@ -115,10 +115,12 @@ const AppNavigator = () => {
         {!isAuthenticated ? (
           // Usuario no autenticado
           <Stack.Screen name="Auth" component={AuthNavigator} />
-        ) : !hasActiveSubscription() ? (
-          // Usuario autenticado pero sin suscripción activa
-          <Stack.Screen name="Subscription" component={SubscriptionScreen} />
-        ) : (
+        ) : 
+        // !hasActiveSubscription() ? (
+        //   // Usuario autenticado pero sin suscripción activa
+        //   <Stack.Screen name="Subscription" component={SubscriptionScreen} />
+        // ) : 
+         (
           // Usuario autenticado con suscripción activa
           <>
             <Stack.Screen name="Main" component={MainTabNavigator} />

@@ -11,6 +11,7 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -22,9 +23,11 @@ import { useAuth } from '../context/AuthContext';
 import { useSessionHistory } from '../hooks/useSessionHistory';
 import { useMorningNotifications } from '../hooks/useMorningNotifications';
 import { SUBSCRIPTION_PLANS } from '../constants/Constants';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 import Colors from '../constants/Colors';
 
 const ProfileScreen = ({ navigation }) => {
+  const { t } = useTranslation(['app', 'common']);
   const { user, logout, updateSubscription } = useAuth();
   const { getStats } = useSessionHistory();
   const {
@@ -230,6 +233,12 @@ const ProfileScreen = ({ navigation }) => {
           subtitle: `${notificationTime} cada día`,
           onPress: handleTimeChange
         },
+        {
+          icon: 'language',
+          title: t('app:profile.language'),
+          subtitle: t('app:profile.languageSubtitle'),
+          rightComponent: <LanguageSwitcher />
+        }
 
       ]
     },
