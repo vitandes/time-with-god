@@ -20,7 +20,7 @@ import { useAuth } from '../context/AuthContext';
 import Colors from '../constants/Colors';
 
 const LoginScreen = ({ navigation }) => {
-  const { t } = useTranslation(['app', 'common']);
+  const { t } = useTranslation('app');
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -333,9 +333,9 @@ const LoginScreen = ({ navigation }) => {
             {/* Mensaje inspirador */}
             <View style={styles.inspirationalContainer}>
               <Text style={styles.inspirationalText}>
-                "Venid a mí todos los que estáis trabajados y cargados, y yo os haré descansar"
+                {t('login.inspirationalMessage.text')}
               </Text>
-              <Text style={styles.inspirationalReference}>Mateo 11:28</Text>
+              <Text style={styles.inspirationalReference}>{t('login.inspirationalMessage.reference')}</Text>
             </View>
           </ScrollView>
         </KeyboardAvoidingView>

@@ -21,10 +21,12 @@ import { useAuth } from '../context/AuthContext';
 import { SESSION_DURATIONS, PLANT_STAGES, MESSAGES } from '../constants/Constants';
 import Colors from '../constants/Colors';
 import SpiritualPlant from '../components/SpiritualPlant';
+import { useTranslation } from 'react-i18next';
 
 const HomeScreen = ({ navigation }) => {
+  const { t } = useTranslation('app');
   const { user, sessions, plant } = useAuth();
-  const [selectedDuration, setSelectedDuration] = useState(5);
+  const [selectedTime, setSelectedTime] = useState(5);
   const [currentPlantStage, setCurrentPlantStage] = useState(PLANT_STAGES.SEED);
 
   // Animaciones
@@ -81,20 +83,9 @@ const HomeScreen = ({ navigation }) => {
 
 
   const handleStartSession = () => {
-    if (!selectedDuration) {
-      Alert.alert(
-        'Selecciona un tiempo',
-        'Por favor elige cuánto tiempo quieres dedicar a tu momento con Dios.',
-        [{ text: 'OK' }]
-      );
-      return;
-    }
-
-    const duration = { id: selectedDuration.toString(), minutes: selectedDuration };
+    const duration = { id: selectedTime.toString(), minutes: selectedTime };
     navigation.navigate('Session', { duration });
   };
-
-
 
   return (
     <LinearGradient
@@ -104,7 +95,7 @@ const HomeScreen = ({ navigation }) => {
       <SafeAreaView style={styles.safeArea}>
         {/* Header simple */}
         <View style={styles.header}>
-          <Text style={styles.greeting}>¡Empieza tu momento con Dios hoy!</Text>
+          <Text style={styles.greeting}>{t('home.greeting')}</Text>
         </View>
 
         {/* Contenedor central con planta */}
@@ -120,38 +111,36 @@ const HomeScreen = ({ navigation }) => {
 
         {/* Sección de tiempo */}
         <View style={styles.timeSection}>
-          <Text style={styles.timeLabel}>Tiempo con Dios</Text>
+          <Text style={styles.timeLabel}>{t('home.timeWithGod')}</Text>
+          
           <View style={styles.timeContainer}>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.timeButton}
-              onPress={() => setSelectedDuration(Math.max(5, selectedDuration - 5))}
+              onPress={() => setSelectedTime(Math.max(5, selectedTime - 5))}
             >
               <Text style={styles.timeButtonText}>-</Text>
             </TouchableOpacity>
-            <Text style={styles.timeDisplay}>
-              {selectedDuration}:00
-            </Text>
-            <TouchableOpacity 
+            
+            <Text style={styles.timeDisplay}>{selectedTime} min</Text>
+            
+            <TouchableOpacity
               style={styles.timeButton}
-              onPress={() => setSelectedDuration(Math.min(60, selectedDuration + 5))}
+              onPress={() => setSelectedTime(Math.min(60, selectedTime + 5))}
             >
               <Text style={styles.timeButtonText}>+</Text>
             </TouchableOpacity>
           </View>
         </View>
 
-        {/* Botón principal */}
+        {/* Botón de inicio */}
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.plantButton}
             onPress={handleStartSession}
-            activeOpacity={0.8}
           >
-            <Text style={styles.plantButtonText}>Comenzar</Text>
+            <Text style={styles.plantButtonText}>{t('home.startSession')}</Text>
           </TouchableOpacity>
         </View>
-
-
       </SafeAreaView>
     </LinearGradient>
   );

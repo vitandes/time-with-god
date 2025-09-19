@@ -74,28 +74,33 @@ const RegisterScreen = ({ navigation }) => {
     const { name, email, password, confirmPassword } = formData;
 
     if (!name.trim()) {
-      Alert.alert('Nombre requerido', '¿Cómo quieres que te llamemos en tu camino espiritual? 🌿');
+      Alert.alert(t('common.error'), t('register.validation.nameRequired'));
       return false;
     }
 
     if (!email.trim()) {
-      Alert.alert('Correo requerido', 'Necesitamos tu correo para acompañarte en tu camino 📩');
+      Alert.alert(t('common.error'), t('register.validation.emailRequired'));
       return false;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      Alert.alert('Correo inválido', 'Este correo necesita una bendición extra ✨ Revisa el formato.');
+      Alert.alert(t('common.error'), t('register.validation.invalidEmail'));
+      return false;
+    }
+
+    if (!password.trim()) {
+      Alert.alert(t('common.error'), t('register.validation.passwordRequired'));
       return false;
     }
 
     if (password.length < 6) {
-      Alert.alert('Contraseña corta', 'Una contraseña más larga te protegerá mejor en tu camino espiritual 🛡️');
+      Alert.alert(t('common.error'), t('register.validation.passwordTooShort'));
       return false;
     }
 
     if (password !== confirmPassword) {
-      Alert.alert('Contraseñas diferentes', 'Las contraseñas no coinciden. Intenta nuevamente con paz y calma 🕊️');
+      Alert.alert(t('common.error'), t('register.validation.passwordsDoNotMatch'));
       return false;
     }
 
@@ -196,244 +201,255 @@ const RegisterScreen = ({ navigation }) => {
                 style={styles.backButton}
                 onPress={() => navigation.goBack()}
               >
-                <Ionicons name="arrow-back" size={24} color={Colors.white} />
+                <Ionicons name="arrow-back" size={24} color={Colors.text.primary} />
               </TouchableOpacity>
               
               <View style={styles.titleContainer}>
-                <Text style={styles.title}>Conéctate fácil, empieza tu camino con Dios</Text>
-                <Text style={styles.subtitle}>Elige la forma más sencilla para ti.</Text>
-              </View>
-              
-              {/* Indicador de progreso */}
-              <View style={styles.progressContainer}>
-                <View style={styles.progressBar}>
-                  <View style={styles.progressFill} />
+                <View style={styles.iconContainer}>
+                  <Ionicons
+                    name="flower"
+                    size={40}
+                    color={Colors.text.primary}
+                  />
                 </View>
-                <Text style={styles.progressText}>Paso 2 de 2</Text>
+                <Text style={styles.title}>{t('register.title')}</Text>
+                <Text style={styles.subtitle}>
+                  {t('register.subtitle')}
+                </Text>
               </View>
             </View>
 
-            {/* Opciones de acceso rápido */}
-            <View style={styles.formContainer}>
-              {/* Botones principales de acceso rápido */}
-              <View style={styles.quickAccessContainer}>
-                {/* Botón Google - Primera opción */}
-                <Animated.View style={{
-                  transform: [{ scale: buttonAnimation }],
-                  marginBottom: 15,
-                }}>
-                  <TouchableOpacity
-                    style={styles.googleButton}
-                    onPress={handleGoogleSignUp}
-                    activeOpacity={0.8}
-                    disabled={isLoading}
-                  >
-                    <Ionicons name="logo-google" size={20} color="#DB4437" />
-                    <Text style={styles.googleButtonText}>
-                      {isLoading ? 'Conectando...' : 'Continuar con Google'}
-                    </Text>
-                  </TouchableOpacity>
-                </Animated.View>
-                
-                {/* Botón Apple - Segunda opción (solo iOS) */}
-                {Platform.OS === 'ios' && (
-                  <Animated.View style={{
-                    transform: [{ scale: buttonAnimation }],
-                    marginBottom: 15,
-                  }}>
-                    <TouchableOpacity
-                      style={styles.appleButton}
-                      onPress={handleAppleSignUp}
-                      activeOpacity={0.8}
-                      disabled={isLoading}
-                    >
-                      <Ionicons name="logo-apple" size={20} color={Colors.white} />
-                      <Text style={styles.appleButtonText}>
-                        {isLoading ? 'Conectando...' : 'Continuar con Apple'}
-                      </Text>
-                    </TouchableOpacity>
-                  </Animated.View>
+            {/* Botones de acceso rápido */}
+            <View style={styles.quickAccessContainer}>
+              {/* Botón Apple - Prioridad 1 (solo iOS) */}
+              {Platform.OS === 'ios' && (
+                <TouchableOpacity
+                  style={[styles.appleButton, isAppleLoading && styles.disabledButton]}
+                  onPress={handleAppleSignUp}
+                  disabled={isAppleLoading}
+                  activeOpacity={0.8}
+                >
+                  {isAppleLoading ? (
+                    <ActivityIndicator color="#fff" size="small" />
+                  ) : (
+                    <Ionicons name="logo-apple" size={24} color="#fff" />
+                  )}
+                  <Text style={styles.appleButtonText}>
+                    {isAppleLoading ? t('auth.signingUp') : t('register.continueWithApple')}
+                  </Text>
+                </TouchableOpacity>
+              )}
+
+              {/* Botón Google - Prioridad 2 */}
+              <TouchableOpacity
+                style={[styles.googleButton, isGoogleLoading && styles.disabledButton]}
+                onPress={handleGoogleSignUp}
+                disabled={isGoogleLoading}
+                activeOpacity={0.8}
+              >
+                {isGoogleLoading ? (
+                  <ActivityIndicator color={Colors.text.primary} size="small" />
+                ) : (
+                  <Ionicons name="logo-google" size={24} color={Colors.text.primary} />
                 )}
-              </View>
-              
+                <Text style={styles.googleButtonText}>
+                  {isGoogleLoading ? t('auth.signingUp') : t('register.continueWithGoogle')}
+                </Text>
+              </TouchableOpacity>
+
               {/* Divisor */}
               <View style={styles.divider}>
                 <View style={styles.dividerLine} />
-                <Text style={styles.dividerText}>o</Text>
+                <Text style={styles.dividerText}>{t('common.or')}</Text>
                 <View style={styles.dividerLine} />
               </View>
-              
-              {/* Tercera opción: registro tradicional */}
-              <TouchableOpacity 
-                style={styles.emailButton}
+
+              {/* Botón para mostrar formulario de correo - Prioridad 3 */}
+              <TouchableOpacity
+                style={styles.emailToggleButton}
                 onPress={() => setShowEmailForm(!showEmailForm)}
                 activeOpacity={0.8}
-                disabled={isLoading}
               >
-                <Text style={styles.emailButtonText}>Crear cuenta con correo y contraseña</Text>
+                <Ionicons 
+                  name="mail-outline" 
+                  size={20} 
+                  color={Colors.text.secondary} 
+                />
+                <Text style={styles.emailToggleButtonText}>
+                  {t('register.createWithEmail')}
+                </Text>
                 <Ionicons 
                   name={showEmailForm ? "chevron-up-outline" : "chevron-down-outline"} 
                   size={18} 
                   color={Colors.text.secondary} 
                 />
               </TouchableOpacity>
-              
-              {/* Formulario tradicional (condicional) */}
-              {showEmailForm && (
-                <View style={styles.traditionalFormContainer}>
-                  {/* Campo Nombre */}
-                  <View style={styles.inputContainer}>
-                    <Text style={styles.inputLabel}>Nombre</Text>
-                    <View style={styles.inputWrapper}>
-                      <Ionicons
-                        name="person-outline"
-                        size={20}
-                        color={Colors.text.secondary}
-                        style={styles.inputIcon}
-                      />
-                      <TextInput
-                        style={styles.textInput}
-                        placeholder="¿Cómo quieres que te llamemos en tu camino? 🌿"
-                        placeholderTextColor={Colors.text.muted}
-                        value={formData.name}
-                        onChangeText={(value) => handleInputChange('name', value)}
-                        autoCapitalize="words"
-                      />
-                    </View>
-                  </View>
-
-                  {/* Campo Email */}
-                  <View style={styles.inputContainer}>
-                    <Text style={styles.inputLabel}>Correo electrónico</Text>
-                    <View style={styles.inputWrapper}>
-                      <Ionicons
-                        name="mail-outline"
-                        size={20}
-                        color={Colors.text.secondary}
-                        style={styles.inputIcon}
-                      />
-                      <TextInput
-                        style={styles.textInput}
-                        placeholder="Para acompañarte en tu camino espiritual 📩"
-                        placeholderTextColor={Colors.text.muted}
-                        value={formData.email}
-                        onChangeText={(value) => handleInputChange('email', value)}
-                        keyboardType="email-address"
-                        autoCapitalize="none"
-                      />
-                    </View>
-                  </View>
-
-                  {/* Campo Contraseña */}
-                  <View style={styles.inputContainer}>
-                    <Text style={styles.inputLabel}>Contraseña</Text>
-                    <View style={styles.inputWrapper}>
-                      <Ionicons
-                        name="lock-closed-outline"
-                        size={20}
-                        color={Colors.text.secondary}
-                        style={styles.inputIcon}
-                      />
-                      <TextInput
-                        style={styles.textInput}
-                        placeholder="Una clave que proteja tu espacio espiritual ✨"
-                        placeholderTextColor={Colors.text.muted}
-                        value={formData.password}
-                        onChangeText={(value) => handleInputChange('password', value)}
-                        secureTextEntry={!showPassword}
-                      />
-                  <TouchableOpacity
-                    onPress={() => setShowPassword(!showPassword)}
-                    style={styles.eyeIcon}
-                  >
-                    <Ionicons
-                      name={showPassword ? "eye-off-outline" : "eye-outline"}
-                      size={20}
-                      color={Colors.text.secondary}
-                    />
-                  </TouchableOpacity>
-                </View>
-              </View>
-
-              {/* Campo Confirmar Contraseña */}
-              <View style={styles.inputContainer}>
-                <Text style={styles.inputLabel}>Confirmar contraseña</Text>
-                <View style={styles.inputWrapper}>
-                  <Ionicons
-                    name="lock-closed-outline"
-                    size={20}
-                    color={Colors.text.secondary}
-                    style={styles.inputIcon}
-                  />
-                  <TextInput
-                    style={styles.textInput}
-                    placeholder="Confirma tu contraseña"
-                    placeholderTextColor={Colors.text.muted}
-                    value={formData.confirmPassword}
-                    onChangeText={(value) => handleInputChange('confirmPassword', value)}
-                    secureTextEntry={!showConfirmPassword}
-                  />
-                  <TouchableOpacity
-                    onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-                    style={styles.eyeIcon}
-                  >
-                    <Ionicons
-                      name={showConfirmPassword ? "eye-off-outline" : "eye-outline"}
-                      size={20}
-                      color={Colors.text.secondary}
-                    />
-                  </TouchableOpacity>
-                </View>
-              </View>
-
-                  {/* Botón de registro con animación */}
-                  <Animated.View style={{
-                    transform: [{ scale: buttonAnimation }],
-                    marginTop: 10,
-                    marginBottom: 20,
-                  }}>
-                    <TouchableOpacity
-                      style={[styles.registerButton, isLoading && styles.disabledButton]}
-                      onPress={() => {
-                        animateButton();
-                        handleRegister();
-                      }}
-                      disabled={isLoading}
-                      activeOpacity={0.8}
-                    >
-                      <LinearGradient
-                        colors={Colors.gradients.success}
-                        style={styles.buttonGradient}
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 0 }}
-                      >
-                        {isLoading ? (
-                          <Text style={styles.registerButtonText}>Creando espacio...</Text>
-                        ) : (
-                          <Text style={styles.registerButtonText}>Crear mi espacio</Text>
-                        )}
-                      </LinearGradient>
-                    </TouchableOpacity>
-                  </Animated.View>
-                </View>
-              )}
-
-              {/* Link a login */}
-              <View style={styles.loginLink}>
-                <Text style={styles.loginLinkText}>¿Ya tienes una cuenta? </Text>
-                <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                  <Text style={styles.loginLinkButton}>Inicia sesión</Text>
-                </TouchableOpacity>
-              </View>
-              
-              {/* Mensaje emocional final */}
-              <View style={styles.emotionalMessage}>
-                <Text style={styles.emotionalMessageText}>
-                  Este es solo el inicio. Cada día será una nueva oportunidad de crecer con Él 🙏✨
-                </Text>
-              </View>
             </View>
-          </ScrollView>
+
+            {/* Formulario de registro (colapsable) */}
+            {showEmailForm && (
+              <View style={styles.emailFormContainer}>
+                {/* Campo Nombre */}
+                <View style={styles.inputContainer}>
+                  <Text style={styles.inputLabel}>{t('register.name')}</Text>
+                  <View style={styles.inputWrapper}>
+                    <Ionicons
+                      name="person-outline"
+                      size={20}
+                      color={Colors.text.secondary}
+                      style={styles.inputIcon}
+                    />
+                    <TextInput
+                      style={styles.textInput}
+                      placeholder={t('register.namePlaceholder')}
+                      placeholderTextColor={Colors.text.muted}
+                      value={formData.name}
+                      onChangeText={(value) => handleInputChange('name', value)}
+                      autoCapitalize="words"
+                      autoComplete="name"
+                    />
+                  </View>
+                </View>
+
+                {/* Campo Email */}
+                <View style={styles.inputContainer}>
+                  <Text style={styles.inputLabel}>{t('register.email')}</Text>
+                  <View style={styles.inputWrapper}>
+                    <Ionicons
+                      name="mail-outline"
+                      size={20}
+                      color={Colors.text.secondary}
+                      style={styles.inputIcon}
+                    />
+                    <TextInput
+                      style={styles.textInput}
+                      placeholder={t('register.emailPlaceholder')}
+                      placeholderTextColor={Colors.text.muted}
+                      value={formData.email}
+                      onChangeText={(value) => handleInputChange('email', value)}
+                      keyboardType="email-address"
+                      autoCapitalize="none"
+                      autoComplete="email"
+                    />
+                  </View>
+                </View>
+
+                {/* Campo Contraseña */}
+                <View style={styles.inputContainer}>
+                  <Text style={styles.inputLabel}>{t('register.password')}</Text>
+                  <View style={styles.inputWrapper}>
+                    <Ionicons
+                      name="lock-closed-outline"
+                      size={20}
+                      color={Colors.text.secondary}
+                      style={styles.inputIcon}
+                    />
+                    <TextInput
+                      style={styles.textInput}
+                      placeholder={t('register.passwordPlaceholder')}
+                      placeholderTextColor={Colors.text.muted}
+                      value={formData.password}
+                      onChangeText={(value) => handleInputChange('password', value)}
+                      secureTextEntry={!showPassword}
+                      autoComplete="new-password"
+                    />
+                    <TouchableOpacity
+                      onPress={() => setShowPassword(!showPassword)}
+                      style={styles.eyeIcon}
+                    >
+                      <Ionicons
+                        name={showPassword ? "eye-off-outline" : "eye-outline"}
+                        size={20}
+                        color={Colors.text.secondary}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+
+                {/* Campo Confirmar Contraseña */}
+                <View style={styles.inputContainer}>
+                  <Text style={styles.inputLabel}>{t('register.confirmPassword')}</Text>
+                  <View style={styles.inputWrapper}>
+                    <Ionicons
+                      name="lock-closed-outline"
+                      size={20}
+                      color={Colors.text.secondary}
+                      style={styles.inputIcon}
+                    />
+                    <TextInput
+                      style={styles.textInput}
+                      placeholder={t('register.confirmPasswordPlaceholder')}
+                      placeholderTextColor={Colors.text.muted}
+                      value={formData.confirmPassword}
+                      onChangeText={(value) => handleInputChange('confirmPassword', value)}
+                      secureTextEntry={!showConfirmPassword}
+                      autoComplete="new-password"
+                    />
+                    <TouchableOpacity
+                      onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+                      style={styles.eyeIcon}
+                    >
+                      <Ionicons
+                        name={showConfirmPassword ? "eye-off-outline" : "eye-outline"}
+                        size={20}
+                        color={Colors.text.secondary}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+
+                {/* Botón de registro */}
+                <TouchableOpacity
+                  style={[styles.registerButton, isLoading && styles.disabledButton]}
+                  onPress={handleRegister}
+                  disabled={isLoading}
+                  activeOpacity={0.8}
+                >
+                  {isLoading ? (
+                    <Text style={styles.registerButtonText}>{t('auth.creatingAccount')}</Text>
+                  ) : (
+                    <Text style={styles.registerButtonText}>{t('register.createAccount')}</Text>
+                  )}
+                </TouchableOpacity>
+
+                {/* Términos y condiciones */}
+                <View style={styles.termsContainer}>
+                  <Text style={styles.termsText}>
+                    {t('register.termsAcceptance')} 
+                    <Text style={styles.termsLink}> {t('register.termsOfService')}</Text>
+                    <Text> {t('register.and')} </Text>
+                    <Text style={styles.termsLink}>{t('register.privacyPolicy')}</Text>
+                  </Text>
+                </View>
+              </View>
+            )}
+
+            {/* Link a login */}
+            <View style={styles.loginLink}>
+              <Text style={styles.loginLinkText}>{t('register.alreadyHaveAccount')} </Text>
+              <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                <Text style={styles.loginLinkButton}>{t('register.signIn')}</Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* Mensaje inspirador */}
+            <View style={styles.inspirationalContainer}>
+              <Text style={styles.inspirationalText}>
+                {t('register.inspirationalMessage.text')}
+              </Text>
+              <Text style={styles.inspirationalReference}>{t('register.inspirationalMessage.reference')}</Text>
+            </View>
+
+            {/* Términos y condiciones */}
+            <View style={styles.termsContainer}>
+              <Text style={styles.termsText}>
+                {t('register.termsAcceptance')} 
+                <Text style={styles.termsLink}> {t('register.termsOfService')}</Text>
+                <Text> {t('register.and')} </Text>
+                <Text style={styles.termsLink}>{t('register.privacyPolicy')}</Text>
+              </Text>
+            </View>
+          </View>
         </KeyboardAvoidingView>
       </SafeAreaView>
     </LinearGradient>

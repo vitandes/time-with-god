@@ -38,10 +38,13 @@
     "noAccount": "Don't have an account?"
   },
   "home": {
+    "greeting": "Start your moment with God today!",
+    "timeWithGod": "Time with God",
+    "selectTime": "Select time",
+    "selectTimeMessage": "How much time do you want to spend with God today?",
+    "startSession": "Start",
     "title": "Time with God",
-    "greeting": "Hello",
     "todaySession": "Today's session",
-    "startSession": "Start session",
     "continueSession": "Continue session",
     "completedToday": "Completed today!",
     "streak": "Streak",
@@ -85,6 +88,7 @@
     "languageSubtitle": "Change app language",
     "title": "Profile",
     "personalInfo": "Personal information",
+    "personalInfoSubtitle": "user@example.com",
     "preferences": "Preferences",
     "statistics": "Statistics",
     "achievements": "Achievements",
@@ -94,17 +98,158 @@
     "privacy": "Privacy",
     "support": "Support",
     "about": "About",
-    "version": "Version"
+    "version": "Version",
+    "account": "Account",
+    "settings": "Settings",
+    "morningMessages": "Morning messages",
+    "defaultMusic": "Default music",
+    "messageTime": "Message time",
+    "messageTimeSubtitle": "every day",
+    "helpCenter": "Help center",
+    "helpCenterSubtitle": "Frequently asked questions",
+    "contactSupport": "Contact support",
+    "contactSupportSubtitle": "Send us a message",
+    "rateApp": "Rate the app",
+    "rateAppSubtitle": "Share your experience",
+    "legal": "Legal",
+    "termsOfService": "Terms of service",
+    "privacyPolicy": "Privacy policy",
+    "logout": "Logout",
+    "deleteAccount": "Delete account",
+    "stats": {
+      "totalMinutes": "Total minutes",
+      "totalSessions": "Completed sessions",
+      "currentStreak": "Current streak"
+    },
+    "notifications": {
+      "disabled": "Disabled",
+      "permissionsRequired": "Permissions required",
+      "enabled": "Morning messages at"
+    },
+    "music": {
+      "enabled": "Enabled",
+      "disabled": "Disabled",
+      "title": "Background Music",
+      "subtitle": "Relaxing sounds during meditation"
+    },
+    "subscription": {
+      "title": "Subscription",
+      "manage": "Manage subscription",
+      "active": "Active",
+      "trial": "Free trial",
+      "inactive": "Inactive",
+      "daysLeft": "days left",
+      "upgradeAccess": "Upgrade for access"
+    },
+    "alerts": {
+      "logout": {
+        "title": "Logout",
+        "message": "Are you sure you want to logout?",
+        "confirm": "Logout",
+        "cancel": "Cancel"
+      },
+      "deleteAccount": {
+        "title": "Delete account",
+        "message": "This action cannot be undone. All your data and progress will be deleted.",
+        "confirm": "Delete",
+        "cancel": "Cancel",
+        "success": {
+          "title": "Account deleted",
+          "message": "Your account has been successfully deleted."
+        }
+      },
+      "contactSupport": {
+        "title": "Contact support",
+        "message": "You can contact us at: support@timewithgod.com"
+      },
+      "notifications": {
+        "title": "Permissions required",
+        "message": "To receive morning messages, we need permission to send you notifications."
+      },
+      "timeConfig": {
+        "title": "Configure time",
+        "message": "Select the time to receive your daily morning message",
+        "cancel": "Cancel",
+        "times": {
+          "8am": "8:00 AM",
+          "9am": "9:00 AM",
+          "10am": "10:00 AM"
+        }
+      },
+      "subscription": {
+        "title": "Manage subscription",
+        "message": "You will be redirected to the app store to manage your subscription.",
+        "continue": "Continue"
+      },
+      "development": {
+        "info": "Feature in development",
+        "help": "Help center in development",
+        "rating": "Store redirect in development",
+        "terms": "Terms of service in development",
+        "privacy": "Privacy policy in development"
+      }
+    },
+    "appInfo": {
+      "title": "App Information",
+      "helpCenter": "Help Center",
+      "contactSupport": "Contact Support",
+      "rateApp": "Rate App",
+      "legal": "Legal",
+      "version": "Time with God v1.0.0",
+      "description": "Developed with love for your spiritual growth"
+    },
+    "stats": {
+      "sessions": "Sessions",
+      "minutes": "Minutes",
+      "consecutiveDays": "Consecutive days",
+      "totalSessions": "Sessions",
+      "currentStreak": "Days in a row",
+      "totalMinutes": "Minutes"
+    }
   },
   "history": {
-    "title": "History",
-    "recentSessions": "Recent sessions",
-    "thisWeek": "This week",
-    "thisMonth": "This month",
-    "allTime": "All time",
-    "noSessions": "No sessions recorded",
-    "sessionDuration": "Session duration",
-    "completedOn": "Completed on"
+    "title": "My Spiritual Progress",
+    "subtitle": "Your journey with God",
+    "plantsObtained": "Plants Obtained",
+    "emptyGarden": {
+      "title": "You haven't obtained any plants yet",
+      "subtitle": "Complete meditation sessions to get your first medals"
+    },
+    "periods": {
+      "thisWeek": "This week",
+      "thisMonth": "This month",
+      "thisYear": "This year"
+    },
+    "stats": {
+      "minutes": "minutes",
+      "sessions": "sessions",
+      "consecutiveDays": "consecutive days"
+    },
+    "plantStages": {
+      "seed": "Seed",
+      "sprout": "Sprout",
+      "youngPlant": "Young plant",
+      "leafyPlant": "Leafy plant",
+      "bloomingPlant": "Blooming plant",
+      "sacredTree": "Sacred tree"
+    },
+    "streakMessages": {
+      "incredible": "Incredible consistency! 🌟",
+      "excellent": "Excellent habit! 🔥",
+      "great": "Great progress! 💪",
+      "good": "Good start! 🌱",
+      "keepGoing": "Keep going! 💚"
+    },
+    "dates": {
+      "today": "Today",
+      "yesterday": "Yesterday"
+    },
+    "currentStreak": "Current Streak",
+    "consecutiveDays": "{{days}} consecutive days",
+    "progressText": "{{sessions}} more sessions to next level",
+    "recentSessions": "Recent Sessions",
+    "inspirationalMessage": "Every moment you dedicate to God is a seed planted in your heart",
+    "obtainedOn": "Obtained on {{date}}"
   },
   "plants": {
     "selectPlant": "Select plant",
@@ -129,5 +274,71 @@
     "morningPrayer": "Time for your morning prayer",
     "eveningPrayer": "Time for your evening prayer",
     "streakReminder": "Don't break your prayer streak!"
+  },
+  "register": {
+      "title": "Create Account",
+      "subtitle": "Join our spiritual community",
+      "continueWithApple": "Continue with Apple",
+      "continueWithGoogle": "Continue with Google",
+      "createWithEmail": "Create account with email and password",
+      "name": "Full name",
+      "namePlaceholder": "Enter your full name",
+      "email": "Email address",
+      "emailPlaceholder": "Enter your email address",
+      "password": "Password",
+      "passwordPlaceholder": "Create a secure password",
+      "confirmPassword": "Confirm password",
+      "confirmPasswordPlaceholder": "Confirm your password",
+      "createAccount": "Create my space",
+      "alreadyHaveAccount": "Already have an account?",
+      "signIn": "Sign in",
+      "termsAcceptance": "By creating an account, you accept our",
+      "termsOfService": "Terms of Service",
+      "and": "and",
+      "privacyPolicy": "Privacy Policy",
+      "validation": {
+        "nameRequired": "Name is required",
+        "emailRequired": "Email address is required",
+        "invalidEmail": "Enter a valid email address",
+        "passwordRequired": "Password is required",
+        "passwordTooShort": "Password must be at least 6 characters",
+        "passwordsDoNotMatch": "Passwords do not match",
+        "weakPassword": "Password is too weak. Use at least 8 characters with uppercase, lowercase and numbers"
+      },
+      "success": {
+        "accountCreated": "Account created successfully!",
+        "welcomeMessage": "Welcome to your new spiritual space"
+      },
+      "errors": {
+        "emailInUse": "This email address is already in use",
+        "weakPassword": "Password is too weak",
+        "networkError": "Connection error. Check your internet",
+        "unknownError": "An unexpected error occurred. Please try again"
+      },
+      "inspirationalMessage": {
+        "text": "\"For I know the plans I have for you,\" declares the Lord, \"plans to prosper you and not to harm you, to give you hope and a future.\"",
+        "reference": "Jeremiah 29:11"
+      }
+    },
+    "login": {
+      "inspirationalMessage": {
+        "text": "\"Come to me, all you who are weary and burdened, and I will give you rest.\"",
+        "reference": "Matthew 11:28"
+      }
+    },
+    "common": {
+      "error": "Error",
+      "success": "Success",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "ok": "OK",
+      "yes": "Yes",
+      "no": "No",
+      "save": "Save",
+      "delete": "Delete",
+      "edit": "Edit",
+      "close": "Close",
+      "loading": "Loading...",
+      "or": "or"
+    }
   }
-}

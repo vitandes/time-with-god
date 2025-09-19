@@ -39,15 +39,18 @@
   },
   "home": {
     "title": "Tiempo con Dios",
-    "greeting": "Hola",
+    "greeting": "¡Empieza tu momento con Dios hoy!",
     "todaySession": "Sesión de hoy",
-    "startSession": "Comenzar sesión",
+    "startSession": "Comenzar",
     "continueSession": "Continuar sesión",
     "completedToday": "¡Completado hoy!",
     "streak": "Racha",
     "days": "días",
     "totalSessions": "Sesiones totales",
     "currentPlant": "Planta actual",
+    "timeWithGod": "Tiempo con Dios",
+    "selectTime": "Selecciona un tiempo",
+    "selectTimeMessage": "Por favor elige cuánto tiempo quieres dedicar a tu momento con Dios.",
     "plantProgress": "Progreso de la planta",
     "level": "Nivel",
     "nextLevel": "Siguiente nivel"
@@ -80,54 +83,221 @@
     "backToHome": "Volver al inicio",
     "shareProgress": "Compartir progreso"
   },
+  "history": {
+    "title": "Mi Progreso Espiritual",
+    "subtitle": "Tu camino con Dios",
+    "plantsObtained": "Plantas Obtenidas",
+    "emptyGarden": {
+      "title": "Aún no has obtenido ninguna planta",
+      "subtitle": "Completa sesiones de meditación para obtener tus primeras medallas"
+    },
+    "periods": {
+      "thisWeek": "Esta semana",
+      "thisMonth": "Este mes",
+      "thisYear": "Este año"
+    },
+    "stats": {
+      "minutes": "minutos",
+      "sessions": "sesiones",
+      "consecutiveDays": "días consecutivos"
+    },
+    "plantStages": {
+      "seed": "Semilla",
+      "sprout": "Brote",
+      "youngPlant": "Planta joven",
+      "leafyPlant": "Planta con hojas",
+      "bloomingPlant": "Planta florecida",
+      "sacredTree": "Árbol sagrado"
+    },
+    "streakMessages": {
+      "incredible": "¡Increíble constancia! 🌟",
+      "excellent": "¡Excelente hábito! 🔥",
+      "great": "¡Gran progreso! 💪",
+      "good": "¡Buen comienzo! 🌱",
+      "keepGoing": "¡Sigue adelante! 💚"
+    },
+    "dates": {
+      "today": "Hoy",
+      "yesterday": "Ayer"
+    },
+    "currentStreak": "Racha Actual",
+    "consecutiveDays": "{{days}} días consecutivos",
+    "progressText": "{{sessions}} sesiones más para el siguiente nivel",
+    "recentSessions": "Sesiones Recientes",
+    "inspirationalMessage": "Cada momento que dedicas a Dios es una semilla plantada en tu corazón",
+    "obtainedOn": "Obtenida el {{date}}"
+  },
   "profile": {
     "language": "Idioma",
     "languageSubtitle": "Cambiar idioma de la aplicación",
-    "title": "Perfil",
+    "account": "Cuenta",
     "personalInfo": "Información personal",
-    "preferences": "Preferencias",
-    "statistics": "Estadísticas",
-    "achievements": "Logros",
-    "editProfile": "Editar perfil",
-    "changePassword": "Cambiar contraseña",
-    "notifications": "Notificaciones",
-    "privacy": "Privacidad",
+    "personalInfoSubtitle": "usuario@ejemplo.com",
+    "subscription": "Suscripción",
+    "manageSubscription": "Gestionar suscripción",
+    "settings": "Configuración",
+    "morningMessages": "Mensajes matutinos",
+    "defaultMusic": "Música por defecto",
+    "messageTime": "Hora del mensaje",
+    "messageTimeSubtitle": "cada día",
     "support": "Soporte",
-    "about": "Acerca de",
-    "version": "Versión"
-  },
-  "history": {
-    "title": "Historial",
-    "recentSessions": "Sesiones recientes",
-    "thisWeek": "Esta semana",
-    "thisMonth": "Este mes",
-    "allTime": "Todo el tiempo",
-    "noSessions": "No hay sesiones registradas",
-    "sessionDuration": "Duración de la sesión",
-    "completedOn": "Completado el"
-  },
-  "plants": {
-    "selectPlant": "Seleccionar planta",
-    "currentPlant": "Planta actual",
-    "unlockMore": "Desbloquea más plantas orando regularmente",
-    "locked": "Bloqueado",
-    "unlocked": "Desbloqueado",
-    "plantNames": {
-      "seed": "Semilla",
-      "sprout": "Brote",
-      "sapling": "Plántula",
-      "tree": "Árbol",
-      "flower": "Flor",
-      "fruit": "Fruto"
+    "helpCenter": "Centro de ayuda",
+    "helpCenterSubtitle": "Preguntas frecuentes",
+    "contactSupport": "Contactar soporte",
+    "contactSupportSubtitle": "Envíanos un mensaje",
+    "rateApp": "Calificar la app",
+    "rateAppSubtitle": "Comparte tu experiencia",
+    "legal": "Legal",
+    "termsOfService": "Términos de servicio",
+    "privacyPolicy": "Política de privacidad",
+    "logout": "Cerrar sesión",
+    "deleteAccount": "Eliminar cuenta",
+    "notifications": {
+      "disabled": "Desactivadas",
+      "permissionsRequired": "Permisos requeridos",
+      "enabled": "Mensajes matutinos a las"
+    },
+    "music": {
+      "enabled": "Activada",
+      "disabled": "Desactivada",
+      "title": "Música de fondo",
+      "subtitle": "Sonidos relajantes durante la meditación"
+    },
+    "subscription": {
+      "title": "Suscripción",
+      "manage": "Gestionar suscripción",
+      "active": "Activa",
+      "trial": "Prueba gratuita",
+      "inactive": "Inactiva",
+      "daysLeft": "días restantes",
+      "upgradeAccess": "Actualizar para acceder"
+    },
+    "alerts": {
+      "logout": {
+        "title": "Cerrar sesión",
+        "message": "¿Estás seguro de que quieres cerrar sesión?",
+        "confirm": "Cerrar sesión",
+        "cancel": "Cancelar"
+      },
+      "deleteAccount": {
+        "title": "Eliminar cuenta",
+        "message": "Esta acción no se puede deshacer. Se eliminarán todos tus datos y progreso.",
+        "confirm": "Eliminar",
+        "cancel": "Cancelar",
+        "success": {
+          "title": "Cuenta eliminada",
+          "message": "Tu cuenta ha sido eliminada exitosamente."
+        }
+      },
+      "contactSupport": {
+        "title": "Contactar soporte",
+        "message": "Puedes contactarnos en: soporte@tiempoconDios.com"
+      },
+      "notifications": {
+        "title": "Permisos requeridos",
+        "message": "Para recibir mensajes matutinos, necesitamos permiso para enviarte notificaciones."
+      },
+      "timeConfig": {
+        "title": "Configurar hora",
+        "message": "Selecciona la hora para recibir tu mensaje matutino diario",
+        "cancel": "Cancelar",
+        "times": {
+          "8am": "8:00 AM",
+          "9am": "9:00 AM",
+          "10am": "10:00 AM"
+        }
+      },
+      "subscription": {
+        "title": "Gestionar suscripción",
+        "message": "Serás redirigido a la tienda de aplicaciones para gestionar tu suscripción.",
+        "continue": "Continuar"
+      },
+      "development": {
+        "info": "Funcionalidad en desarrollo",
+        "help": "Centro de ayuda en desarrollo",
+        "rating": "Redirección a tienda en desarrollo",
+        "terms": "Términos de servicio en desarrollo",
+        "privacy": "Política de privacidad en desarrollo"
+      }
+    },
+    "appInfo": {
+      "title": "Información de la app",
+      "helpCenter": "Centro de ayuda",
+      "contactSupport": "Contactar soporte",
+      "rateApp": "Calificar la app",
+      "legal": "Legal",
+      "version": "Tiempo con Dios v1.0.0",
+      "description": "Desarrollado con amor para tu crecimiento espiritual"
+    },
+    "stats": {
+      "totalSessions": "Sesiones completadas",
+      "totalMinutes": "Minutos totales",
+      "currentStreak": "Racha actual"
     }
   },
-  "notifications": {
-    "title": "Notificaciones",
-    "dailyReminder": "Recordatorio diario",
-    "reminderTime": "Hora del recordatorio",
-    "enableNotifications": "Habilitar notificaciones",
-    "morningPrayer": "Es hora de tu oración matutina",
-    "eveningPrayer": "Es hora de tu oración vespertina",
-    "streakReminder": "¡No rompas tu racha de oración!"
+  "register": {
+    "title": "Crear cuenta",
+    "subtitle": "Únete a nuestra comunidad espiritual",
+    "name": "Nombre",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar contraseña",
+    "namePlaceholder": "Tu nombre completo",
+    "emailPlaceholder": "tu@correo.com",
+    "passwordPlaceholder": "Mínimo 6 caracteres",
+    "confirmPasswordPlaceholder": "Confirma tu contraseña",
+    "createAccount": "Crear cuenta",
+    "continueWithGoogle": "Continuar con Google",
+    "continueWithApple": "Continuar con Apple",
+    "createWithEmail": "Crear cuenta con correo",
+    "alreadyHaveAccount": "¿Ya tienes una cuenta?",
+    "signIn": "Iniciar sesión",
+    "termsAcceptance": "Al crear una cuenta, aceptas nuestros",
+    "termsOfService": "Términos de Servicio",
+    "and": "y",
+    "privacyPolicy": "Política de Privacidad",
+    "validation": {
+      "nameRequired": "El nombre es requerido",
+      "emailRequired": "El correo electrónico es requerido",
+      "invalidEmail": "Por favor ingresa un correo válido",
+      "passwordRequired": "La contraseña es requerida",
+      "passwordTooShort": "La contraseña debe tener al menos 6 caracteres",
+      "passwordsDoNotMatch": "Las contraseñas no coinciden"
+    },
+    "success": {
+      "accountCreated": "¡Cuenta creada!",
+      "welcomeMessage": "Bienvenido a tu viaje espiritual"
+    },
+    "errors": {
+      "emailInUse": "Este correo ya está en uso",
+      "weakPassword": "La contraseña es muy débil",
+      "networkError": "Error de conexión",
+      "unknownError": "Ocurrió un error inesperado"
+    },
+    "inspirationalMessage": {
+      "text": "\"Porque yo sé los pensamientos que tengo acerca de vosotros, dice Jehová, pensamientos de paz, y no de mal, para daros el fin que esperáis\"",
+      "reference": "Jeremías 29:11"
+    }
+  },
+  "login": {
+    "inspirationalMessage": {
+      "text": "\"Venid a mí todos los que estáis trabajados y cargados, y yo os haré descansar\"",
+      "reference": "Mateo 11:28"
+    }
+  },
+  "common": {
+    "error": "Error",
+    "success": "Éxito",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "ok": "OK",
+    "yes": "Sí",
+    "no": "No",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "close": "Cerrar",
+    "loading": "Cargando...",
+    "or": "o"
   }
 }

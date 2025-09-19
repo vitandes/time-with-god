@@ -25,6 +25,7 @@ import { usePlantProgress } from '../hooks/usePlantProgress';
 import { useSessionHistory } from '../hooks/useSessionHistory';
 import { PLANTS, SEED_PLANT } from '../constants/Constants';
 import Colors from '../constants/Colors';
+import { useTranslation } from 'react-i18next';
 
 const { width } = Dimensions.get('window');
 
@@ -40,6 +41,7 @@ const moodEmojis = {
 };
 
 const HistoryScreen = () => {
+  const { t } = useTranslation('app');
   const { user } = useAuth();
   const { obtainedPlants } = usePlantProgress();
   const { getStats } = useSessionHistory();
@@ -74,9 +76,9 @@ const HistoryScreen = () => {
   };
 
   const periods = [
-    { key: 'week', label: 'Esta semana' },
-    { key: 'month', label: 'Este mes' },
-    { key: 'year', label: 'Este año' },
+    { key: 'week', label: t('history.periods.thisWeek') },
+    { key: 'month', label: t('history.periods.thisMonth') },
+    { key: 'year', label: t('history.periods.thisYear') },
   ];
 
   const moodEmojis = {
@@ -109,9 +111,9 @@ const HistoryScreen = () => {
     yesterday.setDate(yesterday.getDate() - 1);
     
     if (date.toDateString() === today.toDateString()) {
-      return 'Hoy';
+      return t('history.dates.today');
     } else if (date.toDateString() === yesterday.toDateString()) {
-      return 'Ayer';
+      return t('history.dates.yesterday');
     } else {
       return date.toLocaleDateString('es-ES', { 
         weekday: 'short', 
@@ -122,20 +124,20 @@ const HistoryScreen = () => {
   };
 
   const getStreakMessage = (streak) => {
-    if (streak >= 30) return '¡Increíble constancia! 🌟';
-    if (streak >= 14) return '¡Excelente hábito! 🔥';
-    if (streak >= 7) return '¡Gran progreso! 💪';
-    if (streak >= 3) return '¡Buen comienzo! 🌱';
-    return '¡Sigue adelante! 💚';
+    if (streak >= 30) return t('history.streakMessages.incredible');
+    if (streak >= 14) return t('history.streakMessages.excellent');
+    if (streak >= 7) return t('history.streakMessages.great');
+    if (streak >= 3) return t('history.streakMessages.good');
+    return t('history.streakMessages.keepGoing');
   };
 
   const getPlantStage = (totalSessions) => {
-    if (totalSessions >= 100) return { icon: '🌳', stage: 'Árbol sagrado' };
-    if (totalSessions >= 50) return { icon: '🌸', stage: 'Planta florecida' };
-    if (totalSessions >= 25) return { icon: '🌿', stage: 'Planta con hojas' };
-    if (totalSessions >= 10) return { icon: '🌱', stage: 'Planta joven' };
-    if (totalSessions >= 5) return { icon: '🌾', stage: 'Brote' };
-    return { icon: '🌰', stage: 'Semilla' };
+    if (totalSessions >= 100) return { icon: '🌳', stage: t('history.plantStages.sacredTree') };
+    if (totalSessions >= 50) return { icon: '🌸', stage: t('history.plantStages.bloomingPlant') };
+    if (totalSessions >= 25) return { icon: '🌿', stage: t('history.plantStages.leafyPlant') };
+    if (totalSessions >= 10) return { icon: '🌱', stage: t('history.plantStages.youngPlant') };
+    if (totalSessions >= 5) return { icon: '🌾', stage: t('history.plantStages.sprout') };
+    return { icon: '🌰', stage: t('history.plantStages.seed') };
   };
 
   const animatedStyle = useAnimatedStyle(() => {
@@ -157,13 +159,13 @@ const HistoryScreen = () => {
         <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
           {/* Header */}
           <View style={styles.header}>
-            <Text style={styles.title}>Mi Progreso Espiritual</Text>
-            <Text style={styles.subtitle}>Tu camino con Dios</Text>
+            <Text style={styles.title}>{t('history.title')}</Text>
+            <Text style={styles.subtitle}>{t('history.subtitle')}</Text>
           </View>
 
           {/* Medallas de plantas obtenidas - Slider */}
           <View style={styles.gardenSection}>
-            <Text style={styles.gardenTitle}>Plantas Obtenidas</Text>
+            <Text style={styles.gardenTitle}>{t('history.plantsObtained')}</Text>
             {displayPlants.length > 0 ? (
                <ScrollView 
                  horizontal 
@@ -205,8 +207,8 @@ const HistoryScreen = () => {
              ) : (
                <View style={styles.emptyGardenContainer}>
                  <Ionicons name="leaf-outline" size={48} color="#7B8794" />
-                 <Text style={styles.emptyGardenText}>Aún no has obtenido ninguna planta</Text>
-                 <Text style={styles.emptyGardenSubtext}>Completa sesiones de meditación para obtener tus primeras medallas</Text>
+                 <Text style={styles.emptyGardenText}>{t('history.emptyGarden.title')}</Text>
+                 <Text style={styles.emptyGardenSubtext}>{t('history.emptyGarden.subtitle')}</Text>
                </View>
              )}
           </View>
@@ -238,19 +240,19 @@ const HistoryScreen = () => {
               <View style={styles.statCard}>
                 <Ionicons name="time" size={24} color="#3F51B5" />
                 <Text style={styles.statNumber}>{currentData.totalMinutes}</Text>
-                <Text style={styles.statLabel}>minutos</Text>
+                <Text style={styles.statLabel}>{t('history.stats.minutes')}</Text>
               </View>
               
               <View style={styles.statCard}>
                 <Ionicons name="checkmark-circle" size={24} color="#4CAF50" />
                 <Text style={styles.statNumber}>{currentData.totalSessions}</Text>
-                <Text style={styles.statLabel}>sesiones</Text>
+                <Text style={styles.statLabel}>{t('history.stats.sessions')}</Text>
               </View>
               
               <View style={styles.statCard}>
                 <Ionicons name="flame" size={24} color="#FF5722" />
                 <Text style={styles.statNumber}>{currentData.streak}</Text>
-                <Text style={styles.statLabel}>días seguidos</Text>
+                <Text style={styles.statLabel}>{t('history.stats.consecutiveDays')}</Text>
               </View>
             </View>
 
@@ -274,7 +276,7 @@ const HistoryScreen = () => {
               </View>
               
               <Text style={styles.progressText}>
-                {25 - (currentData.totalSessions % 25)} sesiones para el siguiente nivel
+                {t('history.progressText', { sessions: 25 - (currentData.totalSessions % 25) })}
               </Text>
             </View>
 
@@ -282,10 +284,10 @@ const HistoryScreen = () => {
             <View style={styles.streakCard}>
               <View style={styles.streakHeader}>
                 <Ionicons name="calendar" size={20} color="#34495E" />
-                <Text style={styles.streakTitle}>Racha actual</Text>
+                <Text style={styles.streakTitle}>{t('history.currentStreak')}</Text>
               </View>
               
-              <Text style={styles.streakDays}>{currentData.streak} días consecutivos</Text>
+              <Text style={styles.streakDays}>{t('history.consecutiveDays', { days: currentData.streak })}</Text>
               <Text style={styles.streakMessage}>{getStreakMessage(currentData.streak)}</Text>
               
               <View style={styles.streakVisual}>
@@ -303,7 +305,7 @@ const HistoryScreen = () => {
 
             {/* Historial de sesiones */}
             <View style={styles.historyCard}>
-              <Text style={styles.historyTitle}>Sesiones recientes</Text>
+              <Text style={styles.historyTitle}>{t('history.recentSessions')}</Text>
               
               {currentData.sessions && currentData.sessions.map((session, index) => (
                 <View key={index} style={styles.sessionItem}>
@@ -335,7 +337,7 @@ const HistoryScreen = () => {
             <View style={styles.inspirationCard}>
               <Ionicons name="heart" size={20} color={Colors.accent} />
               <Text style={styles.inspirationText}>
-                "Cada momento que dedicas a Dios es una semilla plantada en tu corazón"
+                {t('history.inspirationalMessage')}
               </Text>
             </View>
           </Animated.View>
@@ -369,7 +371,7 @@ const HistoryScreen = () => {
                    <Text style={styles.modalMedalMeaning}>{selectedMedal.meaning}</Text>
                    {selectedMedal.completedDate && (
                      <Text style={styles.modalCompletedDate}>
-                       🎉 Obtenida el {selectedMedal.completedDate}
+                       {t('history.obtainedOn', { date: selectedMedal.completedDate })}
                      </Text>
                    )}
                 </>

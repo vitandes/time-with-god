@@ -12,6 +12,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -23,7 +24,6 @@ import { useAuth } from '../context/AuthContext';
 import { useSessionHistory } from '../hooks/useSessionHistory';
 import { useMorningNotifications } from '../hooks/useMorningNotifications';
 import { SUBSCRIPTION_PLANS } from '../constants/Constants';
-import LanguageSwitcher from '../components/LanguageSwitcher';
 import Colors from '../constants/Colors';
 
 const ProfileScreen = ({ navigation }) => {
@@ -53,12 +53,12 @@ const ProfileScreen = ({ navigation }) => {
 
   const handleLogout = () => {
     Alert.alert(
-      'Cerrar sesión',
-      '¿Estás seguro de que quieres cerrar sesión?',
+      t('app:profile.alerts.logout.title'),
+      t('app:profile.alerts.logout.message'),
       [
-        { text: 'Cancelar', style: 'cancel' },
+        { text: t('app:profile.alerts.logout.cancel'), style: 'cancel' },
         { 
-          text: 'Cerrar sesión', 
+          text: t('app:profile.alerts.logout.confirm'), 
           style: 'destructive',
           onPress: logout
         }
@@ -68,11 +68,11 @@ const ProfileScreen = ({ navigation }) => {
 
   const handleSubscriptionManagement = () => {
     Alert.alert(
-      'Gestionar suscripción',
-      'Serás redirigido a la tienda de aplicaciones para gestionar tu suscripción.',
+      t('app:profile.alerts.subscription.title'),
+      t('app:profile.alerts.subscription.message'),
       [
-        { text: 'Cancelar', style: 'cancel' },
-        { text: 'Continuar', onPress: () => console.log('Redirect to store') }
+        { text: t('common:cancel'), style: 'cancel' },
+        { text: t('app:profile.alerts.subscription.continue'), onPress: () => console.log('Redirect to store') }
       ]
     );
   };
@@ -83,18 +83,18 @@ const ProfileScreen = ({ navigation }) => {
 
   const handleDeleteAccount = () => {
     Alert.alert(
-      'Eliminar cuenta',
-      'Esta acción no se puede deshacer. Se eliminarán todos tus datos y progreso.',
+      t('app:profile.alerts.deleteAccount.title'),
+      t('app:profile.alerts.deleteAccount.message'),
       [
-        { text: 'Cancelar', style: 'cancel' },
+        { text: t('app:profile.alerts.deleteAccount.cancel'), style: 'cancel' },
         { 
-          text: 'Eliminar', 
+          text: t('app:profile.alerts.deleteAccount.confirm'), 
           style: 'destructive',
           onPress: () => {
             Alert.alert(
-              'Cuenta eliminada',
-              'Tu cuenta ha sido eliminada exitosamente.',
-              [{ text: 'OK', onPress: logout }]
+              t('app:profile.alerts.deleteAccount.success.title'),
+              t('app:profile.alerts.deleteAccount.success.message'),
+              [{ text: t('common:ok'), onPress: logout }]
             );
           }
         }
@@ -104,9 +104,9 @@ const ProfileScreen = ({ navigation }) => {
 
   const handleContactSupport = () => {
     Alert.alert(
-      'Contactar soporte',
-      'Puedes contactarnos en: soporte@tiempoconDios.com',
-      [{ text: 'OK' }]
+      t('app:profile.alerts.contactSupport.title'),
+      t('app:profile.alerts.contactSupport.message'),
+      [{ text: t('common:ok') }]
     );
   };
 
@@ -114,29 +114,29 @@ const ProfileScreen = ({ navigation }) => {
     const success = await toggleNotifications(enabled);
     if (!success && enabled) {
       Alert.alert(
-        'Permisos requeridos',
-        'Para recibir mensajes matutinos, necesitamos permiso para enviarte notificaciones.',
-        [{ text: 'OK' }]
+        t('app:profile.alerts.notifications.title'),
+        t('app:profile.alerts.notifications.message'),
+        [{ text: t('common:ok') }]
       );
     }
   };
 
   const handleTimeChange = () => {
     Alert.alert(
-      'Configurar hora',
-      'Selecciona la hora para recibir tu mensaje matutino diario',
+      t('app:profile.alerts.timeConfig.title'),
+      t('app:profile.alerts.timeConfig.message'),
       [
-        { text: 'Cancelar', style: 'cancel' },
+        { text: t('app:profile.alerts.timeConfig.cancel'), style: 'cancel' },
         {
-          text: '8:00 AM',
+          text: t('app:profile.alerts.timeConfig.times.8am'),
           onPress: () => updateNotificationTime('08:00')
         },
         {
-          text: '9:00 AM',
+          text: t('app:profile.alerts.timeConfig.times.9am'),
           onPress: () => updateNotificationTime('09:00')
         },
         {
-          text: '10:00 AM',
+          text: t('app:profile.alerts.timeConfig.times.10am'),
           onPress: () => updateNotificationTime('10:00')
         }
       ]
@@ -146,31 +146,31 @@ const ProfileScreen = ({ navigation }) => {
 
 
   const getNotificationSubtitle = () => {
-    if (!notificationsEnabled) return 'Desactivadas';
-    if (permissionStatus !== 'granted') return 'Permisos requeridos';
-    return `Mensajes matutinos a las ${notificationTime}`;
+    if (!notificationsEnabled) return t('app:profile.notifications.disabled');
+    if (permissionStatus !== 'granted') return t('app:profile.notifications.permissionsRequired');
+    return `${t('app:profile.notifications.enabled')} ${notificationTime}`;
   };
 
   const getSubscriptionStatus = () => {
     if (user?.subscription?.isActive) {
       const plan = SUBSCRIPTION_PLANS.find(p => p.id === user.subscription.planId);
       return {
-        status: 'Activa',
+        status: t('app:profile.subscription.active'),
         plan: plan?.name || 'Plan Premium',
         color: Colors.plant.healthy,
         icon: 'checkmark-circle'
       };
     } else if (user?.subscription?.isTrialActive) {
       return {
-        status: 'Prueba gratuita',
-        plan: `${user.subscription.trialDaysLeft} días restantes`,
+        status: t('app:profile.subscription.trial'),
+        plan: `${user.subscription.trialDaysLeft} ${t('app:profile.subscription.daysLeft')}`,
         color: Colors.accent,
         icon: 'time'
       };
     } else {
       return {
-        status: 'Inactiva',
-        plan: 'Actualizar para acceder',
+        status: t('app:profile.subscription.inactive'),
+        plan: t('app:profile.subscription.upgradeAccess'),
         color: Colors.plant.withering,
         icon: 'alert-circle'
       };
@@ -187,111 +187,72 @@ const ProfileScreen = ({ navigation }) => {
   const subscriptionStatus = getSubscriptionStatus();
 
   const menuSections = [
+      {
+        title: t('app:profile.settings'),
+        items: [
+          {
+            icon: 'musical-notes',
+            title: t('app:profile.music.title'),
+            subtitle: t('app:profile.music.subtitle'),
+            onPress: () => {}
+          },
+          {
+            icon: 'language',
+            title: t('app:profile.language'),
+            subtitle: t('app:profile.languageSubtitle'),
+            rightComponent: <LanguageSwitcher />
+          }
+        ]
+      },
     {
-      title: 'Cuenta',
+      title: t('app:profile.subscription.title'),
       items: [
         {
-          icon: 'person',
-          title: 'Información personal',
-          subtitle: user?.email || 'usuario@ejemplo.com',
-          onPress: () => Alert.alert('Información', 'Funcionalidad en desarrollo')
+          icon: subscriptionStatus.icon,
+          title: t('app:profile.subscription.manage'),
+          subtitle: `${subscriptionStatus.status} - ${subscriptionStatus.plan}`,
+          color: subscriptionStatus.color,
+          onPress: handleSubscriptionManagement
         }
       ]
     },
     {
-      title: 'Configuración',
-      items: [
-        {
-          icon: 'notifications',
-          title: 'Mensajes matutinos',
-          subtitle: getNotificationSubtitle(),
-          rightComponent: (
-            <Switch
-              value={notificationsEnabled}
-              onValueChange={handleNotificationToggle}
-              trackColor={{ false: Colors.secondary, true: Colors.primary }}
-              thumbColor={notificationsEnabled ? Colors.text.light : Colors.text.secondary}
-            />
-          )
-        },
-        {
-          icon: 'musical-notes',
-          title: 'Música por defecto',
-          subtitle: musicEnabled ? 'Activada' : 'Desactivada',
-          rightComponent: (
-            <Switch
-              value={musicEnabled}
-              onValueChange={setMusicEnabled}
-              trackColor={{ false: Colors.secondary, true: Colors.primary }}
-              thumbColor={musicEnabled ? Colors.text.light : Colors.text.secondary}
-            />
-          )
-        },
-        {
-          icon: 'time',
-          title: 'Hora del mensaje',
-          subtitle: `${notificationTime} cada día`,
-          onPress: handleTimeChange
-        },
-        {
-          icon: 'language',
-          title: t('app:profile.language'),
-          subtitle: t('app:profile.languageSubtitle'),
-          rightComponent: <LanguageSwitcher />
-        }
-
-      ]
-    },
-    {
-      title: 'Soporte',
+      title: t('app:profile.appInfo.title'),
       items: [
         {
           icon: 'help-circle',
-          title: 'Centro de ayuda',
-          subtitle: 'Preguntas frecuentes',
-          onPress: () => Alert.alert('Ayuda', 'Centro de ayuda en desarrollo')
+          title: t('app:profile.appInfo.helpCenter'),
+          onPress: () => {}
         },
         {
           icon: 'mail',
-          title: 'Contactar soporte',
-          subtitle: 'Envíanos un mensaje',
+          title: t('app:profile.appInfo.contactSupport'),
           onPress: handleContactSupport
         },
         {
           icon: 'star',
-          title: 'Calificar la app',
-          subtitle: 'Comparte tu experiencia',
-          onPress: () => Alert.alert('Calificación', 'Redirección a tienda en desarrollo')
-        }
-      ]
-    },
-    {
-      title: 'Legal',
-      items: [
-        {
-          icon: 'document-text',
-          title: 'Términos de servicio',
-          onPress: () => Alert.alert('Términos', 'Términos de servicio en desarrollo')
+          title: t('app:profile.appInfo.rateApp'),
+          onPress: () => {}
         },
         {
-          icon: 'shield-checkmark',
-          title: 'Política de privacidad',
-          onPress: () => Alert.alert('Privacidad', 'Política de privacidad en desarrollo')
+          icon: 'document-text',
+          title: t('app:profile.appInfo.legal'),
+          onPress: () => {}
         }
       ]
     },
     {
-      
+      title: t('app:profile.account'),
       items: [
         {
           icon: 'log-out',
-          title: 'Cerrar sesión',
+          title: t('app:profile.logout'),
           color: Colors.plant.withering,
           onPress: handleLogout
         },
         {
           icon: 'trash',
-          title: 'Eliminar cuenta',
+          title: t('app:profile.deleteAccount'),
           color: Colors.plant.withering,
           onPress: handleDeleteAccount
         }
@@ -322,17 +283,17 @@ const ProfileScreen = ({ navigation }) => {
             <View style={styles.quickStats}>
               <View style={styles.statItem}>
                 <Text style={styles.statNumber}>{allTimeStats.totalSessions}</Text>
-                <Text style={styles.statLabel}>Sesiones</Text>
+                <Text style={styles.statLabel}>{t('app:profile.stats.totalSessions')}</Text>
               </View>
               <View style={styles.statDivider} />
               <View style={styles.statItem}>
                 <Text style={styles.statNumber}>{allTimeStats.totalMinutes}</Text>
-                <Text style={styles.statLabel}>Minutos</Text>
+                <Text style={styles.statLabel}>{t('app:profile.stats.totalMinutes')}</Text>
               </View>
               <View style={styles.statDivider} />
               <View style={styles.statItem}>
                 <Text style={styles.statNumber}>{allTimeStats.streak}</Text>
-                <Text style={styles.statLabel}>Días seguidos</Text>
+                <Text style={styles.statLabel}>{t('app:profile.stats.currentStreak')}</Text>
               </View>
             </View>
           </View>
@@ -386,9 +347,9 @@ const ProfileScreen = ({ navigation }) => {
 
             {/* Información de la app */}
             <View style={styles.appInfo}>
-              <Text style={styles.appVersion}>Tiempo con Dios v1.0.0</Text>
+              <Text style={styles.appVersion}>{t('app:profile.appInfo.version')}</Text>
               <Text style={styles.appDescription}>
-                Desarrollado con amor para tu crecimiento espiritual
+                {t('app:profile.appInfo.description')}
               </Text>
             </View>
           </Animated.View>
