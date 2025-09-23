@@ -6,7 +6,15 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "android:dev": "eas build --profile development --platform android",
+    "android:local": "expo run:android",
+    "clean:android": "expo prebuild --platform android --clean",
+    "switch:android": "expo prebuild --platform android",
+    "ios:dev": "eas build --profile development --platform ios",
+    "ios:local": "expo run:ios",
+    "clean:ios": "expo prebuild --platform ios --clean",
+    "switch:ios": "expo prebuild --platform ios"
   },
   "dependencies": {
     "@expo/metro-runtime": "~6.1.1",

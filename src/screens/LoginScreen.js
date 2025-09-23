@@ -159,13 +159,6 @@ const LoginScreen = ({ navigation }) => {
               </TouchableOpacity>
               
               <View style={styles.titleContainer}>
-                <View style={styles.iconContainer}>
-                  <Ionicons
-                    name="flower"
-                    size={40}
-                    color={Colors.text.primary}
-                  />
-                </View>
                 <Text style={styles.title}>{t('app:auth.welcomeBack')}</Text>
                 <Text style={styles.subtitle}>
                   {t('app:auth.continueJourney')}
@@ -333,9 +326,9 @@ const LoginScreen = ({ navigation }) => {
             {/* Mensaje inspirador */}
             <View style={styles.inspirationalContainer}>
               <Text style={styles.inspirationalText}>
-                {t('login.inspirationalMessage.text')}
-              </Text>
-              <Text style={styles.inspirationalReference}>{t('login.inspirationalMessage.reference')}</Text>
+                {t('app:login.inspirationalMessage.text')}
+            </Text>
+            <Text style={styles.inspirationalReference}>{t('app:login.inspirationalMessage.reference')}</Text>
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
@@ -366,15 +359,8 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     padding: 8,
     marginBottom: 30,
-  },
-  titleContainer: {
-    alignItems: 'center',
-  },
-  iconContainer: {
     backgroundColor: Colors.surface,
-    padding: 16,
-    borderRadius: 40,
-    marginBottom: 20,
+    borderRadius: 20,
     shadowColor: Colors.shadow.light,
     shadowOffset: {
       width: 0,
@@ -384,22 +370,58 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: Colors.text.primary,
-    marginBottom: 8,
+  titleContainer: {
+    alignItems: 'center',
   },
-  subtitle: {
-    fontSize: 16,
-    color: Colors.text.secondary,
+  iconContainer: {
+    backgroundColor: Colors.surface,
+    padding: 20,
+    borderRadius: 50,
+    marginBottom: 24,
+    shadowColor: Colors.shadow.medium,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 6,
+    borderWidth: 1,
+    borderColor: Colors.primary + '20',
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: Colors.white,
+    marginBottom: 12,
     textAlign: 'center',
   },
+  subtitle: {
+    fontSize: 18,
+    color: Colors.white,
+    textAlign: 'center',
+    lineHeight: 24,
+    opacity: 0.9,
+  },
   quickAccessContainer: {
-    marginBottom: 20,
+    marginBottom: 24,
   },
   emailFormContainer: {
+    backgroundColor: Colors.surface,
+    borderRadius: 20,
+    padding: 24,
     marginTop: 16,
+    marginBottom: 24,
+    shadowColor: Colors.shadow.medium,
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.12,
+    shadowRadius: 12,
+    elevation: 8,
+    borderWidth: 1,
+    borderColor: Colors.primary + '15',
   },
   formContainer: {
     flex: 1,
@@ -450,7 +472,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   loginButton: {
-    backgroundColor: Colors.text.primary,
+    backgroundColor: Colors.primary,
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: 'center',
@@ -475,36 +497,39 @@ const styles = StyleSheet.create({
   divider: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 20,
+    marginVertical: 24,
   },
   dividerLine: {
     flex: 1,
     height: 1,
-    backgroundColor: Colors.text.muted,
+    backgroundColor: Colors.text.secondary + '30',
   },
   dividerText: {
     marginHorizontal: 16,
-    color: Colors.text.secondary,
-    fontSize: 14,
+    fontSize: 16,
+    color: Colors.white,
+    fontWeight: '500',
+    opacity: 0.8,
   },
   googleButton: {
+    backgroundColor: Colors.surface,
+    borderRadius: 16,
+    paddingVertical: 16,
+    paddingHorizontal: 20,
+    marginBottom: 16,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.surface,
-    paddingVertical: 16,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: Colors.text.muted,
-    marginBottom: 16,
-    shadowColor: '#000',
+    shadowColor: Colors.shadow.medium,
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 4,
     },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
+    shadowOpacity: 0.12,
+    shadowRadius: 8,
     elevation: 5,
+    borderWidth: 1,
+    borderColor: Colors.text.secondary + '20',
   },
   googleButtonText: {
     color: Colors.text.primary,
@@ -513,20 +538,21 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
   appleButton: {
+    backgroundColor: Colors.text.primary,
+    borderRadius: 16,
+    paddingVertical: 16,
+    paddingHorizontal: 20,
+    marginBottom: 16,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#000',
-    paddingVertical: 16,
-    borderRadius: 12,
-    marginBottom: 16,
-    shadowColor: '#000',
+    shadowColor: Colors.shadow.dark,
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 4,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
     elevation: 5,
   },
   appleButtonText: {
@@ -536,60 +562,74 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
   emailToggleButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: 'transparent',
+    backgroundColor: Colors.primary,
+    borderRadius: 16,
     paddingVertical: 16,
     paddingHorizontal: 20,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: Colors.text.muted,
-    marginBottom: 8,
+    marginBottom: 24,
+    alignItems: 'center',
+    shadowColor: Colors.shadow.medium,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 5,
   },
-  emailToggleButtonText: {
-    fontSize: 15,
-    fontWeight: '500',
-    color: Colors.text.secondary,
-    flex: 1,
-    marginLeft: 12,
+  emailToggleText: {
+    color: Colors.text.light,
+    fontSize: 16,
+    fontWeight: '600',
   },
   registerLink: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 30,
+    marginTop: 32,
+    marginBottom: 24,
   },
   registerLinkText: {
-    color: Colors.text.secondary,
-    fontSize: 14,
+    color: Colors.white,
+    fontSize: 16,
+    opacity: 0.9,
   },
   registerLinkButton: {
-    color: Colors.text.primary,
-    fontSize: 14,
+    color: Colors.white,
+    fontSize: 16,
     fontWeight: '600',
   },
   inspirationalContainer: {
     backgroundColor: Colors.surface,
-    padding: 20,
-    borderRadius: 12,
+    borderRadius: 20,
+    padding: 24,
+    marginTop: 24,
+    marginBottom: 40,
     alignItems: 'center',
-    marginBottom: 30,
-    borderLeftWidth: 4,
-    borderLeftColor: Colors.secondary,
+    shadowColor: Colors.shadow.light,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 4,
+    borderWidth: 1,
+    borderColor: Colors.primary + '10',
   },
   inspirationalText: {
-    fontSize: 14,
-    fontStyle: 'italic',
-    color: Colors.text.primary,
+    fontSize: 16,
+    color: Colors.text.secondary,
     textAlign: 'center',
-    marginBottom: 6,
-    lineHeight: 20,
+    fontStyle: 'italic',
+    lineHeight: 24,
+    marginBottom: 8,
   },
   inspirationalReference: {
-    fontSize: 12,
-    color: Colors.text.secondary,
-    fontWeight: '500',
+    fontSize: 14,
+    color: Colors.primary,
+    fontWeight: '600',
+    textAlign: 'center',
   },
 });
 

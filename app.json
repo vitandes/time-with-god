@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Tiempo con Dios",
-    "slug": "tiempo-con-dios",
+    "name": "Time with God",
+    "slug": "time-with-god",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -15,7 +15,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.tiempoconDios.app"
+      "bundleIdentifier": "com.timewithgod.app"
     },
     "android": {
       "adaptiveIcon": {
@@ -23,7 +23,7 @@
         "backgroundColor": "#F8F6FF"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.tiempoconDios.app",
+      "package": "com.timewithgod.app",
       "permissions": [
         "android.permission.RECORD_AUDIO",
         "android.permission.MODIFY_AUDIO_SETTINGS"
