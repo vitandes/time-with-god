@@ -19,6 +19,7 @@ import Animated, {
   withRepeat,
   Easing,
 } from 'react-native-reanimated';
+import { useTranslation } from 'react-i18next';
 
 import { useAuth } from '../context/AuthContext';
 import { useConstants } from '../hooks/useConstants';
@@ -32,9 +33,10 @@ const SessionScreen = ({ navigation, route }) => {
   const { completeSession } = useAuth();
   const { addSessionMinutes } = usePlantProgress();
   const { bibleVerses, inspirationalQuotes, appConfig } = useConstants();
+  const { t } = useTranslation();
   
   //const [timeLeft, setTimeLeft] = useState(duration.minutes * 60);
-  const [timeLeft, setTimeLeft] = useState(2);
+  const [timeLeft, setTimeLeft] = useState(10);
 
   const [isPlaying, setIsPlaying] = useState(true);
   const [currentVerseIndex, setCurrentVerseIndex] = useState(0);
@@ -126,11 +128,11 @@ const SessionScreen = ({ navigation, route }) => {
     if (appStateRef.current.match(/inactive|background/) && nextAppState === 'active') {
       // La app volvió al primer plano - reiniciar sesión
       Alert.alert(
-        'Sesión interrumpida',
-        'Tu sesión se ha reiniciado porque saliste de la aplicación.',
+        t('app:session.alerts.sessionInterrupted'),
+        t('app:session.alerts.sessionInterruptedMessage'),
         [
           {
-            text: 'Continuar',
+            text: t('app:session.alerts.continue'),
             onPress: () => navigation.goBack()
           }
         ]
@@ -212,12 +214,12 @@ const SessionScreen = ({ navigation, route }) => {
 
   const handleExit = () => {
     Alert.alert(
-      'Salir de la sesión',
-      '¿Estás seguro de que quieres terminar tu momento con Dios? El progreso no se guardará.',
+      t('app:session.alerts.exitSession'),
+      t('app:session.alerts.exitSessionMessage'),
       [
-        { text: 'Continuar sesión', style: 'cancel' },
+        { text: t('app:session.alerts.continueSession'), style: 'cancel' },
         { 
-          text: 'Salir', 
+          text: t('app:session.alerts.exit'), 
           style: 'destructive',
           onPress: () => {
             cleanup();
@@ -368,7 +370,7 @@ const SessionScreen = ({ navigation, route }) => {
           </TouchableOpacity>
           
           <Text style={styles.sessionTitle}>
-            Momento con Dios • {duration.minutes} min
+            {t('app:session.title', { minutes: duration.minutes })}
           </Text>
           
           <TouchableOpacity
@@ -390,7 +392,7 @@ const SessionScreen = ({ navigation, route }) => {
             <Animated.View style={[styles.progressCircle, animatedCircleStyle]}>
               <Animated.View style={[styles.breathingCircle, animatedBreathingStyle]}>
                 <Text style={styles.timerText}>{formatTime(timeLeft)}</Text>
-                <Text style={styles.timerLabel}>restantes</Text>
+                <Text style={styles.timerLabel}>{t('app:session.timeRemaining')}</Text>
               </Animated.View>
             </Animated.View>
             
@@ -414,7 +416,7 @@ const SessionScreen = ({ navigation, route }) => {
 
           {/* Indicador de respiración */}
           <View style={styles.breathingGuide}>
-            <Text style={styles.breathingText}>Respira profundo y siente Su presencia</Text>
+            <Text style={styles.breathingText}>{t('app:session.breathingGuide')}</Text>
           </View>
         </View>
 

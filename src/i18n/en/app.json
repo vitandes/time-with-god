@@ -67,7 +67,7 @@
     "nextLevel": "Next level"
   },
   "session": {
-    "title": "Prayer Session",
+    "title": "Moment with God • {{minutes}} min",
     "preparation": "Preparation",
     "prayer": "Prayer",
     "reflection": "Reflection",
@@ -76,13 +76,23 @@
     "pausePrayer": "Pause",
     "resumePrayer": "Resume",
     "endSession": "End session",
-    "timeRemaining": "Time remaining",
+    "timeRemaining": "remaining",
     "minutes": "minutes",
     "seconds": "seconds",
     "preparationText": "Take a moment to quiet your heart and prepare to be in God's presence.",
     "prayerText": "This is your sacred time. Talk to God, listen to His voice, and let His peace fill your heart.",
     "reflectionText": "Reflect on your prayer time. What is God telling you today?",
-    "gratitudeText": "End your session by thanking God for this time together and for His blessings."
+    "gratitudeText": "End your session by thanking God for this time together and for His blessings.",
+    "breathingGuide": "Breathe deeply and feel His presence",
+    "alerts": {
+      "sessionInterrupted": "Session interrupted",
+      "sessionInterruptedMessage": "Your session has been restarted because you left the application.",
+      "exitSession": "Exit session",
+      "exitSessionMessage": "Are you sure you want to end your moment with God? Progress will not be saved.",
+      "continueSession": "Continue session",
+      "exit": "Exit",
+      "continue": "Continue"
+    }
   },
   "complete": {
     "title": "Session Completed!",
@@ -339,33 +349,30 @@
     },
   "sessionComplete": {
     "title": "God rejoices in this time with you",
-    "subtitle": "You have dedicated {minutes} minutes to your connection with God",
+    "subtitle": "You have dedicated {{minutes}} minutes to your connection with God",
     "moodQuestion": "How do you feel?",
     "noteTitle": "Personal note (optional)",
     "notePlaceholder": "Write how you felt during this moment...",
     "continueButton": "Continue",
-    "saveButton": "Save session",
-    "skipButton": "Skip",
-    "weeklyStats": "Total this week: {minutes} minutes • {sessions} sessions",
+    "weeklyStats": "Total this week: {{minutes}} minutes • {{sessions}} sessions",
     "moods": {
-      "grateful": "Grateful",
       "peaceful": "Peaceful",
-      "loved": "Loved",
-      "inspired": "Inspired",
-      "comforted": "Comforted",
-      "strengthened": "Strengthened"
+      "grateful": "Grateful",
+      "joyful": "Joyful",
+      "reflective": "Reflective",
+      "hopeful": "Hopeful",
+      "blessed": "Blessed"
     },
-    "completionMessages": [
-      "Beautiful moment with God completed!",
-      "Your heart has been renewed",
-      "You have cultivated your spiritual garden",
-      "God rejoices in this time with you",
-      "Your faith has grown a little more"
-    ],
+    "completionMessages": {
+      "message1": "Your heart has been filled with His love",
+      "message2": "You have found peace in His presence",
+      "message3": "God smiles for this time together",
+      "message4": "Your soul has been renewed in Him",
+      "message5": "You have grown closer to His heart"
+    },
     "alerts": {
       "sessionSaved": "Session saved",
-      "sessionSavedMessage": "Your {minutes}-minute moment with God has been recorded and added to your progress. Have a blessed day!",
-      "continue": "Continue",
+      "sessionSavedMessage": "Your {{minutes}}-minute moment with God has been recorded and added to your progress. Have a blessed day!",
       "error": "Error",
       "errorMessage": "Could not save the session. Please try again."
     }

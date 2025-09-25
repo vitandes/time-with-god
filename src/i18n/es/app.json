@@ -67,7 +67,7 @@
     "nextLevel": "Siguiente nivel"
   },
   "session": {
-    "title": "Sesión de Oración",
+    "title": "Momento con Dios • {{minutes}} min",
     "preparation": "Preparación",
     "prayer": "Oración",
     "reflection": "Reflexión",
@@ -76,13 +76,23 @@
     "pausePrayer": "Pausar",
     "resumePrayer": "Reanudar",
     "endSession": "Finalizar sesión",
-    "timeRemaining": "Tiempo restante",
+    "timeRemaining": "restantes",
     "minutes": "minutos",
     "seconds": "segundos",
     "preparationText": "Tómate un momento para aquietar tu corazón y prepararte para estar en la presencia de Dios.",
     "prayerText": "Este es tu tiempo sagrado. Habla con Dios, escucha Su voz y permite que Su paz llene tu corazón.",
     "reflectionText": "Reflexiona sobre tu tiempo de oración. ¿Qué te está diciendo Dios hoy?",
-    "gratitudeText": "Termina tu sesión dando gracias a Dios por este tiempo juntos y por Sus bendiciones."
+    "gratitudeText": "Termina tu sesión dando gracias a Dios por este tiempo juntos y por Sus bendiciones.",
+    "breathingGuide": "Respira profundo y siente Su presencia",
+    "alerts": {
+      "sessionInterrupted": "Sesión interrumpida",
+      "sessionInterruptedMessage": "Tu sesión se ha reiniciado porque saliste de la aplicación.",
+      "exitSession": "Salir de la sesión",
+      "exitSessionMessage": "¿Estás seguro de que quieres terminar tu momento con Dios? El progreso no se guardará.",
+      "continueSession": "Continuar sesión",
+      "exit": "Salir",
+      "continue": "Continuar"
+    }
   },
   "complete": {
     "title": "¡Sesión Completada!",
@@ -298,32 +308,32 @@
   },
   "sessionComplete": {
     "title": "Dios se alegra de este tiempo contigo",
-    "subtitle": "Has dedicado {minutes} minutos a tu conexión con Dios",
+    "subtitle": "Has dedicado {{minutes}} minutos a tu conexión con Dios",
     "moodQuestion": "¿Cómo te sientes?",
     "noteTitle": "Nota personal (opcional)",
     "notePlaceholder": "Escribe cómo te sentiste durante este momento...",
     "continueButton": "Continuar",
     "saveButton": "Guardar sesión",
     "skipButton": "Omitir",
-    "weeklyStats": "Total esta semana: {minutes} minutos • {sessions} sesiones",
+    "weeklyStats": "Total esta semana: {{minutes}} minutos • {{sessions}} sesiones",
     "moods": {
-      "grateful": "Agradecido",
       "peaceful": "En paz",
-      "loved": "Amado",
-      "inspired": "Inspirado",
-      "comforted": "Consolado",
-      "strengthened": "Fortalecido"
+      "grateful": "Agradecido",
+      "joyful": "Gozoso",
+      "reflective": "Reflexivo",
+      "hopeful": "Esperanzado",
+      "blessed": "Bendecido"
     },
-    "completionMessages": [
-      "¡Hermoso momento con Dios completado!",
-      "Tu corazón ha sido renovado",
-      "Has cultivado tu jardín espiritual",
-      "Dios se alegra de este tiempo contigo",
-      "Tu fe ha crecido un poco más"
-    ],
+    "completionMessages": {
+      "message1": "Tu corazón se ha llenado de Su amor",
+      "message2": "Has encontrado paz en Su presencia",
+      "message3": "Dios sonríe por este tiempo juntos",
+      "message4": "Tu alma se ha renovado en Él",
+      "message5": "Has crecido más cerca de Su corazón"
+    },
     "alerts": {
       "sessionSaved": "Sesión guardada",
-      "sessionSavedMessage": "Tu momento con Dios de {minutes} minutos ha sido registrado y agregado a tu progreso. ¡Que tengas un día bendecido!",
+      "sessionSavedMessage": "Tu momento con Dios de {{minutes}} minutos ha sido registrado y agregado a tu progreso. ¡Que tengas un día bendecido!",
       "continue": "Continuar",
       "error": "Error",
       "errorMessage": "No se pudo guardar la sesión. Inténtalo de nuevo."
