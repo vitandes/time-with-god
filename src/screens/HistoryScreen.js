@@ -23,9 +23,35 @@ import Animated, {
 import { useAuth } from '../context/AuthContext';
 import { usePlantProgress } from '../hooks/usePlantProgress';
 import { useSessionHistory } from '../hooks/useSessionHistory';
-import { PLANTS, SEED_PLANT } from '../constants/Constants';
+import { useConstants } from '../hooks/useConstants';
 import Colors from '../constants/Colors';
 import { useTranslation } from 'react-i18next';
+
+// Mapeo de imágenes
+const PLANT_IMAGES = {
+  'cactus': require('../../assets/plants/cactuus.webp'),
+  'cedro': require('../../assets/plants/cedro.webp'),
+  'flor-azul': require('../../assets/plants/flor-azul.webp'),
+  'flor-celestial': require('../../assets/plants/flor-celestial.webp'),
+  'lirio': require('../../assets/plants/lirio.webp'),
+  'rosa': require('../../assets/plants/rosa.webp'),
+  'acacia': require('../../assets/plants/acacia.webp'),
+  'aloe': require('../../assets/plants/aloe.webp'),
+  'canela': require('../../assets/plants/canela.webp'),
+  'espino-blanco': require('../../assets/plants/espino-blanco.webp'),
+  'girasol': require('../../assets/plants/girasol.webp'),
+  'higuera': require('../../assets/plants/higuera.webp'),
+  'jacinto': require('../../assets/plants/Jacinto.webp'),
+  'laurel': require('../../assets/plants/laurel.webp'),
+  'lirio2': require('../../assets/plants/lirio2.webp'),
+  'lirio-real': require('../../assets/plants/lirio2.webp'),
+  'mirra': require('../../assets/plants/mirra.webp'),
+  'mostaza': require('../../assets/plants/moztaza.webp'),
+  'mostaza-planta': require('../../assets/plants/moztaza.webp'),
+  'palma': require('../../assets/plants/palma.webp'),
+  'trigo': require('../../assets/plants/trigo.webp'),
+  'vid': require('../../assets/plants/vid.webp'),
+};
 
 const { width } = Dimensions.get('window');
 
@@ -43,6 +69,7 @@ const moodEmojis = {
 const HistoryScreen = () => {
   const { t } = useTranslation('app');
   const { user } = useAuth();
+  const { plants, seedPlant } = useConstants();
   const { obtainedPlants } = usePlantProgress();
   const { getStats } = useSessionHistory();
   const [selectedPeriod, setSelectedPeriod] = useState('week');
@@ -58,12 +85,14 @@ const HistoryScreen = () => {
   
   // Mostrar solo plantas reales obtenidas por el usuario
   const displayPlants = obtainedPlants;
+  
+
 
   const handleMedalPress = (plantData) => {
-    // Buscar primero en PLANTS, luego en SEED_PLANT
-    let plant = PLANTS.find(p => p.id === plantData.id);
+    // Buscar primero por image en plants, luego en seedPlant
+    let plant = plants.find(p => p.image === plantData.id || p.id === plantData.id);
     if (!plant && plantData.id === 'semilla') {
-      plant = SEED_PLANT;
+      plant = seedPlant;
     }
     
     if (plant) {
@@ -175,10 +204,10 @@ const HistoryScreen = () => {
                >
                  {displayPlants && displayPlants.map((plantData, index) => {
                    const plantId = typeof plantData === 'string' ? plantData : plantData.id;
-                   // Buscar primero en PLANTS, luego en SEED_PLANT
-                   let plant = PLANTS.find(p => p.id === plantId);
+                   // Buscar primero por image en plants (es un array), luego en seedPlant
+                   let plant = plants.find(p => p.image === plantId || p.id === plantId);
                    if (!plant && plantId === 'semilla') {
-                     plant = SEED_PLANT;
+                     plant = seedPlant;
                    }
                    return (
                      <TouchableOpacity 
@@ -187,7 +216,7 @@ const HistoryScreen = () => {
                        onPress={() => handleMedalPress(typeof plantData === 'string' ? { id: plantData } : plantData)}
                      >
                        <Image 
-                         source={plant?.image} 
+                         source={PLANT_IMAGES[plant?.image]} 
                          style={styles.medalImage}
                          resizeMode="cover"
                        />
@@ -362,7 +391,7 @@ const HistoryScreen = () => {
               {selectedMedal && (
                 <>
                   <Image 
-                    source={selectedMedal.image} 
+                    source={PLANT_IMAGES[selectedMedal.image]} 
                     style={styles.modalMedalImage}
                     resizeMode="cover"
                   />

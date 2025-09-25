@@ -18,16 +18,17 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { useAuth } from '../context/AuthContext';
-import { SESSION_DURATIONS, PLANT_STAGES, MESSAGES } from '../constants/Constants';
+import { useConstants } from '../hooks/useConstants';
 import Colors from '../constants/Colors';
 import SpiritualPlant from '../components/SpiritualPlant';
 import { useTranslation } from 'react-i18next';
 
 const HomeScreen = ({ navigation }) => {
   const { t } = useTranslation('app');
+  const { sessionDurations, plantStages, messages } = useConstants();
   const { user, sessions, plant } = useAuth();
   const [selectedTime, setSelectedTime] = useState(5);
-  const [currentPlantStage, setCurrentPlantStage] = useState(PLANT_STAGES.SEED);
+  const [currentPlantStage, setCurrentPlantStage] = useState(plantStages.SEED);
 
   // Animaciones
   const plantScale = useSharedValue(1);
@@ -36,9 +37,9 @@ const HomeScreen = ({ navigation }) => {
   useEffect(() => {
     // Determinar etapa actual de la planta
     const totalSessions = plant.totalSessions || 0;
-    let stage = PLANT_STAGES.SEED;
+    let stage = plantStages.SEED;
 
-    Object.values(PLANT_STAGES).forEach(stageData => {
+    Object.values(plantStages).forEach(stageData => {
       if (totalSessions >= stageData.minSessions && totalSessions <= stageData.maxSessions) {
         stage = stageData;
       }

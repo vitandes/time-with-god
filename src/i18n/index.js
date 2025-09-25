@@ -7,11 +7,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import esCommon from './es/common.json';
 import esOnboarding from './es/onboarding.json';
 import esApp from './es/app.json';
+import esConstants from './es/constants';
 
 // Importar traducciones en inglés
 import enCommon from './en/common.json';
 import enOnboarding from './en/onboarding.json';
 import enApp from './en/app.json';
+import enConstants from './en/constants';
 
 // Configuración de recursos de traducción
 const resources = {
@@ -19,11 +21,13 @@ const resources = {
     common: esCommon,
     onboarding: esOnboarding,
     app: esApp,
+    constants: esConstants,
   },
   en: {
     common: enCommon,
     onboarding: enOnboarding,
     app: enApp,
+    constants: enConstants,
   },
 };
 
@@ -76,7 +80,7 @@ const initI18n = async () => {
       
       // Configuración de namespaces
       defaultNS: 'common',
-      ns: ['common', 'onboarding', 'app'],
+      ns: ['common', 'onboarding', 'app', 'constants'],
       
       // Configuración de interpolación
       interpolation: {

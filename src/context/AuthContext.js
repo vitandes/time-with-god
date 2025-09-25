@@ -9,7 +9,7 @@ import {
   signInWithApple as firebaseSignInWithApple,
   signOut as firebaseSignOut,
 } from '../services/authHelpers';
-import { APP_CONFIG } from '../constants/Constants';
+import { useTranslation } from 'react-i18next';
 
 // Estado inicial
 const initialState = {
@@ -146,6 +146,7 @@ export const useAuth = () => {
 // Provider
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
+  const { t } = useTranslation('constants');
 
   // Cargar datos del usuario al iniciar
   useEffect(() => {
@@ -169,7 +170,7 @@ export const AuthProvider = ({ children }) => {
           subscription: {
             isActive: false,
             isTrialActive: true,
-            trialEndsAt: new Date(Date.now() + APP_CONFIG.FREE_TRIAL_DAYS * 24 * 60 * 60 * 1000).toISOString()
+            trialEndsAt: new Date(Date.now() + t('APP_CONFIG.FREE_TRIAL_DAYS') * 24 * 60 * 60 * 1000).toISOString()
           }
         };
         
@@ -192,7 +193,7 @@ export const AuthProvider = ({ children }) => {
         const now = new Date();
         const hoursSinceLastSession = (now - lastWatered) / (1000 * 60 * 60);
         
-        if (hoursSinceLastSession > APP_CONFIG.PLANT_WITHERING_HOURS) {
+        if (hoursSinceLastSession > t('APP_CONFIG.PLANT_WITHERING_HOURS')) {
           dispatch({
             type: ActionTypes.UPDATE_PLANT,
             payload: { isHealthy: false }
@@ -320,7 +321,7 @@ export const AuthProvider = ({ children }) => {
         subscription: {
           isActive: false,
           isTrialActive: true,
-          trialEndsAt: new Date(Date.now() + APP_CONFIG.FREE_TRIAL_DAYS * 24 * 60 * 60 * 1000).toISOString()
+          trialEndsAt: new Date(Date.now() + t('APP_CONFIG.FREE_TRIAL_DAYS') * 24 * 60 * 60 * 1000).toISOString()
         }
       };
       

@@ -48,6 +48,17 @@
     "days": "días",
     "totalSessions": "Sesiones totales",
     "currentPlant": "Planta actual",
+    "plantSelector": {
+      "title": "Selecciona tu nueva planta",
+      "minutes": "minutos",
+      "allPlantsUnlocked": "¡Has desbloqueado todas las plantas!",
+      "continueJourney": "Continúa tu viaje espiritual",
+      "pageIndicator": "de"
+    },
+    "plant": {
+       "minutesRemaining": "minutos restantes",
+       "completed": "¡Planta completada!"
+     },
     "timeWithGod": "Tiempo con Dios",
     "selectTime": "Selecciona un tiempo",
     "selectTimeMessage": "Por favor elige cuánto tiempo quieres dedicar a tu momento con Dios.",

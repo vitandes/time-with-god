@@ -51,6 +51,17 @@
     "days": "days",
     "totalSessions": "Total sessions",
     "currentPlant": "Current plant",
+    "plantSelector": {
+      "title": "Select your new plant",
+      "minutes": "minutes",
+      "allPlantsUnlocked": "You've unlocked all plants!",
+      "continueJourney": "Continue your spiritual journey",
+      "pageIndicator": "of"
+    },
+    "plant": {
+       "minutesRemaining": "minutes remaining",
+       "completed": "Plant completed!"
+     },
     "plantProgress": "Plant progress",
     "level": "Level",
     "nextLevel": "Next level"

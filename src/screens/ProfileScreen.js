@@ -23,11 +23,12 @@ import Animated, {
 import { useAuth } from '../context/AuthContext';
 import { useSessionHistory } from '../hooks/useSessionHistory';
 import { useMorningNotifications } from '../hooks/useMorningNotifications';
-import { SUBSCRIPTION_PLANS } from '../constants/Constants';
+import { useConstants } from '../hooks/useConstants';
 import Colors from '../constants/Colors';
 
 const ProfileScreen = ({ navigation }) => {
   const { t } = useTranslation(['app', 'common']);
+  const { subscriptionPlans } = useConstants();
   const { user, logout, updateSubscription } = useAuth();
   const { getStats } = useSessionHistory();
   const {
@@ -153,7 +154,7 @@ const ProfileScreen = ({ navigation }) => {
 
   const getSubscriptionStatus = () => {
     if (user?.subscription?.isActive) {
-      const plan = SUBSCRIPTION_PLANS.find(p => p.id === user.subscription.planId);
+      const plan = Object.values(subscriptionPlans).find(p => p.id === user.subscription.planId);
       return {
         status: t('app:profile.subscription.active'),
         plan: plan?.name || 'Plan Premium',

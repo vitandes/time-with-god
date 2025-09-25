@@ -11,7 +11,8 @@ import {
   FlatList,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { PLANTS } from '../constants/Constants';
+import { useTranslation } from 'react-i18next';
+import { useConstants } from '../hooks/useConstants';
 import Colors from '../constants/Colors';
 
 // Mapeo de imágenes
@@ -31,8 +32,10 @@ const PLANT_IMAGES = {
   'jacinto': require('../../assets/plants/Jacinto.webp'),
   'laurel': require('../../assets/plants/laurel.webp'),
   'lirio2': require('../../assets/plants/lirio2.webp'),
+  'lirio-real': require('../../assets/plants/lirio2.webp'),
   'mirra': require('../../assets/plants/mirra.webp'),
   'mostaza': require('../../assets/plants/moztaza.webp'),
+  'mostaza-planta': require('../../assets/plants/moztaza.webp'),
   'palma': require('../../assets/plants/palma.webp'),
   'trigo': require('../../assets/plants/trigo.webp'),
   'vid': require('../../assets/plants/vid.webp'),
@@ -41,8 +44,11 @@ const PLANT_IMAGES = {
 const { width } = Dimensions.get('window');
 
 const PlantSelector = ({ visible, onClose, onSelectPlant, obtainedPlants = [] }) => {
+  const { t } = useTranslation('app');
+  const { plants } = useConstants();
+  
   // Filtrar plantas que no han sido obtenidas
-  const availablePlants = PLANTS.filter(plant => !obtainedPlants.some(obtained => obtained.id === plant.id));
+  const availablePlants = plants.filter(plant => !obtainedPlants.some(obtained => obtained.id === plant.id));
   const [currentPage, setCurrentPage] = useState(0);
   
   // Configuración para paginación
@@ -92,7 +98,7 @@ const PlantSelector = ({ visible, onClose, onSelectPlant, obtainedPlants = [] })
       <View style={styles.modalOverlay}>
         <View style={styles.modalContent}>
           <View style={styles.header}>
-            <Text style={styles.title}>Selecciona tu nueva planta</Text>
+            <Text style={styles.title}>{t('home.plantSelector.title')}</Text>
             <TouchableOpacity onPress={handleClose} style={styles.closeButton}>
               <Ionicons name="close" size={24} color={Colors.text.primary} />
             </TouchableOpacity>
@@ -109,9 +115,9 @@ const PlantSelector = ({ visible, onClose, onSelectPlant, obtainedPlants = [] })
                         style={styles.plantCard}
                         onPress={() => handleSelectPlant(plant)}
                       >
-                        <Image source={PLANT_IMAGES[plant.id]} style={styles.plantImage} resizeMode="cover" />
+                        <Image source={PLANT_IMAGES[plant.image]} style={styles.plantImage} resizeMode="cover" />
                         <Text style={styles.plantName}>{plant.name}</Text>
-                        <Text style={styles.plantTime}>{plant.minutes} minutos</Text>
+                        <Text style={styles.plantTime}>{plant.minutes} {t('home.plantSelector.minutes')}</Text>
                       </TouchableOpacity>
                     ))}
                   </View>
@@ -128,7 +134,7 @@ const PlantSelector = ({ visible, onClose, onSelectPlant, obtainedPlants = [] })
                     </TouchableOpacity>
                     
                     <View style={styles.pageIndicator}>
-                      <Text style={styles.pageText}>{currentPage + 1} de {totalPages}</Text>
+                      <Text style={styles.pageText}>{currentPage + 1} {t('home.plantSelector.pageIndicator')} {totalPages}</Text>
                     </View>
                     
                     <TouchableOpacity 
@@ -143,8 +149,8 @@ const PlantSelector = ({ visible, onClose, onSelectPlant, obtainedPlants = [] })
               </>
             ) : (
               <View style={styles.noPlants}>
-                <Text style={styles.noplantsText}>¡Has desbloqueado todas las plantas!</Text>
-                <Text style={styles.noplantsSubtext}>Continúa tu viaje espiritual</Text>
+                <Text style={styles.noplantsText}>{t('home.plantSelector.allPlantsUnlocked')}</Text>
+                <Text style={styles.noplantsSubtext}>{t('home.plantSelector.continueJourney')}</Text>
               </View>
             )}
           </View>

@@ -25,7 +25,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { useAuth } from '../context/AuthContext';
-import { APP_CONFIG } from '../constants/Constants';
+import { useConstants } from '../hooks/useConstants';
 import Colors from '../constants/Colors';
 import { usePlantProgress } from '../hooks/usePlantProgress';
 import { useSessionHistory } from '../hooks/useSessionHistory';

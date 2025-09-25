@@ -13,12 +13,13 @@ import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useAuth } from '../context/AuthContext';
-import { SUBSCRIPTION_PLANS, APP_CONFIG } from '../constants/Constants';
+import { useConstants } from '../hooks/useConstants';
 import Colors from '../constants/Colors';
 
 const { width } = Dimensions.get('window');
 
 const SubscriptionScreen = ({ navigation }) => {
+  const { subscriptionPlans } = useConstants();
   const [selectedPlan, setSelectedPlan] = useState('yearly');
   const [isLoading, setIsLoading] = useState(false);
   const [trialDaysLeft, setTrialDaysLeft] = useState(0);
@@ -74,7 +75,7 @@ const SubscriptionScreen = ({ navigation }) => {
       // Simular proceso de pago (en una app real, integrarías con RevenueCat/Stripe)
       await new Promise(resolve => setTimeout(resolve, 2000));
       
-      const plan = SUBSCRIPTION_PLANS[selectedPlan.toUpperCase()];
+      const plan = subscriptionPlans[selectedPlan.toUpperCase()];
       const expirationDate = new Date();
       
       if (selectedPlan === 'monthly') {
@@ -195,14 +196,14 @@ const SubscriptionScreen = ({ navigation }) => {
             
             <PlanCard
               planId="yearly"
-              plan={SUBSCRIPTION_PLANS.YEARLY}
+              plan={subscriptionPlans.YEARLY}
               isSelected={selectedPlan === 'yearly'}
               onSelect={setSelectedPlan}
             />
             
             <PlanCard
               planId="monthly"
-              plan={SUBSCRIPTION_PLANS.MONTHLY}
+              plan={subscriptionPlans.MONTHLY}
               isSelected={selectedPlan === 'monthly'}
               onSelect={setSelectedPlan}
             />
@@ -234,7 +235,7 @@ const SubscriptionScreen = ({ navigation }) => {
               activeOpacity={0.8}
             >
               <Text style={styles.subscribeButtonText}>
-                {isLoading ? 'Procesando...' : `Suscribirme por ${SUBSCRIPTION_PLANS[selectedPlan.toUpperCase()].currency} ${SUBSCRIPTION_PLANS[selectedPlan.toUpperCase()].price}/${SUBSCRIPTION_PLANS[selectedPlan.toUpperCase()].period}`}
+                {isLoading ? 'Procesando...' : `Suscribirme por ${subscriptionPlans[selectedPlan.toUpperCase()].currency} ${subscriptionPlans[selectedPlan.toUpperCase()].price}/${subscriptionPlans[selectedPlan.toUpperCase()].period}`}
               </Text>
             </TouchableOpacity>
 

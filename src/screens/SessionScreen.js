@@ -21,7 +21,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { useAuth } from '../context/AuthContext';
-import { BIBLE_VERSES, INSPIRATIONAL_QUOTES, APP_CONFIG } from '../constants/Constants';
+import { useConstants } from '../hooks/useConstants';
 import Colors from '../constants/Colors';
 import { usePlantProgress } from '../hooks/usePlantProgress';
 
@@ -31,6 +31,7 @@ const SessionScreen = ({ navigation, route }) => {
   const { duration } = route.params;
   const { completeSession } = useAuth();
   const { addSessionMinutes } = usePlantProgress();
+  const { bibleVerses, inspirationalQuotes, appConfig } = useConstants();
   
   //const [timeLeft, setTimeLeft] = useState(duration.minutes * 60);
   const [timeLeft, setTimeLeft] = useState(2);
@@ -52,7 +53,7 @@ const SessionScreen = ({ navigation, route }) => {
   const breathingScale = useSharedValue(1);
 
   // Combinar versículos bíblicos y frases inspiradoras
-  const allContent = [...BIBLE_VERSES, ...INSPIRATIONAL_QUOTES.map(quote => ({ text: quote, reference: '' }))];
+  const allContent = [...bibleVerses, ...inspirationalQuotes.map(quote => ({ text: quote, reference: '' }))];
 
   // Lista de canciones disponibles
   const songs = [
@@ -158,7 +159,7 @@ const SessionScreen = ({ navigation, route }) => {
       textOpacity.value = withTiming(0, { duration: 500 }, () => {
         textOpacity.value = withTiming(1, { duration: 500 });
       });
-    }, APP_CONFIG.VERSE_CHANGE_INTERVAL);
+    }, appConfig.VERSE_CHANGE_INTERVAL);
   };
 
   const startBreathingAnimation = () => {

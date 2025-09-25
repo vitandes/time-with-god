@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import * as Notifications from 'expo-notifications';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { MORNING_MESSAGES } from '../constants/Constants';
+import { useConstants } from './useConstants';
 
 // Configurar el comportamiento de las notificaciones
 Notifications.setNotificationHandler({
@@ -20,6 +20,7 @@ const STORAGE_KEYS = {
 };
 
 export const useMorningNotifications = () => {
+  const { morningMessages } = useConstants();
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [notificationTime, setNotificationTime] = useState('09:00');
   const [permissionStatus, setPermissionStatus] = useState(null);
@@ -81,7 +82,7 @@ export const useMorningNotifications = () => {
     try {
       const lastIndex = await AsyncStorage.getItem(STORAGE_KEYS.LAST_MESSAGE_INDEX);
       const currentIndex = lastIndex ? parseInt(lastIndex, 10) : -1;
-      const nextIndex = (currentIndex + 1) % MORNING_MESSAGES.length;
+      const nextIndex = (currentIndex + 1) % morningMessages.length;
       
       await AsyncStorage.setItem(STORAGE_KEYS.LAST_MESSAGE_INDEX, nextIndex.toString());
       return nextIndex;
@@ -102,7 +103,7 @@ export const useMorningNotifications = () => {
 
       // Obtener el siguiente mensaje
       const messageIndex = await getNextMessageIndex();
-      const morningMessage = MORNING_MESSAGES[messageIndex];
+      const morningMessage = morningMessages[messageIndex];
       
       // Parsear la hora de notificación
       const [hours, minutes] = notificationTime.split(':').map(Number);

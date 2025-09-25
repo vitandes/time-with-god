@@ -9,6 +9,7 @@ import {
   Modal,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 import PlantSelector from './PlantSelector';
 
 import Animated, {
@@ -21,7 +22,7 @@ import Animated, {
   Easing,
 } from 'react-native-reanimated';
 
-import { PLANT_STAGES, SEED_MINUTES, PLANTS, SEED_PLANT } from '../constants/Constants';
+import { useConstants } from '../hooks/useConstants';
 import Colors from '../constants/Colors';
 import { usePlantProgress } from '../hooks/usePlantProgress';
 
@@ -42,8 +43,10 @@ const PLANT_IMAGES = {
   'jacinto': require('../../assets/plants/Jacinto.webp'),
   'laurel': require('../../assets/plants/laurel.webp'),
   'lirio2': require('../../assets/plants/lirio2.webp'),
+  'lirio-real': require('../../assets/plants/lirio2.webp'),
   'mirra': require('../../assets/plants/mirra.webp'),
   'mostaza': require('../../assets/plants/moztaza.webp'),
+  'mostaza-planta': require('../../assets/plants/moztaza.webp'),
   'palma': require('../../assets/plants/palma.webp'),
   'trigo': require('../../assets/plants/trigo.webp'),
   'vid': require('../../assets/plants/vid.webp'),
@@ -55,10 +58,14 @@ const SpiritualPlant = ({
   onPlantPress,
   animated = true
 }) => {
+  const { t } = useTranslation('app');
   // Estado para el modal de selección
   const [showPlantSelector, setShowPlantSelector] = useState(false);
   // Estado para el modal de información de la planta
   const [showPlantInfo, setShowPlantInfo] = useState(false);
+  
+  // Usar el hook de constantes
+  const { seedMinutes, seedPlant } = useConstants();
   
   // Usar el hook de progreso de plantas
   const { obtainedPlants, currentPlant, totalMinutes, selectNewPlant, completePlant } = usePlantProgress();
@@ -71,10 +78,10 @@ const SpiritualPlant = ({
   const validTotalMinutes = typeof totalMinutes === 'number' && !isNaN(totalMinutes) ? totalMinutes : 0;
   
   // Lógica para determinar qué mostrar
-  const seedCompleted = validTotalMinutes >= SEED_MINUTES;
+  const seedCompleted = validTotalMinutes >= seedMinutes;
   
   // Determinar si la planta actual está completa
-  const plantCompleted = currentPlant && validTotalMinutes >= (SEED_MINUTES + currentPlant.minutes);
+  const plantCompleted = currentPlant && validTotalMinutes >= (seedMinutes + currentPlant.minutes);
   
   // Calcular progreso y tiempo restante
   let remainingMinutes = 0;
@@ -82,11 +89,11 @@ const SpiritualPlant = ({
   
   if (!currentPlant) {
     // Solo semilla - mostrar progreso hacia completar la semilla
-    remainingMinutes = Math.max(SEED_MINUTES - validTotalMinutes, 0);
-    progressPercentage = Math.min((validTotalMinutes / SEED_MINUTES) * 100, 100);
+    remainingMinutes = Math.max(seedMinutes - validTotalMinutes, 0);
+    progressPercentage = Math.min((validTotalMinutes / seedMinutes) * 100, 100);
   } else {
     // Hay planta seleccionada - calcular progreso de la planta
-    const minutesForPlant = Math.max(validTotalMinutes - SEED_MINUTES, 0);
+    const minutesForPlant = Math.max(validTotalMinutes - seedMinutes, 0);
     remainingMinutes = Math.max(currentPlant.minutes - minutesForPlant, 0);
     progressPercentage = Math.min((minutesForPlant / currentPlant.minutes) * 100, 100);
     
@@ -115,13 +122,13 @@ const SpiritualPlant = ({
   // Efecto para completar la semilla automáticamente
   useEffect(() => {
     // Verificar si la semilla está completa y no hay planta actual
-    if (seedCompleted && !currentPlant && validTotalMinutes >= SEED_MINUTES) {
+    if (seedCompleted && !currentPlant && validTotalMinutes >= seedMinutes) {
       // Verificar si la semilla ya está en las plantas obtenidas
       const seedAlreadyObtained = obtainedPlants.some(plant => plant.id === 'semilla');
       
       if (!seedAlreadyObtained) {
         // Completar la semilla automáticamente
-        completePlant(SEED_PLANT);
+        completePlant(seedPlant);
       }
     }
   }, [seedCompleted, currentPlant, validTotalMinutes, obtainedPlants, completePlant]);
@@ -182,14 +189,14 @@ const SpiritualPlant = ({
           ) : currentPlant && remainingMinutes > 0 ? (
             // Mostrar planta seleccionada mientras falten minutos
             <Image 
-              source={PLANT_IMAGES[currentPlant.id]} 
+              source={PLANT_IMAGES[currentPlant.image]} 
               style={styles.seedImage}
               resizeMode="cover"
             />
           ) : currentPlant && remainingMinutes <= 0 ? (
             // Mostrar planta completada
             <Image 
-              source={PLANT_IMAGES[currentPlant.id]} 
+              source={PLANT_IMAGES[currentPlant.image]} 
               style={styles.seedImage}
               resizeMode="cover"
             />
@@ -210,7 +217,7 @@ const SpiritualPlant = ({
         {currentPlant ? (
           <>
             <Text style={styles.timeText}>
-              {remainingMinutes} minutos restantes
+              {remainingMinutes} {t('home.plant.minutesRemaining')}
             </Text>
             <Text style={styles.plantNameText}>
               {currentPlant.name}
@@ -218,7 +225,7 @@ const SpiritualPlant = ({
           </>
         ) : (
           <Text style={styles.timeText}>
-            {remainingMinutes} minutos restantes
+            {remainingMinutes} {t('home.plant.minutesRemaining')}
           </Text>
         )}
       </View>
@@ -250,7 +257,7 @@ const SpiritualPlant = ({
             {currentPlant && (
               <>
                 <Image
-                  source={PLANT_IMAGES[currentPlant.id]}
+                  source={PLANT_IMAGES[currentPlant.image]}
                   style={styles.modalPlantImage}
                   resizeMode="cover"
                 />
@@ -259,8 +266,8 @@ const SpiritualPlant = ({
                 <Text style={styles.modalPlantMeaning}>{currentPlant.meaning}</Text>
                 <Text style={styles.modalPlantProgress}>
                   {remainingMinutes > 0 
-                    ? `${remainingMinutes} minutos restantes` 
-                    : "¡Planta completada!"
+                    ? `${remainingMinutes} ${t('home.plant.minutesRemaining')}` 
+                    : t('home.plant.completed')
                   }
                 </Text>
               </>
