@@ -336,12 +336,14 @@ const styles = StyleSheet.create({
     color: Colors.text.light,
     textAlign: 'center',
     marginBottom: 8,
+    paddingHorizontal: 40,
   },
   completionSubtitle: {
     fontSize: 16,
     color: Colors.text.light,
     opacity: 0.9,
     textAlign: 'center',
+    paddingHorizontal: 40,
   },
   plantContainer: {
     alignItems: 'center',
