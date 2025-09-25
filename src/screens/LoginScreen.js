@@ -472,7 +472,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   loginButton: {
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.white,
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: 'center',
@@ -490,7 +490,7 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   loginButtonText: {
-    color: Colors.text.light,
+    color: Colors.primary,
     fontSize: 16,
     fontWeight: '600',
   },
