@@ -554,7 +554,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.surface,
     borderRadius: 16,
-    padding: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 12,
     alignItems: 'center',
     shadowColor: Colors.shadow.medium,
     shadowOffset: {
@@ -572,10 +573,12 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   statLabel: {
-    fontSize: 12,
+    fontSize: 11,
     textAlign: 'center',
     color: Colors.text.secondary,
     marginTop: 4,
+    lineHeight: 13,
+    paddingHorizontal: 2,
   },
   plantCard: {
     backgroundColor: Colors.surface,
