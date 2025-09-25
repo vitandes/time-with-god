@@ -296,6 +296,39 @@
       "reference": "Mateo 11:28"
     }
   },
+  "sessionComplete": {
+    "title": "Dios se alegra de este tiempo contigo",
+    "subtitle": "Has dedicado {minutes} minutos a tu conexión con Dios",
+    "moodQuestion": "¿Cómo te sientes?",
+    "noteTitle": "Nota personal (opcional)",
+    "notePlaceholder": "Escribe cómo te sentiste durante este momento...",
+    "continueButton": "Continuar",
+    "saveButton": "Guardar sesión",
+    "skipButton": "Omitir",
+    "weeklyStats": "Total esta semana: {minutes} minutos • {sessions} sesiones",
+    "moods": {
+      "grateful": "Agradecido",
+      "peaceful": "En paz",
+      "loved": "Amado",
+      "inspired": "Inspirado",
+      "comforted": "Consolado",
+      "strengthened": "Fortalecido"
+    },
+    "completionMessages": [
+      "¡Hermoso momento con Dios completado!",
+      "Tu corazón ha sido renovado",
+      "Has cultivado tu jardín espiritual",
+      "Dios se alegra de este tiempo contigo",
+      "Tu fe ha crecido un poco más"
+    ],
+    "alerts": {
+      "sessionSaved": "Sesión guardada",
+      "sessionSavedMessage": "Tu momento con Dios de {minutes} minutos ha sido registrado y agregado a tu progreso. ¡Que tengas un día bendecido!",
+      "continue": "Continuar",
+      "error": "Error",
+      "errorMessage": "No se pudo guardar la sesión. Inténtalo de nuevo."
+    }
+  },
   "common": {
     "error": "Error",
     "success": "Éxito",

@@ -337,7 +337,40 @@
         "reference": "Matthew 11:28"
       }
     },
-    "common": {
+  "sessionComplete": {
+    "title": "God rejoices in this time with you",
+    "subtitle": "You have dedicated {minutes} minutes to your connection with God",
+    "moodQuestion": "How do you feel?",
+    "noteTitle": "Personal note (optional)",
+    "notePlaceholder": "Write how you felt during this moment...",
+    "continueButton": "Continue",
+    "saveButton": "Save session",
+    "skipButton": "Skip",
+    "weeklyStats": "Total this week: {minutes} minutes • {sessions} sessions",
+    "moods": {
+      "grateful": "Grateful",
+      "peaceful": "Peaceful",
+      "loved": "Loved",
+      "inspired": "Inspired",
+      "comforted": "Comforted",
+      "strengthened": "Strengthened"
+    },
+    "completionMessages": [
+      "Beautiful moment with God completed!",
+      "Your heart has been renewed",
+      "You have cultivated your spiritual garden",
+      "God rejoices in this time with you",
+      "Your faith has grown a little more"
+    ],
+    "alerts": {
+      "sessionSaved": "Session saved",
+      "sessionSavedMessage": "Your {minutes}-minute moment with God has been recorded and added to your progress. Have a blessed day!",
+      "continue": "Continue",
+      "error": "Error",
+      "errorMessage": "Could not save the session. Please try again."
+    }
+  },
+  "common": {
       "error": "Error",
       "success": "Success",
       "cancel": "Cancel",

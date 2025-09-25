@@ -29,6 +29,7 @@ import { useConstants } from '../hooks/useConstants';
 import Colors from '../constants/Colors';
 import { usePlantProgress } from '../hooks/usePlantProgress';
 import { useSessionHistory } from '../hooks/useSessionHistory';
+import { useTranslation } from 'react-i18next';
 
 const { width } = Dimensions.get('window');
 
@@ -37,6 +38,7 @@ const SessionCompleteScreen = ({ navigation, route }) => {
   const { user } = useAuth();
   const { addSessionMinutes } = usePlantProgress();
   const { addSession, getStats } = useSessionHistory();
+  const { t } = useTranslation('app');
   
   // Obtener estadísticas dinámicas de la semana
   const weeklyStats = getStats('week');
@@ -53,21 +55,15 @@ const SessionCompleteScreen = ({ navigation, route }) => {
   const backgroundOpacity = useSharedValue(1);
 
   const moods = [
-    { emoji: '🙏', label: 'Agradecido', value: 'grateful' },
-    { emoji: '😌', label: 'En paz', value: 'peaceful' },
-    { emoji: '💝', label: 'Amado', value: 'loved' },
-    { emoji: '✨', label: 'Inspirado', value: 'inspired' },
-    { emoji: '🤗', label: 'Consolado', value: 'comforted' },
-    { emoji: '💪', label: 'Fortalecido', value: 'strengthened' },
+    { emoji: '🙏', label: t('sessionComplete.moods.grateful'), value: 'grateful' },
+    { emoji: '😌', label: t('sessionComplete.moods.peaceful'), value: 'peaceful' },
+    { emoji: '💝', label: t('sessionComplete.moods.loved'), value: 'loved' },
+    { emoji: '✨', label: t('sessionComplete.moods.inspired'), value: 'inspired' },
+    { emoji: '🤗', label: t('sessionComplete.moods.comforted'), value: 'comforted' },
+    { emoji: '💪', label: t('sessionComplete.moods.strengthened'), value: 'strengthened' },
   ];
 
-  const completionMessages = [
-    "¡Hermoso momento con Dios completado!",
-    "Tu corazón ha sido renovado",
-    "Has cultivado tu jardín espiritual",
-    "Dios se alegra de este tiempo contigo",
-    "Tu fe ha crecido un poco más"
-  ];
+  const completionMessages = t('sessionComplete.completionMessages', { returnObjects: true });
 
   useEffect(() => {
     startAnimations();
@@ -115,11 +111,11 @@ const SessionCompleteScreen = ({ navigation, route }) => {
       
       // Mostrar mensaje de confirmación
       Alert.alert(
-          'Sesión guardada',
-          `Tu momento con Dios de ${duration.minutes} minutos ha sido registrado y agregado a tu progreso. ¡Que tengas un día bendecido!`,
+          t('sessionComplete.alerts.sessionSaved'),
+          t('sessionComplete.alerts.sessionSavedMessage', { minutes: duration.minutes }),
           [
             {
-              text: 'Continuar',
+              text: t('sessionComplete.alerts.continue'),
               onPress: () => navigation.reset({
                 index: 0,
                 routes: [{ name: 'Main' }],
@@ -129,7 +125,7 @@ const SessionCompleteScreen = ({ navigation, route }) => {
         );
     } catch (error) {
       console.error('Error saving session:', error);
-      Alert.alert('Error', 'No se pudo guardar la sesión. Inténtalo de nuevo.');
+      Alert.alert(t('sessionComplete.alerts.error'), t('sessionComplete.alerts.errorMessage'));
     }
   };
 
@@ -226,9 +222,9 @@ const SessionCompleteScreen = ({ navigation, route }) => {
             </Animated.View>
             
             <Animated.View style={[styles.messageContainer, animatedContentStyle]}>
-              <Text style={styles.completionTitle}>Dios se alegra de este tiempo contigo</Text>
+              <Text style={styles.completionTitle}>{t('sessionComplete.title')}</Text>
               <Text style={styles.completionSubtitle}>
-                Has dedicado {duration.minutes} minutos a tu conexión con Dios
+                {t('sessionComplete.subtitle', { minutes: duration.minutes })}
               </Text>
             </Animated.View>
           </Animated.View>
@@ -237,7 +233,7 @@ const SessionCompleteScreen = ({ navigation, route }) => {
            <Animated.View style={[styles.content, animatedContentStyle]}>
           {/* Selección de estado de ánimo */}
            <Animated.View style={[styles.moodSection, animatedBackgroundStyle]}>
-            <Text style={styles.sectionTitle}>¿Cómo te sientes?</Text>
+            <Text style={styles.sectionTitle}>{t('sessionComplete.moodQuestion')}</Text>
             <View style={styles.moodGrid}>
               {moods && moods.map((mood, index) => (
                 <TouchableOpacity
@@ -257,10 +253,10 @@ const SessionCompleteScreen = ({ navigation, route }) => {
 
            {/* Nota personal */}
           <Animated.View style={[styles.noteSection, animatedNoteStyle]}>
-            <Text style={styles.sectionTitle}>Nota personal (opcional)</Text>
+            <Text style={styles.sectionTitle}>{t('sessionComplete.noteTitle')}</Text>
             <TextInput
               style={styles.noteInput}
-              placeholder="Escribe cómo te sentiste durante este momento..."
+              placeholder={t('sessionComplete.notePlaceholder')}
               placeholderTextColor="rgba(255, 255, 255, 0.6)"
               value={note}
               onChangeText={setNote}
@@ -284,7 +280,7 @@ const SessionCompleteScreen = ({ navigation, route }) => {
               style={styles.primaryButton}
               onPress={handleSkip}
             >
-              <Text style={styles.primaryButtonText}>Continuar</Text>
+              <Text style={styles.primaryButtonText}>{t('sessionComplete.continueButton')}</Text>
               <Ionicons name="heart" size={20} color={Colors.text.light} />
             </TouchableOpacity>
             
@@ -294,7 +290,10 @@ const SessionCompleteScreen = ({ navigation, route }) => {
           {/* Estadísticas rápidas */}
           <Animated.View style={[styles.stats, animatedContentStyle, animatedBackgroundStyle]}>
             <Text style={styles.statsText}>
-              Total esta semana: {weeklyStats.totalMinutes} minutos • {weeklyStats.totalSessions} sesiones
+              {t('sessionComplete.weeklyStats', { 
+                minutes: weeklyStats.totalMinutes, 
+                sessions: weeklyStats.totalSessions 
+              })}
             </Text>
           </Animated.View>
           </ScrollView>
