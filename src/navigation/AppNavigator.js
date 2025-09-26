@@ -2,6 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 
 import { useAuth } from '../context/AuthContext';
 import Colors from '../constants/Colors';
@@ -23,6 +24,8 @@ const Tab = createBottomTabNavigator();
 
 // Navegador de pestañas principales
 const MainTabNavigator = () => {
+  const { t } = useTranslation('common');
+  
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -60,17 +63,17 @@ const MainTabNavigator = () => {
       <Tab.Screen 
         name="Home" 
         component={HomeScreen} 
-        options={{ tabBarLabel: 'Inicio' }}
+        options={{ tabBarLabel: t('home') }}
       />
       <Tab.Screen 
         name="History" 
         component={HistoryScreen} 
-        options={{ tabBarLabel: 'Jardín' }}
+        options={{ tabBarLabel: t('garden') }}
       />
       <Tab.Screen 
         name="Profile" 
         component={ProfileScreen} 
-        options={{ tabBarLabel: 'Perfil' }}
+        options={{ tabBarLabel: t('profile') }}
       />
     </Tab.Navigator>
   );
