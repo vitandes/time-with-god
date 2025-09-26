@@ -36,8 +36,8 @@ const SessionScreen = ({ navigation, route }) => {
   const { t, i18n } = useTranslation();
   // const { addSessionMinutes } = usePlantProgress(t);
 
-  const [timeLeft, setTimeLeft] = useState(duration.minutes * 60);
-  // const [timeLeft, setTimeLeft] = useState(10);
+  // const [timeLeft, setTimeLeft] = useState(duration.minutes * 60);
+  const [timeLeft, setTimeLeft] = useState(10);
 
   const [isPlaying, setIsPlaying] = useState(true);
   const [currentVerseIndex, setCurrentVerseIndex] = useState(0);

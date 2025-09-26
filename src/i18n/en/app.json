@@ -361,10 +361,10 @@
     "moods": {
       "peaceful": "Peaceful",
       "grateful": "Grateful",
-      "joyful": "Joyful",
-      "reflective": "Reflective",
-      "hopeful": "Hopeful",
-      "blessed": "Blessed"
+      "loved": "Joyful",
+      "inspired": "Reflective",
+      "comforted": "Hopeful",
+      "strengthened": "Blessed"
     },
     "completionMessages": {
       "message1": "Your heart has been filled with His love",

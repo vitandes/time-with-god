@@ -322,10 +322,10 @@
     "moods": {
       "peaceful": "En paz",
       "grateful": "Agradecido",
-      "joyful": "Gozoso",
-      "reflective": "Reflexivo",
-      "hopeful": "Esperanzado",
-      "blessed": "Bendecido"
+      "loved": "Gozoso",
+      "inspired": "Reflexivo",
+      "comforted": "Esperanzado",
+      "strengthened": "Bendecido"
     },
     "completionMessages": {
       "message1": "Tu corazón se ha llenado de Su amor",
