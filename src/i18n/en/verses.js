@@ -1,1011 +1,1011 @@
 // Bible verses in English
 export const BIBLE_VERSES = [
    {
-    text: "El silencio interior es el templo donde la eternidad respira contigo.",
-    reference: "Silencio Interior"
+    text: "Inner silence is the temple where eternity breathes with you.",
+    reference: "Inner Silence"
   },
   {
-    text: "Cada respiración consciente es un puente hacia lo divino.",
-    reference: "Puente de Vida"
+    text: "Every conscious breath is a bridge to the divine.",
+    reference: "Bridge of Life"
   },
   {
-    text: "La calma del corazón es la llave que abre las puertas de Dios.",
-    reference: "Llave de Paz"
+    text: "The calm of the heart is the key that opens God's doors.",
+    reference: "Key of Peace"
   },
   {
-    text: "El amor no necesita palabras, es la vibración más pura de lo eterno.",
-    reference: "Vibración Sagrada"
+    text: "Love needs no words, it is the purest vibration of the eternal.",
+    reference: "Sacred Vibration"
   },
   {
-    text: "Cuando te sueltas al fluir de la vida, caminas en la corriente divina.",
-    reference: "Río Eterno"
+    text: "When you surrender to life's flow, you walk in the divine current.",
+    reference: "Eternal River"
   },
   {
-    text: "La gratitud convierte lo cotidiano en un altar sagrado.",
-    reference: "Altar de Gratitud"
+    text: "Gratitude transforms the ordinary into a sacred altar.",
+    reference: "Altar of Gratitude"
   },
   {
-    text: "Tu esencia más profunda es un reflejo del infinito amor divino.",
-    reference: "Esencia de Luz"
+    text: "Your deepest essence is a reflection of infinite divine love.",
+    reference: "Essence of Light"
   },
   {
-    text: "El alma que perdona se convierte en un río de paz inagotable.",
-    reference: "Río de Paz"
+    text: "The soul that forgives becomes an inexhaustible river of peace.",
+    reference: "River of Peace"
   },
   {
-    text: "En la ternura descubres la fuerza secreta de lo divino.",
-    reference: "Fuerza Suave"
+    text: "In tenderness you discover the secret strength of the divine.",
+    reference: "Gentle Strength"
   },
   {
-    text: "La presencia de Dios es tan cercana como tu próxima respiración.",
-    reference: "Respirar en Dios"
+    text: "God's presence is as close as your next breath.",
+    reference: "Breathing in God"
   },
   {
-    text: "Cada sonrisa sincera es un rayo de luz enviado desde lo eterno.",
-    reference: "Luz del Alma"
+    text: "Every sincere smile is a ray of light sent from the eternal.",
+    reference: "Light of the Soul"
   },
   {
-    text: "La fe no necesita pruebas, solo confianza en lo invisible que sostiene todo.",
-    reference: "Confianza Plena"
+    text: "Faith needs no proof, only trust in the invisible that sustains all.",
+    reference: "Complete Trust"
   },
   {
-    text: "Donde hay amor incondicional, allí florece el jardín de Dios.",
-    reference: "Jardín Sagrado"
+    text: "Where there is unconditional love, there God's garden flourishes.",
+    reference: "Sacred Garden"
   },
   {
-    text: "Tu corazón es el santuario donde lo divino se encuentra contigo.",
-    reference: "Santuario Interior"
+    text: "Your heart is the sanctuary where the divine meets you.",
+    reference: "Inner Sanctuary"
   },
   {
-    text: "Cada amanecer es una carta de amor escrita por el Creador.",
-    reference: "Luz del Amanecer"
+    text: "Every sunrise is a love letter written by the Creator.",
+    reference: "Light of Dawn"
   },
   {
-    text: "El alma agradecida siempre camina en compañía de lo divino.",
-    reference: "Camino de Gratitud"
+    text: "The grateful soul always walks in the company of the divine.",
+    reference: "Path of Gratitude"
   },
   {
-    text: "El amor que das nunca se pierde, regresa multiplicado desde la eternidad.",
-    reference: "Cosecha de Amor"
+    text: "The love you give is never lost, it returns multiplied from eternity.",
+    reference: "Harvest of Love"
   },
   {
-    text: "La calma es la melodía secreta del espíritu.",
-    reference: "Melodía de Paz"
+    text: "Calm is the secret melody of the spirit.",
+    reference: "Melody of Peace"
   },
   {
-    text: "Cuando eliges el perdón, liberas alas invisibles en tu interior.",
-    reference: "Alas de Libertad"
+    text: "When you choose forgiveness, you release invisible wings within.",
+    reference: "Wings of Freedom"
   },
   {
-    text: "Cada instante de silencio es un portal hacia lo eterno.",
-    reference: "Portal de Quietud"
+    text: "Every moment of silence is a portal to the eternal.",
+    reference: "Portal of Stillness"
   },
   {
-    text: "La compasión abre caminos que la razón no alcanza a ver.",
-    reference: "Camino Compasivo"
+    text: "Compassion opens paths that reason cannot see.",
+    reference: "Compassionate Path"
   },
   {
-    text: "Dios no se encuentra en lo lejano, sino en lo íntimo de tu ser.",
-    reference: "Morada Interior"
+    text: "God is not found in the distant, but in the intimacy of your being.",
+    reference: "Inner Dwelling"
   },
   {
-    text: "El amor incondicional es el lenguaje secreto del universo.",
-    reference: "Lenguaje Universal"
+    text: "Unconditional love is the secret language of the universe.",
+    reference: "Universal Language"
   },
   {
-    text: "El presente es el altar donde puedes encontrar lo eterno.",
-    reference: "Altar del Ahora"
+    text: "The present is the altar where you can find the eternal.",
+    reference: "Altar of Now"
   },
   {
-    text: "Cada día vivido con amor es un himno silencioso al Creador.",
-    reference: "Himno de Vida"
+    text: "Every day lived with love is a silent hymn to the Creator.",
+    reference: "Hymn of Life"
   },
   {
-    text: "El alma despierta cuando se deja abrazar por la quietud.",
-    reference: "Abrazo de Silencio"
+    text: "The soul awakens when it allows itself to be embraced by stillness.",
+    reference: "Embrace of Silence"
   },
   {
-    text: "La bondad que siembras es la huella eterna de Dios en la tierra.",
-    reference: "Huella de Bondad"
+    text: "The kindness you sow is God's eternal footprint on earth.",
+    reference: "Footprint of Kindness"
   },
   {
-    text: "Tu corazón es un faro que puede guiar a otros hacia la luz.",
-    reference: "Faro Interior"
+    text: "Your heart is a lighthouse that can guide others to the light.",
+    reference: "Inner Lighthouse"
   },
   {
-    text: "Cada gesto de ternura es una chispa del amor divino.",
-    reference: "Chispa de Ternura"
+    text: "Every gesture of tenderness is a spark of divine love.",
+    reference: "Spark of Tenderness"
   },
   {
-    text: "El universo entero es un reflejo de la chispa sagrada en ti.",
-    reference: "Espejo del Alma"
+    text: "The entire universe is a reflection of the sacred spark within you.",
+    reference: "Mirror of the Soul"
   },
   {
-    text: "La paciencia es el lenguaje secreto del alma confiada.",
-    reference: "Lenguaje de Paciencia"
+    text: "Patience is the secret language of the trusting soul.",
+    reference: "Language of Patience"
   },
   {
-    text: "El amor transforma el dolor en sendero de aprendizaje.",
-    reference: "Sendero de Amor"
+    text: "Love transforms pain into a path of learning.",
+    reference: "Path of Love"
   },
   {
-    text: "La eternidad se oculta en la simpleza de un instante presente.",
-    reference: "Instante Sagrado"
+    text: "Eternity hides in the simplicity of a present moment.",
+    reference: "Sacred Moment"
   },
   {
-    text: "El alma que confía vive en un estado permanente de libertad.",
-    reference: "Estado de Fe"
+    text: "The soul that trusts lives in a permanent state of freedom.",
+    reference: "State of Faith"
   },
   {
-    text: "Cada día es una semilla de eternidad sembrada en tu corazón.",
-    reference: "Semilla de Vida"
+    text: "Every day is a seed of eternity planted in your heart.",
+    reference: "Seed of Life"
   },
   {
-    text: "El amor eterno no se explica, solo se experimenta en el silencio.",
-    reference: "Silencio de Amor"
+    text: "Eternal love is not explained, only experienced in silence.",
+    reference: "Silence of Love"
   },
   {
-    text: "La calma profunda es la respuesta que el alma buscaba.",
-    reference: "Respuesta Serena"
+    text: "Deep calm is the answer the soul was seeking.",
+    reference: "Serene Answer"
   },
   {
-    text: "Cuando eliges la compasión, te acercas al corazón de Dios.",
-    reference: "Puente de Compasión"
+    text: "When you choose compassion, you approach God's heart.",
+    reference: "Bridge of Compassion"
   },
   {
-    text: "El alma agradecida brilla más que cualquier estrella.",
-    reference: "Estrella de Gratitud"
+    text: "The grateful soul shines brighter than any star.",
+    reference: "Star of Gratitude"
   },
   {
-    text: "La esperanza es el faro que nunca se apaga en el horizonte del alma.",
-    reference: "Faro de Esperanza"
+    text: "Hope is the lighthouse that never goes out on the soul's horizon.",
+    reference: "Lighthouse of Hope"
   },
   {
-    text: "El amor sin condiciones es la raíz eterna del universo.",
-    reference: "Raíz de Amor"
+    text: "Unconditional love is the eternal root of the universe.",
+    reference: "Root of Love"
   },
   {
-    text: "La luz divina nunca se extingue, incluso en las noches más oscuras.",
-    reference: "Luz Inagotable"
+    text: "Divine light never extinguishes, even in the darkest nights.",
+    reference: "Inexhaustible Light"
   },
   {
-    text: "El silencio no es vacío, es la plenitud donde habita lo eterno.",
-    reference: "Plenitud Silenciosa"
+    text: "Silence is not emptiness, it is the fullness where the eternal dwells.",
+    reference: "Silent Fullness"
   },
   {
-    text: "Cada acto de bondad es un eco eterno en el universo.",
-    reference: "Eco de Bondad"
+    text: "Every act of kindness is an eternal echo in the universe.",
+    reference: "Echo of Kindness"
   },
   {
-    text: "La verdadera fortaleza nace de la confianza en lo divino.",
-    reference: "Fuerza de Fe"
+    text: "True strength is born from trust in the divine.",
+    reference: "Strength of Faith"
   },
   {
-    text: "Tu alma es un reflejo perfecto del amor infinito.",
-    reference: "Reflejo de Eternidad"
+    text: "Your soul is a perfect reflection of infinite love.",
+    reference: "Reflection of Eternity"
   },
   {
-    text: "El amor eterno se manifiesta en cada latido agradecido.",
-    reference: "Latido de Gratitud"
+    text: "Eternal love manifests in every grateful heartbeat.",
+    reference: "Heartbeat of Gratitude"
   },
   {
-    text: "La fe convierte la oscuridad en camino iluminado.",
-    reference: "Camino de Luz"
+    text: "Faith turns darkness into an illuminated path.",
+    reference: "Path of Light"
   },
   {
-    text: "El universo entero canta en armonía con el corazón que ama.",
-    reference: "Canto Universal"
+    text: "The entire universe sings in harmony with the heart that loves.",
+    reference: "Universal Song"
   },
   {
-    text: "La compasión es el arte secreto de ver a Dios en el otro.",
-    reference: "Arte Compasivo"
+    text: "Compassion is the secret art of seeing God in the other.",
+    reference: "Compassionate Art"
   },
   {
-    text: "El amor verdadero no conoce fronteras, porque su origen es infinito.",
-    reference: "Amor Infinito"
+    text: "True love knows no borders, because its origin is infinite.",
+    reference: "Infinite Love"
   },
   {
-    text: "Cada lágrima sanada es una oración silenciosa respondida.",
-    reference: "Oración Secreta"
+    text: "Every healed tear is a silent prayer answered.",
+    reference: "Secret Prayer"
   },
   {
-    text: "La esperanza florece incluso en los suelos más áridos del alma.",
-    reference: "Flor de Esperanza"
+    text: "Hope blooms even in the most arid soils of the soul.",
+    reference: "Flower of Hope"
   },
   {
-    text: "El perdón abre la puerta al jardín secreto de la paz.",
-    reference: "Jardín Interior"
+    text: "Forgiveness opens the door to the secret garden of peace.",
+    reference: "Inner Garden"
   },
   {
-    text: "Tu corazón agradecido es un faro de luz en medio de la oscuridad.",
-    reference: "Faro de Gratitud"
+    text: "Your grateful heart is a beacon of light in the midst of darkness.",
+    reference: "Beacon of Gratitude"
   },
   {
-    text: "La paciencia es la melodía que calma el río del tiempo.",
-    reference: "Melodía Serena"
+    text: "Patience is the melody that calms the river of time.",
+    reference: "Serene Melody"
   },
   {
-    text: "Cada encuentro humano es una oportunidad de ver a Dios reflejado.",
-    reference: "Reflejo Divino"
+    text: "Every human encounter is an opportunity to see God reflected.",
+    reference: "Divine Reflection"
   },
   {
-    text: "El amor transforma los silencios en canciones eternas.",
-    reference: "Canción de Amor"
+    text: "Love transforms silences into eternal songs.",
+    reference: "Song of Love"
   },
   {
-    text: "La quietud es la puerta donde el alma reconoce su eternidad.",
-    reference: "Puerta de Silencio"
+    text: "Stillness is the door where the soul recognizes its eternity.",
+    reference: "Door of Silence"
   },
   {
-    text: "Cada respiración profunda es una plegaria de unión con lo divino.",
-    reference: "Plegaria de Aliento"
+    text: "Every deep breath is a prayer of union with the divine.",
+    reference: "Prayer of Breath"
   },
   {
-    text: "El amor incondicional es la raíz de toda verdadera libertad.",
-    reference: "Raíz de Libertad"
+    text: "Unconditional love is the root of all true freedom.",
+    reference: "Root of Freedom"
   },
   {
-    text: "Tu vida es un viaje sagrado hacia el centro de tu propio ser.",
-    reference: "Viaje Interior"
+    text: "Your life is a sacred journey to the center of your own being.",
+    reference: "Inner Journey"
   },
   {
-    text: "La bondad ilumina más que mil palabras de sabiduría.",
-    reference: "Luz de Bondad"
+    text: "Kindness illuminates more than a thousand words of wisdom.",
+    reference: "Light of Kindness"
   },
   {
-    text: "En la sencillez de un gesto amoroso se revela lo eterno.",
-    reference: "Gesto Sagrado"
+    text: "In the simplicity of a loving gesture, the eternal is revealed.",
+    reference: "Sacred Gesture"
   },
   {
-    text: "El alma que confía encuentra hogar en cualquier lugar.",
-    reference: "Hogar del Alma"
+    text: "The soul that trusts finds home anywhere.",
+    reference: "Home of the Soul"
   },
   {
-    text: "Cada amanecer es un recordatorio del renacer eterno.",
-    reference: "Sol de Renovación"
+    text: "Every sunrise is a reminder of eternal rebirth.",
+    reference: "Sun of Renewal"
   },
   {
-    text: "La fe es la brújula que orienta en la niebla de la duda.",
-    reference: "Brújula de Fe"
+    text: "Faith is the compass that guides through the fog of doubt.",
+    reference: "Compass of Faith"
   },
   {
-    text: "Tu alma canta en armonía con el universo cuando eliges amar.",
-    reference: "Canto de Unidad"
+    text: "Your soul sings in harmony with the universe when you choose to love.",
+    reference: "Song of Unity"
   },
   {
-    text: "El silencio compasivo puede sanar más que mil palabras.",
-    reference: "Silencio Sanador"
+    text: "Compassionate silence can heal more than a thousand words.",
+    reference: "Healing Silence"
   },
   {
-    text: "Cada abrazo sincero es un puente de luz entre dos almas.",
-    reference: "Puente de Luz"
+    text: "Every sincere embrace is a bridge of light between two souls.",
+    reference: "Bridge of Light"
   },
   {
-    text: "La confianza transforma lo incierto en sendero iluminado.",
-    reference: "Sendero de Confianza"
+    text: "Trust transforms uncertainty into an illuminated path.",
+    reference: "Path of Trust"
   },
   {
-    text: "El amor verdadero nunca exige, solo ofrece y florece.",
-    reference: "Flor del Amor"
+    text: "True love never demands, it only offers and flourishes.",
+    reference: "Flower of Love"
   },
   {
-    text: "En la gratitud descubres que todo lo que tienes es suficiente.",
-    reference: "Suficiencia Divina"
+    text: "In gratitude you discover that everything you have is enough.",
+    reference: "Divine Sufficiency"
   },
   {
-    text: "Cada silencio profundo abre un diálogo eterno con Dios.",
-    reference: "Diálogo Silencioso"
+    text: "Every deep silence opens an eternal dialogue with God.",
+    reference: "Silent Dialogue"
   },
   {
-    text: "La calma del alma es más fuerte que cualquier tormenta exterior.",
-    reference: "Calma Invencible"
+    text: "The calm of the soul is stronger than any external storm.",
+    reference: "Invincible Calm"
   },
   {
-    text: "Tu corazón humilde es tierra fértil para lo divino.",
-    reference: "Tierra del Alma"
+    text: "Your humble heart is fertile ground for the divine.",
+    reference: "Soil of the Soul"
   },
   {
-    text: "La eternidad se mide en los momentos vividos con amor.",
-    reference: "Instante Eterno"
+    text: "Eternity is measured in moments lived with love.",
+    reference: "Eternal Moment"
   },
   {
-    text: "El perdón rompe cadenas invisibles y abre alas de libertad.",
-    reference: "Alas de Perdón"
+    text: "Forgiveness breaks invisible chains and opens wings of freedom.",
+    reference: "Wings of Forgiveness"
   },
   {
-    text: "El alma luminosa es un faro que guía incluso en la noche más oscura.",
-    reference: "Faro del Alma"
+    text: "The luminous soul is a lighthouse that guides even in the darkest night.",
+    reference: "Lighthouse of the Soul"
   },
   {
-    text: "Cada sonrisa compartida siembra semillas de eternidad.",
-    reference: "Semilla de Sonrisa"
+    text: "Every shared smile plants seeds of eternity.",
+    reference: "Seed of Smile"
   },
   {
-    text: "La fe es la raíz que sostiene al árbol de tu espíritu.",
-    reference: "Raíz de Fe"
+    text: "Faith is the root that sustains the tree of your spirit.",
+    reference: "Root of Faith"
   },
   {
-    text: "En cada paso consciente descubres el camino hacia lo divino.",
-    reference: "Camino Despierto"
+    text: "In every conscious step you discover the path to the divine.",
+    reference: "Awakened Path"
   },
   {
-    text: "El amor auténtico es el eco del universo en tu corazón.",
-    reference: "Eco de Amor"
+    text: "Authentic love is the echo of the universe in your heart.",
+    reference: "Echo of Love"
   },
   {
-    text: "La gratitud abre ventanas invisibles hacia la abundancia eterna.",
-    reference: "Ventanas de Gratitud"
+    text: "Gratitude opens invisible windows to eternal abundance.",
+    reference: "Windows of Gratitude"
   },
   {
-    text: "Cada día vivido en amor es una joya en el tesoro de la eternidad.",
-    reference: "Tesoro del Alma"
+    text: "Every day lived in love is a jewel in eternity's treasure.",
+    reference: "Treasure of the Soul"
   },
   {
-    text: "La paz verdadera no depende de lo externo, sino de la unión interior.",
-    reference: "Unión Interior"
+    text: "True peace does not depend on the external, but on inner union.",
+    reference: "Inner Union"
   },
   {
-    text: "Tu espíritu es más vasto que cualquier miedo que lo nuble.",
-    reference: "Vasto Espíritu"
+    text: "Your spirit is vaster than any fear that clouds it.",
+    reference: "Vast Spirit"
   },
   {
-    text: "El amor eterno se revela en lo pequeño y lo cotidiano.",
-    reference: "Milagro Cotidiano"
+    text: "Eternal love reveals itself in the small and everyday.",
+    reference: "Daily Miracle"
   },
   {
-    text: "Cada respiración agradecida es un canto silencioso de unidad.",
-    reference: "Canto Agradecido"
+    text: "Every grateful breath is a silent song of unity.",
+    reference: "Grateful Song"
   },
   {
-    text: "La fe convierte las dudas en semillas de confianza.",
-    reference: "Semilla de Confianza"
+    text: "Faith turns doubts into seeds of trust.",
+    reference: "Seed of Trust"
   },
   {
-    text: "El alma serena refleja la paz del universo entero.",
-    reference: "Espejo Sereno"
+    text: "The serene soul reflects the peace of the entire universe.",
+    reference: "Serene Mirror"
   },
   {
-    text: "La compasión abre puertas que el juicio siempre cierra.",
-    reference: "Puerta Compasiva"
+    text: "Compassion opens doors that judgment always closes.",
+    reference: "Compassionate Door"
   },
   {
-    text: "El amor es el agua viva que calma toda sed del alma.",
-    reference: "Agua del Alma"
+    text: "Love is the living water that quenches all thirst of the soul.",
+    reference: "Water of the Soul"
   },
   {
-    text: "Cada instante de gratitud eleva el alma a lo eterno.",
-    reference: "Elevación Agradecida"
+    text: "Every moment of gratitude elevates the soul to the eternal.",
+    reference: "Grateful Elevation"
   },
   {
-    text: "La eternidad se oculta en los detalles simples del presente.",
-    reference: "Detalles Eternos"
+    text: "Eternity hides in the simple details of the present.",
+    reference: "Eternal Details"
   },
   {
-    text: "La bondad invisible es la más poderosa de todas.",
-    reference: "Bondad Oculta"
+    text: "Invisible kindness is the most powerful of all.",
+    reference: "Hidden Kindness"
   },
   {
-    text: "El amor siempre encuentra un camino donde no lo había.",
-    reference: "Camino del Amor"
+    text: "Love always finds a way where there was none.",
+    reference: "Path of Love"
   },
   {
-    text: "Cada corazón abierto es un templo vivo de lo divino.",
-    reference: "Templo del Corazón"
+    text: "Every open heart is a living temple of the divine.",
+    reference: "Temple of the Heart"
   },
   {
-    text: "El silencio amoroso es la música más pura del alma.",
-    reference: "Música Silenciosa"
+    text: "Loving silence is the purest music of the soul.",
+    reference: "Silent Music"
   },
   {
-    text: "La fe ilumina los caminos que todavía no puedes ver.",
-    reference: "Luz de Fe"
+    text: "Faith illuminates paths you cannot yet see.",
+    reference: "Light of Faith"
   },
   {
-    text: "Cada momento presente es un regalo eterno para tu alma.",
-    reference: "Regalo del Presente"
+    text: "Every present moment is an eternal gift for your soul.",
+    reference: "Gift of the Present"
   },
   {
-    text: "El amor es el idioma que todos los corazones entienden.",
-    reference: "Idioma del Alma"
+    text: "Love is the language that all hearts understand.",
+    reference: "Language of the Soul"
   },
   {
-    text: "La gratitud transforma lo ordinario en sagrado.",
-    reference: "Transformación Sagrada"
+    text: "Gratitude transforms the ordinary into sacred.",
+    reference: "Sacred Transformation"
   },
   {
-    text: "La calma interior abre el espacio donde habita lo divino.",
-    reference: "Espacio de Calma"
+    text: "Inner calm opens the space where the divine dwells.",
+    reference: "Space of Calm"
   },
   {
-    text: "Cada paso con conciencia es un viaje hacia lo eterno.",
-    reference: "Viaje de Luz"
+    text: "Every conscious step is a journey toward the eternal.",
+    reference: "Journey of Light"
   },
   {
-    text: "El silencio revela respuestas que las palabras no alcanzan.",
-    reference: "Revelación Silenciosa"
+    text: "Silence reveals answers that words cannot reach.",
+    reference: "Silent Revelation"
   },
   {
-    text: "El alma que ama siempre está en casa.",
-    reference: "Hogar del Amor"
+    text: "The soul that loves is always at home.",
+    reference: "Home of Love"
   },
   {
-    text: "La esperanza es el amanecer después de cada noche.",
-    reference: "Amanecer de Esperanza"
+    text: "Hope is the sunrise after every night.",
+    reference: "Dawn of Hope"
   },
   {
-    text: "Cada acto de bondad es un hilo que teje unidad con todo.",
-    reference: "Tejido de Unidad"
+    text: "Every act of kindness is a thread that weaves unity with all.",
+    reference: "Fabric of Unity"
   },
   {
-    text: "El amor abre puertas que la fuerza nunca podría tocar.",
-    reference: "Puerta del Amor"
+    text: "Love opens doors that force could never touch.",
+    reference: "Door of Love"
   },
   {
-    text: "Tu corazón humilde es más grande que cualquier montaña.",
-    reference: "Montaña Interior"
+    text: "Your humble heart is greater than any mountain.",
+    reference: "Inner Mountain"
   },
   {
-    text: "La compasión es la semilla de toda verdadera paz.",
-    reference: "Semilla de Paz"
+    text: "Compassion is the seed of all true peace.",
+    reference: "Seed of Peace"
   },
   {
-    text: "La fe sostiene al alma como raíces invisibles a un árbol.",
-    reference: "Raíces Invisibles"
+    text: "Faith sustains the soul like invisible roots to a tree.",
+    reference: "Invisible Roots"
   },
   {
-    text: "Cada lágrima sanada se convierte en río de sabiduría.",
-    reference: "Río de Sabiduría"
+    text: "Every healed tear becomes a river of wisdom.",
+    reference: "River of Wisdom"
   },
   {
-    text: "El amor es la respuesta silenciosa a todas las preguntas.",
-    reference: "Respuesta de Amor"
+    text: "Love is the silent answer to all questions.",
+    reference: "Answer of Love"
   },
   {
-    text: "El universo entero cabe en un corazón agradecido.",
-    reference: "Corazón Infinito"
+    text: "The entire universe fits in a grateful heart.",
+    reference: "Infinite Heart"
   },
   {
-    text: "Cada respiración consciente es un sí a la vida divina.",
-    reference: "Sí de la Vida"
+    text: "Every conscious breath is a yes to divine life.",
+    reference: "Yes of Life"
   },
   {
-    text: "La ternura es la forma más fuerte del amor.",
-    reference: "Ternura Eterna"
+    text: "Tenderness is the strongest form of love.",
+    reference: "Eternal Tenderness"
   },
   {
-    text: "La paz no es ausencia de ruido, es plenitud del alma.",
-    reference: "Plenitud Serena"
+    text: "Peace is not absence of noise, it is fullness of the soul.",
+    reference: "Serene Fullness"
   },
   {
-    text: "Cada encuentro verdadero es un recordatorio de lo eterno.",
-    reference: "Encuentro Eterno"
+    text: "Every true encounter is a reminder of the eternal.",
+    reference: "Eternal Encounter"
   },
   {
-    text: "El silencio interior es un altar abierto al infinito.",
-    reference: "Altar Silencioso"
+    text: "Inner silence is an altar open to the infinite.",
+    reference: "Silent Altar"
   },
   {
-    text: "Tu esencia es más grande que cualquier dificultad pasajera.",
-    reference: "Esencia Eterna"
+    text: "Your essence is greater than any passing difficulty.",
+    reference: "Eternal Essence"
   },
   {
-    text: "El amor siempre guía, incluso en los momentos más oscuros.",
-    reference: "Guía de Amor"
+    text: "Love always guides, even in the darkest moments.",
+    reference: "Guide of Love"
   },
   {
-    text: "La confianza abre alas donde antes había cadenas.",
-    reference: "Alas de Confianza"
+    text: "Trust opens wings where there were once chains.",
+    reference: "Wings of Trust"
   },
   {
-    text: "La gratitud es la melodía secreta de un alma en paz.",
-    reference: "Melodía de Gratitud"
+    text: "Gratitude is the secret melody of a soul at peace.",
+    reference: "Melody of Gratitude"
   },
   {
-    text: "Cada mirada compasiva es un espejo del Creador.",
-    reference: "Espejo Compasivo"
+    text: "Every compassionate gaze is a mirror of the Creator.",
+    reference: "Compassionate Mirror"
   },
   {
-    text: "La fe convierte las caídas en oportunidades de elevarse.",
-    reference: "Elevación de Fe"
+    text: "Faith turns falls into opportunities to rise.",
+    reference: "Elevation of Faith"
   },
   {
-    text: "El amor eterno se encuentra en los detalles más simples.",
-    reference: "Detalles de Amor"
+    text: "Eternal love is found in the simplest details.",
+    reference: "Details of Love"
   },
   {
-    text: "Cada instante de paz abre puertas hacia lo infinito.",
-    reference: "Puertas de Paz"
+    text: "Every moment of peace opens doors to the infinite.",
+    reference: "Doors of Peace"
   },
   {
-    text: "La bondad silenciosa es el milagro más poderoso.",
-    reference: "Milagro Silencioso"
+    text: "Silent kindness is the most powerful miracle.",
+    reference: "Silent Miracle"
   },
   {
-    text: "El alma agradecida ve belleza en todas partes.",
-    reference: "Ojos Agradecidos"
+    text: "The grateful soul sees beauty everywhere.",
+    reference: "Grateful Eyes"
   },
   {
-    text: "La compasión es el río que une todos los corazones.",
-    reference: "Río Compasivo"
+    text: "Compassion is the river that unites all hearts.",
+    reference: "Compassionate River"
   },
   {
-    text: "El silencio amoroso cura heridas invisibles.",
-    reference: "Silencio Sanador"
+    text: "Loving silence heals invisible wounds.",
+    reference: "Healing Silence"
   },
   {
-    text: "Cada día es una nueva oportunidad de sembrar amor.",
-    reference: "Nueva Siembra"
+    text: "Every day is a new opportunity to sow love.",
+    reference: "New Sowing"
   },
   {
-    text: "La fe es la lámpara que ilumina cada paso incierto.",
-    reference: "Lámpara de Fe"
+    text: "Faith is the lamp that illuminates every uncertain step.",
+    reference: "Lamp of Faith"
   },
   {
-    text: "El alma pacífica es un cielo abierto en la tierra.",
-    reference: "Cielo Interior"
+    text: "The peaceful soul is an open sky on earth.",
+    reference: "Inner Sky"
   },
   {
-    text: "Cada abrazo sincero sana lo que las palabras no logran.",
-    reference: "Abrazo Sanador"
+    text: "Every sincere embrace heals what words cannot.",
+    reference: "Healing Embrace"
   },
   {
-    text: "La esperanza florece en medio de la adversidad.",
-    reference: "Flor de Confianza"
+    text: "Hope blooms in the midst of adversity.",
+    reference: "Flower of Trust"
   },
   {
-    text: "El amor es el tesoro que crece cuanto más se comparte.",
-    reference: "Tesoro Compartido"
+    text: "Love is the treasure that grows the more it is shared.",
+    reference: "Shared Treasure"
   },
   {
-    text: "La gratitud convierte cada día en un milagro palpable.",
-    reference: "Milagro de Gratitud"
+    text: "Gratitude turns every day into a tangible miracle.",
+    reference: "Miracle of Gratitude"
   },
   {
-    text: "Cada silencio elegido es un regreso a lo sagrado.",
-    reference: "Regreso Silencioso"
+    text: "Every chosen silence is a return to the sacred.",
+    reference: "Silent Return"
   },
   {
-    text: "La fe sostiene lo que la mente no puede comprender.",
-    reference: "Sostén de Fe"
+    text: "Faith sustains what the mind cannot understand.",
+    reference: "Support of Faith"
   },
   {
-    text: "La compasión es el lenguaje que todos los corazones comprenden.",
-    reference: "Lenguaje Compasivo"
+    text: "Compassion is the language all hearts understand.",
+    reference: "Compassionate Language"
   },
   {
-    text: "El amor abre caminos donde parecía no haber ninguno.",
-    reference: "Camino Abierto"
+    text: "Love opens paths where there seemed to be none.",
+    reference: "Open Path"
   },
   {
-    text: "Cada semilla de bondad germina en frutos eternos.",
-    reference: "Frutos Eternos"
+    text: "Every seed of kindness germinates into eternal fruits.",
+    reference: "Eternal Fruits"
   },
   {
-    text: "El alma confiada camina ligera, sin miedo al futuro.",
-    reference: "Camino Ligero"
+    text: "The trusting soul walks lightly, without fear of the future.",
+    reference: "Light Path"
   },
   {
-    text: "La paz es el verdadero hogar de tu espíritu.",
-    reference: "Hogar de Paz"
+    text: "Peace is the true home of your spirit.",
+    reference: "Home of Peace"
   },
   {
-    text: "Cada sonrisa ofrecida es una chispa que enciende al mundo.",
-    reference: "Chispa de Luz"
+    text: "Every offered smile is a spark that ignites the world.",
+    reference: "Spark of Light"
   },
   {
-    text: "El amor eterno se expresa en cada acto de bondad simple.",
-    reference: "Acto Sagrado"
+    text: "Eternal love expresses itself in every simple act of kindness.",
+    reference: "Sacred Act"
   },
   {
-    text: "La confianza en la vida convierte los miedos en aprendizaje.",
-    reference: "Confianza Viva"
+    text: "Trust in life turns fears into learning.",
+    reference: "Living Trust"
   },
   {
-    text: "Cada silencio elegido es un diálogo con lo eterno.",
-    reference: "Diálogo Interior"
+    text: "Every chosen silence is a dialogue with the eternal.",
+    reference: "Inner Dialogue"
   },
   {
-    text: "La esperanza abre flores incluso en el invierno del alma.",
-    reference: "Flor del Invierno"
+    text: "Hope opens flowers even in the winter of the soul.",
+    reference: "Winter Flower"
   },
   {
-    text: "El amor transforma cada herida en semilla de luz.",
-    reference: "Semilla Sanadora"
+    text: "Love transforms every wound into a seed of light.",
+    reference: "Healing Seed"
   },
   {
-    text: "Cada día agradecido es un paso hacia lo eterno.",
-    reference: "Paso Agradecido"
+    text: "Every grateful day is a step toward the eternal.",
+    reference: "Grateful Step"
   },
   {
-    text: "La paz interior es el mayor regalo que puedes ofrecer.",
-    reference: "Regalo de Paz"
+    text: "Inner peace is the greatest gift you can offer.",
+    reference: "Gift of Peace"
   },
   {
-    text: "El silencio revela la música escondida del alma.",
-    reference: "Música del Silencio"
+    text: "Silence reveals the hidden music of the soul.",
+    reference: "Music of Silence"
   },
   {
-    text: "El amor sin condiciones es la verdad más pura.",
-    reference: "Verdad Pura"
+    text: "Unconditional love is the purest truth.",
+    reference: "Pure Truth"
   },
   {
-    text: "Cada sonrisa sincera abre ventanas de esperanza.",
-    reference: "Ventanas de Esperanza"
+    text: "Every sincere smile opens windows of hope.",
+    reference: "Windows of Hope"
   },
   {
-    text: "La fe es el puente invisible que une lo humano y lo divino.",
-    reference: "Puente de Fe"
+    text: "Faith is the invisible bridge that unites the human and divine.",
+    reference: "Bridge of Faith"
   },
   {
-    text: "El alma agradecida camina siempre acompañada de luz.",
-    reference: "Camino Luminoso"
+    text: "The grateful soul always walks accompanied by light.",
+    reference: "Luminous Path"
   },
   {
-    text: "El amor compasivo sana heridas que el tiempo no pudo.",
-    reference: "Sanación Compasiva"
+    text: "Compassionate love heals wounds that time could not.",
+    reference: "Compassionate Healing"
   },
   {
-    text: "La bondad silenciosa es la semilla de un mundo nuevo.",
-    reference: "Semilla Oculta"
+    text: "Silent kindness is the seed of a new world.",
+    reference: "Hidden Seed"
   },
   {
-    text: "Cada instante de calma es un abrazo de eternidad.",
-    reference: "Abrazo Eterno"
+    text: "Every moment of calm is an embrace of eternity.",
+    reference: "Eternal Embrace"
   },
   {
-    text: "La fe transforma lo imposible en oportunidad de milagro.",
-    reference: "Milagro Abierto"
+    text: "Faith transforms the impossible into an opportunity for miracle.",
+    reference: "Open Miracle"
   },
   {
-    text: "El amor sin medida es la melodía de lo divino.",
-    reference: "Melodía de Amor"
+    text: "Immeasurable love is the melody of the divine.",
+    reference: "Melody of Love"
   },
   {
-    text: "Cada respiración consciente es un sí al presente.",
-    reference: "Sí del Presente"
+    text: "Every conscious breath is a yes to the present.",
+    reference: "Yes of the Present"
   },
   {
-    text: "La esperanza florece como semilla en tierra fértil.",
-    reference: "Semilla de Esperanza"
+    text: "Hope blooms like a seed in fertile soil.",
+    reference: "Seed of Hope"
   },
   {
-    text: "El silencio interior es la voz más clara del alma.",
-    reference: "Voz Silenciosa"
+    text: "Inner silence is the clearest voice of the soul.",
+    reference: "Silent Voice"
   },
   {
-    text: "El amor ilumina incluso los rincones más oscuros.",
-    reference: "Luz Oculta"
+    text: "Love illuminates even the darkest corners.",
+    reference: "Hidden Light"
   },
   {
-    text: "Cada acto de gratitud siembra abundancia invisible.",
-    reference: "Abundancia Oculta"
+    text: "Every act of gratitude sows invisible abundance.",
+    reference: "Hidden Abundance"
   },
   {
-    text: "La paz del corazón es el verdadero tesoro de la vida.",
-    reference: "Tesoro de Paz"
+    text: "The peace of the heart is life's true treasure.",
+    reference: "Treasure of Peace"
   },
   {
-    text: "El perdón abre caminos que la memoria había cerrado.",
-    reference: "Camino de Perdón"
+    text: "Forgiveness opens paths that memory had closed.",
+    reference: "Path of Forgiveness"
   },
   {
-    text: "La bondad compartida multiplica la luz en el mundo.",
-    reference: "Multiplicación de Luz"
+    text: "Shared kindness multiplies light in the world.",
+    reference: "Multiplication of Light"
   },
   {
-    text: "Cada instante de amor deja huellas eternas.",
-    reference: "Huellas Eternas"
+    text: "Every moment of love leaves eternal footprints.",
+    reference: "Eternal Footprints"
   },
   {
-    text: "El alma agradecida convierte lo pequeño en milagro.",
-    reference: "Milagro Pequeño"
+    text: "The grateful soul turns the small into miracle.",
+    reference: "Small Miracle"
   },
   {
-    text: "La fe es la raíz que sostiene al espíritu en la tormenta.",
-    reference: "Raíz Firme"
+    text: "Faith is the root that sustains the spirit in the storm.",
+    reference: "Firm Root"
   },
   {
-    text: "El amor auténtico no necesita pruebas, solo presencia.",
-    reference: "Presencia Amorosa"
+    text: "Authentic love needs no proof, only presence.",
+    reference: "Loving Presence"
   },
   {
-    text: "Cada paso consciente es una oración silenciosa.",
-    reference: "Oración Viva"
+    text: "Every conscious step is a silent prayer.",
+    reference: "Living Prayer"
   },
   {
-    text: "El silencio amoroso abre puertas a la sabiduría interior.",
-    reference: "Sabiduría Silenciosa"
+    text: "Loving silence opens doors to inner wisdom.",
+    reference: "Silent Wisdom"
   },
   {
-    text: "La esperanza nunca abandona a quien la cultiva en su alma.",
-    reference: "Cultivo de Esperanza"
+    text: "Hope never abandons those who cultivate it in their soul.",
+    reference: "Cultivation of Hope"
   },
   {
-    text: "El amor es la chispa que enciende el fuego del espíritu.",
-    reference: "Fuego del Alma"
+    text: "Love is the spark that ignites the fire of the spirit.",
+    reference: "Fire of the Soul"
   },
   {
-    text: "Cada lágrima entregada a Dios se convierte en río de paz.",
-    reference: "Río Sanador"
+    text: "Every tear surrendered to God becomes a river of peace.",
+    reference: "Healing River"
   },
   {
-    text: "La fe verdadera es un canto en medio de la tormenta.",
-    reference: "Canto de Fe"
+    text: "True faith is a song in the midst of the storm.",
+    reference: "Song of Faith"
   },
   {
-    text: "El amor eterno florece en cada acto desinteresado.",
-    reference: "Flor del Alma"
+    text: "Eternal love blooms in every selfless act.",
+    reference: "Flower of the Soul"
   },
   {
-    text: "Cada silencio profundo es un refugio sagrado.",
-    reference: "Refugio Silencioso"
+    text: "Every deep silence is a sacred refuge.",
+    reference: "Silent Refuge"
   },
   {
-    text: "La bondad invisible sostiene más de lo que imaginas.",
-    reference: "Manos Invisibles"
+    text: "Invisible kindness sustains more than you imagine.",
+    reference: "Invisible Hands"
   },
   {
-    text: "El alma agradecida siempre encuentra razones para sonreír.",
-    reference: "Sonrisa Agradecida"
+    text: "The grateful soul always finds reasons to smile.",
+    reference: "Grateful Smile"
   },
   {
-    text: "La fe abre horizontes donde antes había muros.",
-    reference: "Horizonte Abierto"
+    text: "Faith opens horizons where there were once walls.",
+    reference: "Open Horizon"
   },
   {
-    text: "El amor compasivo es la medicina del espíritu.",
-    reference: "Medicina del Alma"
+    text: "Compassionate love is the medicine of the spirit.",
+    reference: "Medicine of the Soul"
   },
   {
-    text: "Cada respiración agradecida es un canto silencioso.",
-    reference: "Canto Oculto"
+    text: "Every grateful breath is a silent song.",
+    reference: "Hidden Song"
   },
   {
-    text: "La paz se encuentra en el corazón que se entrega.",
-    reference: "Corazón Entregado"
+    text: "Peace is found in the heart that surrenders.",
+    reference: "Surrendered Heart"
   },
   {
-    text: "El amor ilumina incluso lo que parecía perdido.",
-    reference: "Luz Recuperada"
+    text: "Love illuminates even what seemed lost.",
+    reference: "Recovered Light"
   },
   {
-    text: "Cada momento presente es un abrazo de lo eterno.",
-    reference: "Abrazo Presente"
+    text: "Every present moment is an embrace of the eternal.",
+    reference: "Present Embrace"
   },
   {
-    text: "La gratitud abre los ojos a los milagros cotidianos.",
-    reference: "Milagro Diario"
+    text: "Gratitude opens eyes to daily miracles.",
+    reference: "Daily Miracle"
   },
   {
-    text: "El silencio es el lenguaje en el que Dios susurra.",
-    reference: "Susurro Divino"
+    text: "Silence is the language in which God whispers.",
+    reference: "Divine Whisper"
   },
   {
-    text: "La fe convierte la espera en oportunidad de paz.",
-    reference: "Espera Serena"
+    text: "Faith turns waiting into an opportunity for peace.",
+    reference: "Serene Waiting"
   },
   {
-    text: "El amor sin barreras refleja la esencia divina.",
-    reference: "Esencia de Amor"
+    text: "Love without barriers reflects the divine essence.",
+    reference: "Essence of Love"
   },
   {
-    text: "Cada acto de amor verdadero deja un eco en la eternidad.",
-    reference: "Eco Eterno"
+    text: "Every act of true love leaves an echo in eternity.",
+    reference: "Eternal Echo"
   },
   {
-    text: "La paciencia serena abre puertas donde la prisa solo encuentra muros.",
-    reference: "Puertas de Paciencia"
+    text: "Serene patience opens doors where haste only finds walls.",
+    reference: "Doors of Patience"
   },
   {
-    text: "El alma agradecida convierte lo simple en sagrado.",
-    reference: "Sagrado Cotidiano"
+    text: "The grateful soul turns the simple into sacred.",
+    reference: "Sacred Daily"
   },
   {
-    text: "La fe ilumina el camino incluso cuando la vista es incierta.",
-    reference: "Luz de Camino"
+    text: "Faith illuminates the path even when sight is uncertain.",
+    reference: "Light of Path"
   },
   {
-    text: "Cada sonrisa sincera refleja la presencia de lo divino.",
-    reference: "Espejo de Luz"
+    text: "Every sincere smile reflects the presence of the divine.",
+    reference: "Mirror of Light"
   },
   {
-    text: "La esperanza renace en cada instante vivido con conciencia.",
-    reference: "Renacer de Esperanza"
+    text: "Hope is reborn in every moment lived with consciousness.",
+    reference: "Rebirth of Hope"
   },
   {
-    text: "El silencio interior es un río que conecta con la eternidad.",
-    reference: "Río Interior"
+    text: "Inner silence is a river that connects with eternity.",
+    reference: "Inner River"
   },
   {
-    text: "El amor incondicional es la raíz que sostiene toda vida.",
-    reference: "Raíz Incondicional"
+    text: "Unconditional love is the root that sustains all life.",
+    reference: "Unconditional Root"
   },
   {
-    text: "Cada gesto compasivo es un puente hacia el corazón de Dios.",
-    reference: "Puente Compasivo"
+    text: "Every compassionate gesture is a bridge to God's heart.",
+    reference: "Compassionate Bridge"
   },
   {
-    text: "La gratitud abre ventanas invisibles hacia la plenitud.",
-    reference: "Ventana de Plenitud"
+    text: "Gratitude opens invisible windows toward fullness.",
+    reference: "Window of Fullness"
   },
   {
-    text: "El alma que confía se eleva sobre cualquier dificultad.",
-    reference: "Alas de Fe"
+    text: "The soul that trusts rises above any difficulty.",
+    reference: "Wings of Faith"
   },
   {
-    text: "Cada instante de quietud es un abrazo del universo.",
-    reference: "Abrazo del Universo"
+    text: "Every moment of stillness is an embrace of the universe.",
+    reference: "Embrace of the Universe"
   },
   {
-    text: "La bondad silenciosa ilumina más que mil palabras.",
-    reference: "Luz Silenciosa"
+    text: "Silent kindness illuminates more than a thousand words.",
+    reference: "Silent Light"
   },
   {
-    text: "El amor transforma lo cotidiano en milagro permanente.",
-    reference: "Milagro Cotidiano"
+    text: "Love transforms the everyday into permanent miracle.",
+    reference: "Daily Miracle"
   },
   {
-    text: "Cada respiración consciente es un recordatorio de lo eterno.",
-    reference: "Recordatorio Eterno"
+    text: "Every conscious breath is a reminder of the eternal.",
+    reference: "Eternal Reminder"
   },
   {
-    text: "La fe verdadera es el faro que nunca se apaga.",
-    reference: "Faro de Fe"
+    text: "True faith is the lighthouse that never goes out.",
+    reference: "Lighthouse of Faith"
   },
   {
-    text: "El perdón abre senderos donde antes solo había dolor.",
-    reference: "Sendero de Perdón"
+    text: "Forgiveness opens paths where there was once only pain.",
+    reference: "Path of Forgiveness"
   },
   {
-    text: "La paz interior es la joya más valiosa del alma.",
-    reference: "Joya Interior"
+    text: "Inner peace is the most valuable jewel of the soul.",
+    reference: "Inner Jewel"
   },
   {
-    text: "Cada acto de amor deja huellas que el tiempo no borra.",
-    reference: "Huellas de Amor"
+    text: "Every act of love leaves footprints that time does not erase.",
+    reference: "Footprints of Love"
   },
   {
-    text: "El silencio compasivo cura lo que la razón no alcanza.",
-    reference: "Curación Silenciosa"
+    text: "Compassionate silence heals what reason cannot reach.",
+    reference: "Silent Healing"
   },
   {
-    text: "La esperanza es la semilla que florece en cada corazón.",
-    reference: "Semilla de Esperanza"
+    text: "Hope is the seed that blooms in every heart.",
+    reference: "Seed of Hope"
   },
   {
-    text: "El amor auténtico se reconoce en la entrega desinteresada.",
-    reference: "Entrega de Amor"
+    text: "Authentic love is recognized in selfless surrender.",
+    reference: "Surrender of Love"
   },
   {
-    text: "Cada instante vivido con gratitud es un canto al universo.",
-    reference: "Canto al Universo"
+    text: "Every moment lived with gratitude is a song to the universe.",
+    reference: "Song to the Universe"
   },
   {
-    text: "La fe convierte la incertidumbre en oportunidad de crecimiento.",
-    reference: "Crecimiento Interior"
+    text: "Faith turns uncertainty into an opportunity for growth.",
+    reference: "Inner Growth"
   },
   {
-    text: "El alma serena refleja la armonía del cosmos.",
-    reference: "Armonía del Alma"
+    text: "The serene soul reflects the harmony of the cosmos.",
+    reference: "Harmony of the Soul"
   },
   {
-    text: "Cada silencio elegido es un diálogo con lo divino.",
-    reference: "Diálogo Sagrado"
+    text: "Every chosen silence is a dialogue with the divine.",
+    reference: "Sacred Dialogue"
   },
   {
-    text: "La bondad sembrada regresa multiplicada en gratitud.",
-    reference: "Cosecha de Bondad"
+    text: "Sown kindness returns multiplied in gratitude.",
+    reference: "Harvest of Kindness"
   },
   {
-    text: "El amor ilumina incluso los lugares más oscuros.",
-    reference: "Luz Interior"
+    text: "Love illuminates even the darkest places.",
+    reference: "Inner Light"
   },
   {
-    text: "Cada gesto sincero es un puente hacia la paz universal.",
-    reference: "Puente de Paz"
+    text: "Every sincere gesture is a bridge toward universal peace.",
+    reference: "Bridge of Peace"
   },
   {
-    text: "La paciencia convierte la espera en oportunidad de sabiduría.",
-    reference: "Esperanza Serena"
+    text: "Patience turns waiting into an opportunity for wisdom.",
+    reference: "Serene Hope"
   },
   {
-    text: "El alma agradecida descubre la belleza en lo invisible.",
-    reference: "Belleza Invisible"
+    text: "The grateful soul discovers beauty in the invisible.",
+    reference: "Invisible Beauty"
   },
   {
-    text: "Cada respiración profunda es un abrazo del infinito.",
-    reference: "Abrazo Infinito"
+    text: "Every deep breath is an embrace of the infinite.",
+    reference: "Infinite Embrace"
   },
   {
-    text: "La fe sostiene al espíritu incluso en la tormenta más fuerte.",
-    reference: "Sostén del Alma"
+    text: "Faith sustains the spirit even in the strongest storm.",
+    reference: "Support of the Soul"
   },
   {
-    text: "El amor verdadero es un río que nunca se seca.",
-    reference: "Río Eterno"
+    text: "True love is a river that never runs dry.",
+    reference: "Eternal River"
   },
   {
-    text: "Cada día vivido con conciencia es un regalo divino.",
-    reference: "Regalo Consciente"
+    text: "Every day lived with consciousness is a divine gift.",
+    reference: "Conscious Gift"
   },
   {
-    text: "La gratitud convierte el presente en una experiencia sagrada.",
-    reference: "Presente Sagrado"
+    text: "Gratitude turns the present into a sacred experience.",
+    reference: "Sacred Present"
   },
   {
-    text: "El silencio interior es la llave que abre el corazón.",
-    reference: "Llave del Alma"
+    text: "Inner silence is the key that opens the heart.",
+    reference: "Key of the Soul"
   },
   {
-    text: "La esperanza florece en la tierra fértil del espíritu.",
-    reference: "Tierra de Esperanza"
+    text: "Hope blooms in the fertile soil of the spirit.",
+    reference: "Soil of Hope"
   },
   {
-    text: "Cada acto de amor genera ondas que tocan lo eterno.",
-    reference: "Ondas Eternas"
+    text: "Every act of love generates waves that touch the eternal.",
+    reference: "Eternal Waves"
   },
   {
-    text: "La compasión es el lenguaje más cercano a lo divino.",
-    reference: "Lenguaje Divino"
+    text: "Compassion is the language closest to the divine.",
+    reference: "Divine Language"
   },
   {
-    text: "El alma confiada camina ligera, guiada por la luz interna.",
-    reference: "Camino Ligero"
+    text: "The trusting soul walks lightly, guided by inner light.",
+    reference: "Light Path"
   },
   {
-    text: "Cada momento de paz es un encuentro con la eternidad.",
-    reference: "Encuentro de Paz"
+    text: "Every moment of peace is an encounter with eternity.",
+    reference: "Encounter of Peace"
   },
   {
-    text: "La fe transforma el miedo en oportunidad de crecimiento.",
-    reference: "Oportunidad de Fe"
+    text: "Faith transforms fear into an opportunity for growth.",
+    reference: "Opportunity of Faith"
   },
   {
-    text: "El amor verdadero se expresa en la paciencia infinita.",
-    reference: "Paciencia de Amor"
+    text: "True love expresses itself in infinite patience.",
+    reference: "Patience of Love"
   },
   {
-    text: "Cada sonrisa sincera refleja la luz del universo.",
-    reference: "Luz de Sonrisa"
+    text: "Every sincere smile reflects the light of the universe.",
+    reference: "Light of Smile"
   },
   {
-    text: "La gratitud es la melodía que armoniza el alma y la vida.",
-    reference: "Melodía del Alma"
+    text: "Gratitude is the melody that harmonizes soul and life.",
+    reference: "Melody of the Soul"
   },
   {
-    text: "El silencio amoroso es la voz que habla sin palabras.",
-    reference: "Voz Silenciosa"
+    text: "Loving silence is the voice that speaks without words.",
+    reference: "Silent Voice"
   },
   {
-    text: "Cada gesto compasivo siembra un mundo más luminoso.",
-    reference: "Siembra de Luz"
+    text: "Every compassionate gesture sows a more luminous world.",
+    reference: "Sowing of Light"
   },
   {
-    text: "La esperanza nunca se pierde cuando habita en el corazón.",
-    reference: "Corazón Esperanzado"
+    text: "Hope is never lost when it dwells in the heart.",
+    reference: "Hopeful Heart"
   },
   {
-    text: "El amor auténtico es la semilla que florece eternamente.",
-    reference: "Semilla Eterna"
+    text: "Authentic love is the seed that blooms eternally.",
+    reference: "Eternal Seed"
   },
   {
-    text: "Cada instante de calma es un reflejo de la paz universal.",
-    reference: "Reflejo de Paz"
+    text: "Every moment of calm is a reflection of universal peace.",
+    reference: "Reflection of Peace"
   },
   {
-    text: "La fe convierte lo ordinario en milagro cotidiano.",
-    reference: "Milagro de Fe"
+    text: "Faith turns the ordinary into daily miracle.",
+    reference: "Miracle of Faith"
   },
   {
-    text: "El alma serena irradia luz que trasciende el tiempo.",
-    reference: "Luz Serena"
+    text: "The serene soul radiates light that transcends time.",
+    reference: "Serene Light"
   },
   {
-    text: "Cada momento vivido con gratitud es un puente hacia lo divino.",
-    reference: "Puente Agradecido"
+    text: "Every moment lived with gratitude is a bridge to the divine.",
+    reference: "Grateful Bridge"
   },
   {
-    text: "La bondad invisible sostiene más de lo que la mente percibe.",
-    reference: "Sostén Invisible"
+    text: "Invisible kindness sustains more than the mind perceives.",
+    reference: "Invisible Support"
   }
 ];
