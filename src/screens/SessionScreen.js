@@ -216,12 +216,8 @@ const SessionScreen = ({ navigation, route }) => {
     startSession();
     startVerseRotation();
 
-    // Inicializar música de fondo si está habilitada (después de la introducción)
-    if (musicEnabled) {
-      setTimeout(() => {
-        initializeMusic();
-      }, 1000); // Esperar 1 segundo antes de iniciar la música de fondo
-    }
+    // La música se inicializará automáticamente por el useEffect
+    // No necesitamos llamar initializeMusic() aquí para evitar duplicación
   };
 
   const startSession = () => {
@@ -349,6 +345,12 @@ const SessionScreen = ({ navigation, route }) => {
     index = currentSongIndex
   ) => {
     try {
+      // Verificar que no estemos en la introducción
+      if (isIntroPlaying) {
+        console.log("Skipping music during introduction");
+        return;
+      }
+
       if (sound) {
         await sound.unloadAsync();
       }

@@ -102,11 +102,11 @@ const HomeScreen = ({ navigation }) => {
         {/* Contenedor central con planta */}
         <View style={styles.centerContainer}>
           <View style={styles.plantCircle}>
-            <Animated.View style={[styles.plantIconContainer, animatedPlantStyle]}>
+            {/* <Animated.View style={[styles.plantIconContainer, animatedPlantStyle]}> */}
               <SpiritualPlant 
                 animated={true}
               />
-            </Animated.View>
+            {/* </Animated.View> */}
           </View>
         </View>
 
