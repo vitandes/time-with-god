@@ -139,7 +139,7 @@ const OnboardingScreen = ({ navigation }) => {
     if (currentStep === 2 && selectedTime === null) {
       // Mostrar mensaje de feedback en lugar de establecer valor predeterminado
       showFeedbackMessage(
-        "Por favor, selecciona cuánto tiempo deseas dedicarle a Dios"
+        t('onboarding:feedbackMessages.selectTime')
       );
       return;
     }
@@ -149,7 +149,7 @@ const OnboardingScreen = ({ navigation }) => {
       const displayTime =
       selectedTime === "custom" ? t('feedbackMessage') : `${selectedTime} minutos`;
       showFeedbackMessage(
-        `¡Excelente elección! ${displayTime} de tiempo con Dios transformarán tu día.`
+        t('onboarding:feedbackMessages.excellentChoice', { time: displayTime })
       );
     }
 
@@ -165,7 +165,7 @@ const OnboardingScreen = ({ navigation }) => {
   const finishOnboarding = () => {
     // Mostrar mensaje de refuerzo emocional antes de navegar
     showFeedbackMessage(
-      "Hoy diste tu primer paso para acercarte más a Dios. Estamos contigo en este camino 🙏✨",
+      t('onboarding:feedbackMessages.firstStep'),
       2500
     );
 
@@ -427,7 +427,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-between",
     paddingHorizontal: 0,
-    paddingBottom: 40,
+    paddingBottom: 20,
   },
   contentContainer: {
     flex: 1,
@@ -454,8 +454,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 20,
     letterSpacing: 0.5,
+    paddingHorizontal: 10,
   },
   stepContent: {
+    paddingHorizontal: 15,
     fontSize: 17,
     color: Colors.white,
     textAlign: "center",

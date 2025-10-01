@@ -31,6 +31,11 @@
     "custom": "Custom"
   },
   "feedbackMessage": "custom",
+  "feedbackMessages": {
+    "selectTime": "Please select how much time you want to dedicate to God",
+    "excellentChoice": "Excellent choice! {{time}} of time with God will transform your day.",
+    "firstStep": "Today you took your first step to get closer to God. We are with you on this journey 🙏✨"
+  },
   "step1": {
     "title": "Welcome to your spiritual garden",
     "description": "Cultivate your relationship with God through daily prayer, meditation, and reflection."

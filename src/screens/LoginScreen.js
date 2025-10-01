@@ -217,11 +217,6 @@ const LoginScreen = ({ navigation }) => {
                 onPress={() => setShowEmailForm(!showEmailForm)}
                 activeOpacity={0.8}
               >
-                <Ionicons 
-                  name="mail-outline" 
-                  size={20} 
-                  color={Colors.text.secondary} 
-                />
                 <Text style={styles.emailToggleButtonText}>
                   {t('app:auth.signInEmail')}
                 </Text>
@@ -472,7 +467,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   loginButton: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.primary,
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: 'center',
@@ -490,7 +485,7 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   loginButtonText: {
-    color: Colors.primary,
+    color: Colors.white,
     fontSize: 16,
     fontWeight: '600',
   },
@@ -562,11 +557,11 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
   emailToggleButton: {
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.background,
     borderRadius: 16,
     paddingVertical: 16,
     paddingHorizontal: 20,
-    marginBottom: 24,
+    marginBottom: 2,
     alignItems: 'center',
     shadowColor: Colors.shadow.medium,
     shadowOffset: {

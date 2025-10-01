@@ -31,6 +31,11 @@
     "custom": "Personalizado"
   },
   "feedbackMessage": "personalizado",
+  "feedbackMessages": {
+    "selectTime": "Por favor, selecciona cuánto tiempo deseas dedicarle a Dios",
+    "excellentChoice": "¡Excelente elección! {{time}} de tiempo con Dios transformarán tu día.",
+    "firstStep": "Hoy diste tu primer paso para acercarte más a Dios. Estamos contigo en este camino 🙏✨"
+  },
   "step1": {
     "title": "Bienvenido a tu jardín espiritual",
     "description": "Cultiva tu relación con Dios a través de la oración, meditación y reflexión diaria."
