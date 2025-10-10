@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Time with God",
-    "slug": "time-with-god",
+    "slug": "tiempo-con-dios",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -36,7 +36,13 @@
     "plugins": [
       "expo-av",
       "expo-notifications",
-      "expo-font"
+      "expo-font",
+      [
+        "expo-dev-client",
+        {
+          "launchMode": "most-recent"
+        }
+      ]
     ],
     "extra": {
       "eas": {
