@@ -28,28 +28,28 @@ import { usePlantProgress } from '../hooks/usePlantProgress';
 
 // Mapeo de imágenes de plantas
 const PLANT_IMAGES = {
-  'cactus': require('../../assets/plants/cactuus.webp'),
-  'cedro': require('../../assets/plants/cedro.webp'),
-  'flor-azul': require('../../assets/plants/flor-azul.webp'),
-  'flor-celestial': require('../../assets/plants/flor-celestial.webp'),
-  'lirio': require('../../assets/plants/lirio.webp'),
-  'rosa': require('../../assets/plants/rosa.webp'),
-  'acacia': require('../../assets/plants/acacia.webp'),
-  'aloe': require('../../assets/plants/aloe.webp'),
-  'canela': require('../../assets/plants/canela.webp'),
-  'espino-blanco': require('../../assets/plants/espino-blanco.webp'),
-  'girasol': require('../../assets/plants/girasol.webp'),
-  'higuera': require('../../assets/plants/higuera.webp'),
-  'jacinto': require('../../assets/plants/Jacinto.webp'),
-  'laurel': require('../../assets/plants/laurel.webp'),
-  'lirio2': require('../../assets/plants/lirio2.webp'),
-  'lirio-real': require('../../assets/plants/lirio2.webp'),
-  'mirra': require('../../assets/plants/mirra.webp'),
-  'mostaza': require('../../assets/plants/moztaza.webp'),
-  'mostaza-planta': require('../../assets/plants/moztaza.webp'),
-  'palma': require('../../assets/plants/palma.webp'),
-  'trigo': require('../../assets/plants/trigo.webp'),
-  'vid': require('../../assets/plants/vid.webp'),
+  'cactus': require('../../assets/plants/cactuus.png'),
+  'cedro': require('../../assets/plants/cedro.png'),
+  'flor-azul': require('../../assets/plants/flor-azul.png'),
+  'flor-celestial': require('../../assets/plants/flor-celestial.png'),
+  'lirio': require('../../assets/plants/lirio.png'),
+  'rosa': require('../../assets/plants/rosa.png'),
+  'acacia': require('../../assets/plants/acacia.png'),
+  'aloe': require('../../assets/plants/aloe.png'),
+  'canela': require('../../assets/plants/canela.png'),
+  'espino-blanco': require('../../assets/plants/espino-blanco.png'),
+  'girasol': require('../../assets/plants/girasol.png'),
+  'higuera': require('../../assets/plants/higuera.png'),
+  'jacinto': require('../../assets/plants/Jacinto.png'),
+  'laurel': require('../../assets/plants/laurel.png'),
+  'lirio2': require('../../assets/plants/lirio2.png'),
+  'lirio-real': require('../../assets/plants/lirio2.png'),
+  'mirra': require('../../assets/plants/mirra.png'),
+  'mostaza': require('../../assets/plants/moztaza.png'),
+  'mostaza-planta': require('../../assets/plants/moztaza.png'),
+  'palma': require('../../assets/plants/palma.png'),
+  'trigo': require('../../assets/plants/trigo.png'),
+  'vid': require('../../assets/plants/vid.png'),
 };
 
 const { width } = Dimensions.get('window');
@@ -182,7 +182,7 @@ const SpiritualPlant = ({
           {remainingMinutes > 0 && !currentPlant ? (
             // Mostrar semilla inicial mientras falten minutos
             <Image 
-              source={require('../../assets/plants/semilla.webp')} 
+              source={require('../../assets/plants/semilla.png')} 
               style={styles.seedImage}
               resizeMode="cover"
             />

@@ -64,7 +64,7 @@ const OnboardingScreen = ({ navigation }) => {
       title: t('welcome.title'),
       content: t('welcome.content'),
       buttonText: t('welcome.buttonText'),
-      image: require("../../assets/onboarding/ob1.webp"),
+      image: require("../../assets/onboarding/ob1.png"),
     },
     // Pantalla 2 - Motivación
     {
@@ -72,7 +72,7 @@ const OnboardingScreen = ({ navigation }) => {
       title: t('inspiration.title'),
       content: t('inspiration.content'),
       buttonText: t('inspiration.buttonText'),
-      image: require("../../assets/onboarding/ob2.webp"),
+      image: require("../../assets/onboarding/ob2.png"),
     },
     // Pantalla 3 - Elección del tiempo
     {
@@ -80,7 +80,7 @@ const OnboardingScreen = ({ navigation }) => {
       title: t('timeSelection.title'),
       content: t('timeSelection.content'),
       buttonText: t('timeSelection.buttonText'),
-      image: require("../../assets/onboarding/ob3.webp"),
+      image: require("../../assets/onboarding/ob3.png"),
       showTimeSelection: true,
     },
     // Pantalla 4 - Motivación personalizada
@@ -97,7 +97,7 @@ const OnboardingScreen = ({ navigation }) => {
         return t('motivation.contentTimed', { time });
       },
       buttonText: t('motivation.buttonText'),
-      image: require("../../assets/onboarding/ob40.webp"),
+      image: require("../../assets/onboarding/ob40.png"),
     },
     // Pantalla 5 - Compromiso inspirador
     {
@@ -105,7 +105,7 @@ const OnboardingScreen = ({ navigation }) => {
       title: t('finish.title'),
       content: t('finish.content'),
       buttonText: t('finish.buttonText'),
-      image: require("../../assets/onboarding/ob5.webp"),
+      image: require("../../assets/onboarding/ob5.png"),
       isLastStep: true,
     },
   ];
