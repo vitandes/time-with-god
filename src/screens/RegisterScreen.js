@@ -232,7 +232,7 @@ const RegisterScreen = ({ navigation }) => {
                     <Ionicons name="logo-apple" size={24} color="#fff" />
                   )}
                   <Text style={styles.appleButtonText}>
-                    {isAppleLoading ? t('app:auth.signingUp') : t('app:register.continueWithApple')}
+                    {isAppleLoading ? t('Iniciando sesión...') : t('app:register.continueWithApple')}
                   </Text>
                 </TouchableOpacity>
               )}
@@ -595,6 +595,7 @@ const styles = StyleSheet.create({
   },
   quickAccessContainer: {
     marginBottom: 20,
+    gap: 16,
   },
   googleButton: {
     flexDirection: 'row',
@@ -624,6 +625,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#000',
+    
     paddingVertical: 16,
     borderRadius: 12,
     shadowColor: Colors.shadow.dark,
