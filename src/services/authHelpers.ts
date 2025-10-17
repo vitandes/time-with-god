@@ -14,6 +14,8 @@ import {
 } from 'firebase/auth';
 import { makeRedirectUri, AuthRequest } from 'expo-auth-session';
 import * as AppleAuthentication from 'expo-apple-authentication';
+import * as Crypto from 'expo-crypto';
+import Constants from 'expo-constants';
 import { Platform } from 'react-native';
 import { auth } from '../firebase/firebaseConfig';
 
@@ -179,6 +181,14 @@ export const signInWithApple = async (): Promise<AuthResult> => {
       };
     }
 
+    // Evitar ejecutar en Expo Go, requiere Dev Client/compilación nativa
+    if (Constants.appOwnership === 'expo') {
+      return {
+        success: false,
+        error: 'Apple Sign-In no funciona en Expo Go. Usa un Dev Client (EAS Build) o una compilación nativa.',
+      };
+    }
+
     // Verificar disponibilidad de Apple Authentication
     const isAvailable = await AppleAuthentication.isAvailableAsync();
     if (!isAvailable) {
@@ -188,12 +198,21 @@ export const signInWithApple = async (): Promise<AuthResult> => {
       };
     }
 
+    // Generar nonce (recomendado para Firebase)
+    const randomBytes = await Crypto.getRandomBytesAsync(16);
+    const rawNonce = Array.from(randomBytes).map((b) => ('0' + b.toString(16)).slice(-2)).join('');
+    const hashedNonce = await Crypto.digestStringAsync(
+      Crypto.CryptoDigestAlgorithm.SHA256,
+      rawNonce
+    );
+
     // Realizar autenticación con Apple
     const appleCredential = await AppleAuthentication.signInAsync({
       requestedScopes: [
         AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
         AppleAuthentication.AppleAuthenticationScope.EMAIL,
       ],
+      nonce: hashedNonce,
     });
 
     // Crear credencial de Firebase
@@ -206,6 +225,7 @@ export const signInWithApple = async (): Promise<AuthResult> => {
     const provider = new OAuthProvider('apple.com');
     const credential = provider.credential({
       idToken: identityToken,
+      rawNonce,
     });
 
     // Autenticar con Firebase
@@ -223,6 +243,19 @@ export const signInWithApple = async (): Promise<AuthResult> => {
       return {
         success: false,
         error: 'Autenticación con Apple cancelada',
+      };
+    }
+    // Manejar errores comunes de disponibilidad/operación
+    if (error.code === 'ERR_APPLE_AUTHENTICATION_NOT_AVAILABLE') {
+      return {
+        success: false,
+        error: 'Apple Sign-In no está disponible en este dispositivo',
+      };
+    }
+    if (error.code === 'ERR_APPLE_AUTHENTICATION_OPERATION_FAILED') {
+      return {
+        success: false,
+        error: 'Fallo de autorización de Apple. Verifica que la app tenga la capacidad y sea un build nativo.',
       };
     }
     

@@ -16,7 +16,8 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.timewithgod.app",
-      "googleServicesFile": "./GoogleService-Info.plist"
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "usesAppleSignIn": true
     },
     "android": {
       "adaptiveIcon": {
@@ -37,6 +38,7 @@
       "expo-av",
       "expo-notifications",
       "expo-font",
+      "expo-apple-authentication",
       [
         "expo-dev-client",
         {

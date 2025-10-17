@@ -602,6 +602,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: Colors.white,
     paddingVertical: 16,
+    marginBottom: 10,
     borderRadius: 12,
     shadowColor: Colors.shadow.light,
     shadowOffset: {
