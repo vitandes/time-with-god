@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -11,36 +11,37 @@ import {
   ScrollView,
   Animated,
   ActivityIndicator,
-} from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons } from '@expo/vector-icons';
-import { SafeAreaView } from 'react-native-safe-area-context';
+} from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { Ionicons } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import { useAuth } from '../context/AuthContext';
-import { useTranslation } from 'react-i18next';
-import Colors from '../constants/Colors';
+import { useAuth } from "../context/AuthContext";
+import { useTranslation } from "react-i18next";
+import Colors from "../constants/Colors";
 
 const RegisterScreen = ({ navigation }) => {
-  const { t } = useTranslation(['app', 'common']);
+  const { t } = useTranslation(["app", "common"]);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [isAppleLoading, setIsAppleLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isAppleAvailable, setIsAppleAvailable] = useState(Platform.OS === 'ios');
+  const [isAppleAvailable, setIsAppleAvailable] = useState(
+    Platform.OS === "ios"
+  );
   const [showEmailForm, setShowEmailForm] = useState(false);
 
-  
   // Animación para los botones
   const buttonAnimation = useState(new Animated.Value(1))[0];
   const scrollViewRef = useRef(null);
-  
+
   const animateButton = () => {
     Animated.sequence([
       Animated.timing(buttonAnimation, {
@@ -55,7 +56,7 @@ const RegisterScreen = ({ navigation }) => {
       }),
     ]).start();
   };
-  
+
   // Efecto para desplazar la pantalla cuando se muestra el formulario de email
   useEffect(() => {
     if (showEmailForm && scrollViewRef.current) {
@@ -68,9 +69,9 @@ const RegisterScreen = ({ navigation }) => {
   const { signInWithGoogle, signInWithApple, signUpWithEmail } = useAuth();
 
   const handleInputChange = (field, value) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
@@ -78,62 +79,78 @@ const RegisterScreen = ({ navigation }) => {
     const { name, email, password, confirmPassword } = formData;
 
     if (!name.trim()) {
-      Alert.alert(t('common:error'), t('app:register.validation.nameRequired'));
+      Alert.alert(t("common:error"), t("app:register.validation.nameRequired"));
       return false;
     }
 
     if (!email.trim()) {
-      Alert.alert(t('common:error'), t('app:register.validation.emailRequired'));
+      Alert.alert(
+        t("common:error"),
+        t("app:register.validation.emailRequired")
+      );
       return false;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      Alert.alert(t('common:error'), t('app:register.validation.invalidEmail'));
+      Alert.alert(t("common:error"), t("app:register.validation.invalidEmail"));
       return false;
     }
 
     if (!password.trim()) {
-      Alert.alert(t('common:error'), t('app:register.validation.passwordRequired'));
+      Alert.alert(
+        t("common:error"),
+        t("app:register.validation.passwordRequired")
+      );
       return false;
     }
 
     if (password.length < 6) {
-      Alert.alert(t('common:error'), t('app:register.validation.passwordTooShort'));
+      Alert.alert(
+        t("common:error"),
+        t("app:register.validation.passwordTooShort")
+      );
       return false;
     }
 
     if (password !== confirmPassword) {
-      Alert.alert(t('common:error'), t('app:register.validation.passwordsDoNotMatch'));
+      Alert.alert(
+        t("common:error"),
+        t("app:register.validation.passwordsDoNotMatch")
+      );
       return false;
     }
 
     return true;
   };
-  
-
 
   const handleRegister = async () => {
     if (!validateForm()) return;
 
     setIsLoading(true);
-    
+
     try {
       // Usar Firebase Auth para registrar con email y contraseña
       const result = await signUpWithEmail(formData.email, formData.password);
-      
+
       if (result.success) {
         Alert.alert(
-          '¡Bienvenido!',
-          'Tu espacio espiritual ha sido creado exitosamente. Cada día será una nueva oportunidad de crecer. ✨',
-          [{ text: 'Continuar' }]
+          "¡Bienvenido!",
+          "Tu espacio espiritual ha sido creado exitosamente. Cada día será una nueva oportunidad de crecer. ✨",
+          [{ text: "Continuar" }]
         );
       } else {
-        Alert.alert('Error de registro', result.error || 'Hubo un problema al crear tu cuenta');
+        Alert.alert(
+          "Error de registro",
+          result.error || "Hubo un problema al crear tu cuenta"
+        );
       }
     } catch (error) {
-      console.error('Registration error:', error);
-      Alert.alert('Error', 'Hubo un problema al crear tu espacio. Por favor, inténtalo de nuevo.');
+      console.error("Registration error:", error);
+      Alert.alert(
+        "Error",
+        "Hubo un problema al crear tu espacio. Por favor, inténtalo de nuevo."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -146,13 +163,18 @@ const RegisterScreen = ({ navigation }) => {
     try {
       // NOTA: Esta función necesita ser refactorizada para usar useGoogleAuth hook
       // Ver googleAuthExample.ts para la implementación correcta con useAuthRequest
-      Alert.alert(
-        'Implementación requerida', 
-        'Google Sign-In requiere usar el hook useGoogleAuth. Ver googleAuthExample.ts para la implementación correcta.'
-      );
+      // Alert.alert(
+      //   'Implementación requerida',
+      //   'Google Sign-In requiere usar el hook useGoogleAuth. Ver googleAuthExample.ts para la implementación correcta.'
+      // );
+      const resp = await signInWithGoogle();
+      console.log("resp googlesingin: ", resp);
     } catch (error) {
-      console.error('Error Google Sign-In:', error);
-      Alert.alert('Error', 'Hubo un problema al iniciar sesión con Google. Inténtalo de nuevo con fe.');
+      console.error("Error Google Sign-In:", error);
+      Alert.alert(
+        "Error",
+        "Hubo un problema al iniciar sesión con Google. Inténtalo de nuevo con fe."
+      );
     } finally {
       setIsGoogleLoading(false);
     }
@@ -164,37 +186,40 @@ const RegisterScreen = ({ navigation }) => {
     setIsAppleLoading(true);
     try {
       const result = await signInWithApple();
-      
+
       if (result.success) {
         Alert.alert(
-          '¡Bienvenido a tu camino espiritual!',
-          'Has iniciado tu viaje con Apple exitosamente. Cada día será una nueva oportunidad de crecer. ✨',
-          [{ text: 'Comenzar' }]
+          "¡Bienvenido a tu camino espiritual!",
+          "Has iniciado tu viaje con Apple exitosamente. Cada día será una nueva oportunidad de crecer. ✨",
+          [{ text: "Comenzar" }]
         );
       } else {
-        Alert.alert('Error de Apple', result.error || 'No pudimos iniciar tu camino con Apple. Inténtalo nuevamente.');
+        Alert.alert(
+          "Error de Apple",
+          result.error ||
+            "No pudimos iniciar tu camino con Apple. Inténtalo nuevamente."
+        );
       }
     } catch (error) {
-      console.error('Error Apple Sign-In:', error);
-      Alert.alert('Error', 'Hubo un problema al iniciar sesión con Apple. Inténtalo de nuevo con fe.');
+      console.error("Error Apple Sign-In:", error);
+      Alert.alert(
+        "Error",
+        "Hubo un problema al iniciar sesión con Apple. Inténtalo de nuevo con fe."
+      );
     } finally {
       setIsAppleLoading(false);
     }
   };
-  
 
 
   return (
-    <LinearGradient
-      colors={Colors.gradients.sky}
-      style={styles.container}
-    >
+    <LinearGradient colors={Colors.gradients.sky} style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
         <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.keyboardView}
         >
-          <ScrollView 
+          <ScrollView
             ref={scrollViewRef}
             contentContainerStyle={styles.scrollContent}
             showsVerticalScrollIndicator={false}
@@ -205,23 +230,30 @@ const RegisterScreen = ({ navigation }) => {
                 style={styles.backButton}
                 onPress={() => navigation.goBack()}
               >
-                <Ionicons name="arrow-back" size={24} color={Colors.text.primary} />
+                <Ionicons
+                  name="arrow-back"
+                  size={24}
+                  color={Colors.text.primary}
+                />
               </TouchableOpacity>
-              
+
               <View style={styles.titleContainer}>
-                <Text style={styles.title}>{t('app:register.title')}</Text>
-        <Text style={styles.subtitle}>
-          {t('app:register.subtitle')}
-        </Text>
+                <Text style={styles.title}>{t("app:register.title")}</Text>
+                <Text style={styles.subtitle}>
+                  {t("app:register.subtitle")}
+                </Text>
               </View>
             </View>
 
             {/* Botones de acceso rápido */}
             <View style={styles.quickAccessContainer}>
               {/* Botón Apple - Prioridad 1 (solo iOS) */}
-              {Platform.OS === 'ios' && (
+              {Platform.OS === "ios" && (
                 <TouchableOpacity
-                  style={[styles.appleButton, isAppleLoading && styles.disabledButton]}
+                  style={[
+                    styles.appleButton,
+                    isAppleLoading && styles.disabledButton,
+                  ]}
                   onPress={handleAppleSignUp}
                   disabled={isAppleLoading}
                   activeOpacity={0.8}
@@ -232,14 +264,19 @@ const RegisterScreen = ({ navigation }) => {
                     <Ionicons name="logo-apple" size={24} color="#fff" />
                   )}
                   <Text style={styles.appleButtonText}>
-                    {isAppleLoading ? t('Iniciando sesión...') : t('app:register.continueWithApple')}
+                    {isAppleLoading
+                      ? t("Iniciando sesión...")
+                      : t("app:register.continueWithApple")}
                   </Text>
                 </TouchableOpacity>
               )}
 
               {/* Botón Google - Prioridad 2 */}
               <TouchableOpacity
-                style={[styles.googleButton, isGoogleLoading && styles.disabledButton]}
+                style={[
+                  styles.googleButton,
+                  isGoogleLoading && styles.disabledButton,
+                ]}
                 onPress={handleGoogleSignUp}
                 disabled={isGoogleLoading}
                 activeOpacity={0.8}
@@ -247,17 +284,23 @@ const RegisterScreen = ({ navigation }) => {
                 {isGoogleLoading ? (
                   <ActivityIndicator color={Colors.text.primary} size="small" />
                 ) : (
-                  <Ionicons name="logo-google" size={24} color={Colors.text.primary} />
+                  <Ionicons
+                    name="logo-google"
+                    size={24}
+                    color={Colors.text.primary}
+                  />
                 )}
                 <Text style={styles.googleButtonText}>
-                  {isGoogleLoading ? t('app:auth.signingUp') : t('app:register.continueWithGoogle')}
+                  {isGoogleLoading
+                    ? t("app:auth.signingUp")
+                    : t("app:register.continueWithGoogle")}
                 </Text>
               </TouchableOpacity>
 
               {/* Divisor */}
               <View style={styles.divider}>
                 <View style={styles.dividerLine} />
-                <Text style={styles.dividerText}>{t('common:or')}</Text>
+                <Text style={styles.dividerText}>{t("common:or")}</Text>
                 <View style={styles.dividerLine} />
               </View>
 
@@ -267,18 +310,22 @@ const RegisterScreen = ({ navigation }) => {
                 onPress={() => setShowEmailForm(!showEmailForm)}
                 activeOpacity={0.8}
               >
-                <Ionicons 
-                  name="mail-outline" 
-                  size={20} 
-                  color={Colors.text.secondary} 
+                <Ionicons
+                  name="mail-outline"
+                  size={20}
+                  color={Colors.text.secondary}
                 />
                 <Text style={styles.emailToggleButtonText}>
-                  {t('app:register.createWithEmail')}
+                  {t("app:register.createWithEmail")}
                 </Text>
-                <Ionicons 
-                  name={showEmailForm ? "chevron-up-outline" : "chevron-down-outline"} 
-                  size={18} 
-                  color={Colors.text.secondary} 
+                <Ionicons
+                  name={
+                    showEmailForm
+                      ? "chevron-up-outline"
+                      : "chevron-down-outline"
+                  }
+                  size={18}
+                  color={Colors.text.secondary}
                 />
               </TouchableOpacity>
             </View>
@@ -288,7 +335,9 @@ const RegisterScreen = ({ navigation }) => {
               <View style={styles.emailFormContainer}>
                 {/* Campo Nombre */}
                 <View style={styles.inputContainer}>
-                  <Text style={styles.inputLabel}>{t('app:register.name')}</Text>
+                  <Text style={styles.inputLabel}>
+                    {t("app:register.name")}
+                  </Text>
                   <View style={styles.inputWrapper}>
                     <Ionicons
                       name="person-outline"
@@ -298,10 +347,10 @@ const RegisterScreen = ({ navigation }) => {
                     />
                     <TextInput
                       style={styles.textInput}
-                      placeholder={t('app:register.namePlaceholder')}
+                      placeholder={t("app:register.namePlaceholder")}
                       placeholderTextColor={Colors.text.muted}
                       value={formData.name}
-                      onChangeText={(value) => handleInputChange('name', value)}
+                      onChangeText={(value) => handleInputChange("name", value)}
                       autoCapitalize="words"
                       autoComplete="name"
                     />
@@ -310,7 +359,9 @@ const RegisterScreen = ({ navigation }) => {
 
                 {/* Campo Email */}
                 <View style={styles.inputContainer}>
-                  <Text style={styles.inputLabel}>{t('app:register.email')}</Text>
+                  <Text style={styles.inputLabel}>
+                    {t("app:register.email")}
+                  </Text>
                   <View style={styles.inputWrapper}>
                     <Ionicons
                       name="mail-outline"
@@ -320,10 +371,12 @@ const RegisterScreen = ({ navigation }) => {
                     />
                     <TextInput
                       style={styles.textInput}
-                      placeholder={t('app:register.emailPlaceholder')}
+                      placeholder={t("app:register.emailPlaceholder")}
                       placeholderTextColor={Colors.text.muted}
                       value={formData.email}
-                      onChangeText={(value) => handleInputChange('email', value)}
+                      onChangeText={(value) =>
+                        handleInputChange("email", value)
+                      }
                       keyboardType="email-address"
                       autoCapitalize="none"
                       autoComplete="email"
@@ -333,7 +386,9 @@ const RegisterScreen = ({ navigation }) => {
 
                 {/* Campo Contraseña */}
                 <View style={styles.inputContainer}>
-                  <Text style={styles.inputLabel}>{t('app:register.password')}</Text>
+                  <Text style={styles.inputLabel}>
+                    {t("app:register.password")}
+                  </Text>
                   <View style={styles.inputWrapper}>
                     <Ionicons
                       name="lock-closed-outline"
@@ -343,10 +398,12 @@ const RegisterScreen = ({ navigation }) => {
                     />
                     <TextInput
                       style={styles.textInput}
-                      placeholder={t('app:register.passwordPlaceholder')}
+                      placeholder={t("app:register.passwordPlaceholder")}
                       placeholderTextColor={Colors.text.muted}
                       value={formData.password}
-                      onChangeText={(value) => handleInputChange('password', value)}
+                      onChangeText={(value) =>
+                        handleInputChange("password", value)
+                      }
                       secureTextEntry={!showPassword}
                       autoComplete="new-password"
                     />
@@ -365,7 +422,9 @@ const RegisterScreen = ({ navigation }) => {
 
                 {/* Campo Confirmar Contraseña */}
                 <View style={styles.inputContainer}>
-                  <Text style={styles.inputLabel}>{t('app:register.confirmPassword')}</Text>
+                  <Text style={styles.inputLabel}>
+                    {t("app:register.confirmPassword")}
+                  </Text>
                   <View style={styles.inputWrapper}>
                     <Ionicons
                       name="lock-closed-outline"
@@ -375,19 +434,27 @@ const RegisterScreen = ({ navigation }) => {
                     />
                     <TextInput
                       style={styles.textInput}
-                      placeholder={t('app:register.confirmPasswordPlaceholder')}
+                      placeholder={t("app:register.confirmPasswordPlaceholder")}
                       placeholderTextColor={Colors.text.muted}
                       value={formData.confirmPassword}
-                      onChangeText={(value) => handleInputChange('confirmPassword', value)}
+                      onChangeText={(value) =>
+                        handleInputChange("confirmPassword", value)
+                      }
                       secureTextEntry={!showConfirmPassword}
                       autoComplete="new-password"
                     />
                     <TouchableOpacity
-                      onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+                      onPress={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
                       style={styles.eyeIcon}
                     >
                       <Ionicons
-                        name={showConfirmPassword ? "eye-off-outline" : "eye-outline"}
+                        name={
+                          showConfirmPassword
+                            ? "eye-off-outline"
+                            : "eye-outline"
+                        }
                         size={20}
                         color={Colors.text.secondary}
                       />
@@ -397,45 +464,61 @@ const RegisterScreen = ({ navigation }) => {
 
                 {/* Botón de registro */}
                 <TouchableOpacity
-                  style={[styles.registerButton, isLoading && styles.disabledButton]}
+                  style={[
+                    styles.registerButton,
+                    isLoading && styles.disabledButton,
+                  ]}
                   onPress={handleRegister}
                   disabled={isLoading}
                   activeOpacity={0.8}
                 >
                   {isLoading ? (
-                    <Text style={styles.registerButtonText}>{t('app:auth.creatingAccount')}</Text>
+                    <Text style={styles.registerButtonText}>
+                      {t("app:auth.creatingAccount")}
+                    </Text>
                   ) : (
-                    <Text style={styles.registerButtonText}>{t('app:register.createAccount')}</Text>
+                    <Text style={styles.registerButtonText}>
+                      {t("app:register.createAccount")}
+                    </Text>
                   )}
                 </TouchableOpacity>
-
-
               </View>
             )}
 
             {/* Link a login */}
             <View style={styles.loginLink}>
-              <Text style={styles.loginLinkText}>{t('app:register.alreadyHaveAccount')} </Text>
-              <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                <Text style={styles.loginLinkButton}>{t('app:register.signIn')}</Text>
+              <Text style={styles.loginLinkText}>
+                {t("app:register.alreadyHaveAccount")}{" "}
+              </Text>
+              <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+                <Text style={styles.loginLinkButton}>
+                  {t("app:register.signIn")}
+                </Text>
               </TouchableOpacity>
             </View>
 
             {/* Mensaje inspirador */}
             <View style={styles.inspirationalContainer}>
               <Text style={styles.inspirationalText}>
-                {t('app:register.inspirationalMessage.text')}
+                {t("app:register.inspirationalMessage.text")}
               </Text>
-              <Text style={styles.inspirationalReference}>{t('app:register.inspirationalMessage.reference')}</Text>
+              <Text style={styles.inspirationalReference}>
+                {t("app:register.inspirationalMessage.reference")}
+              </Text>
             </View>
 
             {/* Términos y condiciones - Solo una vez al final */}
             <View style={styles.termsContainer}>
               <Text style={styles.termsText}>
-                {t('app:register.termsAcceptance')} 
-                <Text style={styles.termsLink}> {t('app:register.termsOfService')}</Text>
-                <Text> {t('app:register.and')} </Text>
-                <Text style={styles.termsLink}>{t('app:register.privacyPolicy')}</Text>
+                {t("app:register.termsAcceptance")}
+                <Text style={styles.termsLink}>
+                  {" "}
+                  {t("app:register.termsOfService")}
+                </Text>
+                <Text> {t("app:register.and")} </Text>
+                <Text style={styles.termsLink}>
+                  {t("app:register.privacyPolicy")}
+                </Text>
               </Text>
             </View>
           </ScrollView>
@@ -465,43 +548,43 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   backButton: {
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
     padding: 8,
     marginBottom: 20,
   },
   titleContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 15,
   },
   title: {
     fontSize: 26,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: Colors.text.primary,
     marginBottom: 8,
-    textAlign: 'center',
+    textAlign: "center",
     paddingHorizontal: 20,
   },
   subtitle: {
     fontSize: 16,
     color: Colors.text.secondary,
     marginBottom: 20,
-    textAlign: 'center',
+    textAlign: "center",
     paddingHorizontal: 20,
   },
   progressContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 20,
   },
   progressBar: {
-    width: '60%',
+    width: "60%",
     height: 6,
-    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    backgroundColor: "rgba(255, 255, 255, 0.3)",
     borderRadius: 3,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   progressFill: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
     backgroundColor: Colors.white,
     borderRadius: 3,
   },
@@ -519,13 +602,13 @@ const styles = StyleSheet.create({
   },
   inputLabel: {
     fontSize: 14,
-    fontWeight: '500',
+    fontWeight: "500",
     color: Colors.text.primary,
     marginBottom: 8,
   },
   inputWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: Colors.surface,
     borderRadius: 12,
     paddingHorizontal: 16,
@@ -554,7 +637,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginTop: 10,
     marginBottom: 20,
-    overflow: 'hidden',
+    overflow: "hidden",
     shadowColor: Colors.shadow.dark,
     shadowOffset: {
       width: 0,
@@ -566,8 +649,8 @@ const styles = StyleSheet.create({
   },
   buttonGradient: {
     paddingVertical: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   disabledButton: {
     opacity: 0.7,
@@ -575,12 +658,12 @@ const styles = StyleSheet.create({
   registerButtonText: {
     color: Colors.white,
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
     letterSpacing: 0.5,
   },
   divider: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginVertical: 20,
   },
   dividerLine: {
@@ -598,9 +681,9 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   googleButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: Colors.white,
     paddingVertical: 16,
     marginBottom: 10,
@@ -617,15 +700,15 @@ const styles = StyleSheet.create({
   googleButtonText: {
     color: Colors.text.primary,
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: "500",
     marginLeft: 12,
   },
   appleButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#000',
-    
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#000",
+
     paddingVertical: 16,
     borderRadius: 12,
     shadowColor: Colors.shadow.dark,
@@ -640,19 +723,19 @@ const styles = StyleSheet.create({
   appleButtonText: {
     color: Colors.white,
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: "500",
     marginLeft: 12,
   },
   loginLink: {
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 20,
   },
   socialButtonsContainer: {
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 20,
   },
   loginLinkText: {
@@ -663,27 +746,27 @@ const styles = StyleSheet.create({
   loginLinkButton: {
     color: Colors.white,
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   emotionalMessage: {
-    alignItems: 'center',
+    alignItems: "center",
     paddingHorizontal: 20,
     paddingBottom: 30,
   },
   emotionalMessageText: {
     color: Colors.white,
     fontSize: 14,
-    textAlign: 'center',
-    fontStyle: 'italic',
+    textAlign: "center",
+    fontStyle: "italic",
     opacity: 0.9,
     lineHeight: 20,
   },
 
   emailButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
     borderRadius: 12,
     paddingVertical: 14,
     paddingHorizontal: 20,
@@ -691,22 +774,22 @@ const styles = StyleSheet.create({
   },
   emailButtonText: {
     color: Colors.text.secondary,
-    fontWeight: '500',
+    fontWeight: "500",
     fontSize: 15,
-    textDecorationLine: 'underline',
+    textDecorationLine: "underline",
     marginRight: 5,
   },
   traditionalFormContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
     borderRadius: 12,
     padding: 15,
     marginBottom: 20,
   },
   emailToggleButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: 'transparent',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: "transparent",
     paddingVertical: 16,
     paddingHorizontal: 20,
     borderRadius: 12,
@@ -716,15 +799,15 @@ const styles = StyleSheet.create({
   },
   emailToggleButtonText: {
     fontSize: 15,
-    fontWeight: '500',
+    fontWeight: "500",
     color: Colors.text.secondary,
     flex: 1,
     marginLeft: 12,
-    textAlign: 'left',
-    flexWrap: 'wrap',
+    textAlign: "left",
+    flexWrap: "wrap",
   },
   emailFormContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
     borderRadius: 16,
     padding: 20,
     marginTop: 16,
@@ -741,13 +824,13 @@ const styles = StyleSheet.create({
   termsText: {
     fontSize: 13,
     color: Colors.text.secondary,
-    textAlign: 'center',
+    textAlign: "center",
     lineHeight: 18,
   },
   termsLink: {
     color: Colors.primary,
-    fontWeight: '600',
-    textDecorationLine: 'underline',
+    fontWeight: "600",
+    textDecorationLine: "underline",
   },
   inspirationalContainer: {
     backgroundColor: Colors.surface,
@@ -755,7 +838,7 @@ const styles = StyleSheet.create({
     padding: 20,
     marginTop: 24,
     marginBottom: 32,
-    alignItems: 'center',
+    alignItems: "center",
     shadowColor: Colors.shadow.medium,
     shadowOffset: {
       width: 0,
@@ -769,18 +852,18 @@ const styles = StyleSheet.create({
   },
   inspirationalText: {
     fontSize: 16,
-    fontStyle: 'italic',
+    fontStyle: "italic",
     color: Colors.text.primary,
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: 12,
     lineHeight: 24,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   inspirationalReference: {
     fontSize: 14,
     color: Colors.primary,
-    fontWeight: '600',
-    textAlign: 'center',
+    fontWeight: "600",
+    textAlign: "center",
   },
 });
 

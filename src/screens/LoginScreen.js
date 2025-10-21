@@ -90,10 +90,12 @@ const LoginScreen = ({ navigation }) => {
     try {
       // NOTA: Esta función necesita ser refactorizada para usar useGoogleAuth hook
       // Ver googleAuthExample.ts para la implementación correcta con useAuthRequest
-      Alert.alert(
-        'Implementación requerida', 
-        'Google Sign-In requiere usar el hook useGoogleAuth. Ver googleAuthExample.ts para la implementación correcta.'
-      );
+      // Alert.alert(
+      //   'Implementación requerida', 
+      //   'Google Sign-In requiere usar el hook useGoogleAuth. Ver googleAuthExample.ts para la implementación correcta.'
+      // );
+      const resp = await signInWithGoogle()
+      console.log('resp googlesingin: ',resp)
     } catch (error) {
       console.error('Google sign-in error:', error);
       Alert.alert(t('common:error'), t('app:auth.googleError'));

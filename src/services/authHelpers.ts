@@ -11,13 +11,17 @@ import {
   signOut as firebaseSignOut,
   User,
   UserCredential,
-} from 'firebase/auth';
-import { makeRedirectUri, AuthRequest } from 'expo-auth-session';
-import * as AppleAuthentication from 'expo-apple-authentication';
-import * as Crypto from 'expo-crypto';
-import Constants from 'expo-constants';
-import { Platform } from 'react-native';
-import { auth } from '../firebase/firebaseConfig';
+} from "firebase/auth";
+import { makeRedirectUri, AuthRequest } from "expo-auth-session";
+import * as AppleAuthentication from "expo-apple-authentication";
+import * as Crypto from "expo-crypto";
+import Constants from "expo-constants";
+import { Platform } from "react-native";
+import { auth } from "../firebase/firebaseConfig";
+import {
+  GoogleSignin,
+  statusCodes,
+} from "@react-native-google-signin/google-signin";
 
 // Tipos para TypeScript
 export interface AuthResult {
@@ -53,40 +57,47 @@ const extractUserInfo = (user: User, providerId: string): UserInfo => {
  * @param password - Contraseña del usuario
  * @returns Promise<AuthResult>
  */
-export const signInWithEmail = async (email: string, password: string): Promise<AuthResult> => {
+export const signInWithEmail = async (
+  email: string,
+  password: string
+): Promise<AuthResult> => {
   try {
-    const userCredential: UserCredential = await signInWithEmailAndPassword(auth, email, password);
-    const userInfo = extractUserInfo(userCredential.user, 'password');
-    
+    const userCredential: UserCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const userInfo = extractUserInfo(userCredential.user, "password");
+
     return {
       success: true,
       user: userCredential.user,
     };
   } catch (error: any) {
-    console.error('Error signing in with email:', error);
-    
+    console.error("Error signing in with email:", error);
+
     // Mensajes de error amigables
-    let errorMessage = 'Error al iniciar sesión';
+    let errorMessage = "Error al iniciar sesión";
     switch (error.code) {
-      case 'auth/user-not-found':
-        errorMessage = 'No existe una cuenta con este email';
+      case "auth/user-not-found":
+        errorMessage = "No existe una cuenta con este email";
         break;
-      case 'auth/wrong-password':
-        errorMessage = 'Contraseña incorrecta';
+      case "auth/wrong-password":
+        errorMessage = "Contraseña incorrecta";
         break;
-      case 'auth/invalid-email':
-        errorMessage = 'Email inválido';
+      case "auth/invalid-email":
+        errorMessage = "Email inválido";
         break;
-      case 'auth/user-disabled':
-        errorMessage = 'Esta cuenta ha sido deshabilitada';
+      case "auth/user-disabled":
+        errorMessage = "Esta cuenta ha sido deshabilitada";
         break;
-      case 'auth/too-many-requests':
-        errorMessage = 'Demasiados intentos fallidos. Intenta más tarde';
+      case "auth/too-many-requests":
+        errorMessage = "Demasiados intentos fallidos. Intenta más tarde";
         break;
       default:
-        errorMessage = error.message || 'Error desconocido';
+        errorMessage = error.message || "Error desconocido";
     }
-    
+
     return {
       success: false,
       error: errorMessage,
@@ -100,34 +111,41 @@ export const signInWithEmail = async (email: string, password: string): Promise<
  * @param password - Contraseña del usuario
  * @returns Promise<AuthResult>
  */
-export const signUpWithEmail = async (email: string, password: string): Promise<AuthResult> => {
+export const signUpWithEmail = async (
+  email: string,
+  password: string
+): Promise<AuthResult> => {
   try {
-    const userCredential: UserCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const userInfo = extractUserInfo(userCredential.user, 'password');
-    
+    const userCredential: UserCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const userInfo = extractUserInfo(userCredential.user, "password");
+
     return {
       success: true,
       user: userCredential.user,
     };
   } catch (error: any) {
-    console.error('Error signing up with email:', error);
-    
+    console.error("Error signing up with email:", error);
+
     // Mensajes de error amigables
-    let errorMessage = 'Error al crear la cuenta';
+    let errorMessage = "Error al crear la cuenta";
     switch (error.code) {
-      case 'auth/email-already-in-use':
-        errorMessage = 'Ya existe una cuenta con este email';
+      case "auth/email-already-in-use":
+        errorMessage = "Ya existe una cuenta con este email";
         break;
-      case 'auth/invalid-email':
-        errorMessage = 'Email inválido';
+      case "auth/invalid-email":
+        errorMessage = "Email inválido";
         break;
-      case 'auth/weak-password':
-        errorMessage = 'La contraseña debe tener al menos 6 caracteres';
+      case "auth/weak-password":
+        errorMessage = "La contraseña debe tener al menos 6 caracteres";
         break;
       default:
-        errorMessage = error.message || 'Error desconocido';
+        errorMessage = error.message || "Error desconocido";
     }
-    
+
     return {
       success: false,
       error: errorMessage,
@@ -144,23 +162,44 @@ export const signUpWithEmail = async (email: string, password: string): Promise<
  * @param idToken - Token de identidad de Google obtenido del flujo OAuth
  * @returns Promise<AuthResult>
  */
-export const signInWithGoogle = async (idToken: string): Promise<AuthResult> => {
+export const signInWithGoogle = async (
+  idToken: string
+): Promise<AuthResult> => {
   try {
+    GoogleSignin.configure({
+      webClientId:
+        "658620815834-2lhb09l16qr4f9qqmpa33r4fin9ud097.apps.googleusercontent.com",
+      scopes: ["profile", "email"],
+      offlineAccess: false,
+      forceCodeForRefreshToken: false,
+    });
+
+    if (Platform.OS === "android") {
+      await GoogleSignin.hasPlayServices({
+        showPlayServicesUpdateDialog: true,
+      });
+    }
+
+    const resp = await GoogleSignin.signIn();
+    console.log("resp google: ", resp);
+    const { idToken, user } = resp?.data;
+    if (!idToken) throw new Error("No se obtuvo token de Google.");
+
     // Crear credencial de Firebase con el ID token de Google
     const credential = GoogleAuthProvider.credential(idToken);
-    
+
     // Iniciar sesión con Firebase
     const userCredential = await signInWithCredential(auth, credential);
-    
+
     return {
       success: true,
       user: userCredential.user,
     };
   } catch (error: any) {
-    console.error('Error en signInWithGoogle:', error);
+    console.error("Error en signInWithGoogle:", error);
     return {
       success: false,
-      error: error.message || 'Error al iniciar sesión con Google',
+      error: error.message || "Error al iniciar sesión con Google",
     };
   }
 };
@@ -174,18 +213,19 @@ export const signInWithGoogle = async (idToken: string): Promise<AuthResult> => 
 export const signInWithApple = async (): Promise<AuthResult> => {
   try {
     // Verificar que estamos en iOS
-    if (Platform.OS !== 'ios') {
+    if (Platform.OS !== "ios") {
       return {
         success: false,
-        error: 'Apple Sign-In solo está disponible en iOS',
+        error: "Apple Sign-In solo está disponible en iOS",
       };
     }
 
     // Evitar ejecutar en Expo Go, requiere Dev Client/compilación nativa
-    if (Constants.appOwnership === 'expo') {
+    if (Constants.appOwnership === "expo") {
       return {
         success: false,
-        error: 'Apple Sign-In no funciona en Expo Go. Usa un Dev Client (EAS Build) o una compilación nativa.',
+        error:
+          "Apple Sign-In no funciona en Expo Go. Usa un Dev Client (EAS Build) o una compilación nativa.",
       };
     }
 
@@ -194,13 +234,15 @@ export const signInWithApple = async (): Promise<AuthResult> => {
     if (!isAvailable) {
       return {
         success: false,
-        error: 'Apple Sign-In no está disponible en este dispositivo',
+        error: "Apple Sign-In no está disponible en este dispositivo",
       };
     }
 
     // Generar nonce (recomendado para Firebase)
     const randomBytes = await Crypto.getRandomBytesAsync(16);
-    const rawNonce = Array.from(randomBytes).map((b) => ('0' + b.toString(16)).slice(-2)).join('');
+    const rawNonce = Array.from(randomBytes)
+      .map((b) => ("0" + b.toString(16)).slice(-2))
+      .join("");
     const hashedNonce = await Crypto.digestStringAsync(
       Crypto.CryptoDigestAlgorithm.SHA256,
       rawNonce
@@ -218,11 +260,11 @@ export const signInWithApple = async (): Promise<AuthResult> => {
     // Crear credencial de Firebase
     const { identityToken } = appleCredential;
     if (!identityToken) {
-      throw new Error('No se recibió identity token de Apple');
+      throw new Error("No se recibió identity token de Apple");
     }
 
     // Crear provider de Apple para Firebase
-    const provider = new OAuthProvider('apple.com');
+    const provider = new OAuthProvider("apple.com");
     const credential = provider.credential({
       idToken: identityToken,
       rawNonce,
@@ -230,38 +272,39 @@ export const signInWithApple = async (): Promise<AuthResult> => {
 
     // Autenticar con Firebase
     const userCredential = await signInWithCredential(auth, credential);
-    
+
     return {
       success: true,
       user: userCredential.user,
     };
   } catch (error: any) {
-    console.error('Error signing in with Apple:', error);
-    
+    console.error("Error signing in with Apple:", error);
+
     // Manejar cancelación del usuario
-    if (error.code === 'ERR_CANCELED') {
+    if (error.code === "ERR_CANCELED") {
       return {
         success: false,
-        error: 'Autenticación con Apple cancelada',
+        error: "Autenticación con Apple cancelada",
       };
     }
     // Manejar errores comunes de disponibilidad/operación
-    if (error.code === 'ERR_APPLE_AUTHENTICATION_NOT_AVAILABLE') {
+    if (error.code === "ERR_APPLE_AUTHENTICATION_NOT_AVAILABLE") {
       return {
         success: false,
-        error: 'Apple Sign-In no está disponible en este dispositivo',
+        error: "Apple Sign-In no está disponible en este dispositivo",
       };
     }
-    if (error.code === 'ERR_APPLE_AUTHENTICATION_OPERATION_FAILED') {
+    if (error.code === "ERR_APPLE_AUTHENTICATION_OPERATION_FAILED") {
       return {
         success: false,
-        error: 'Fallo de autorización de Apple. Verifica que la app tenga la capacidad y sea un build nativo.',
+        error:
+          "Fallo de autorización de Apple. Verifica que la app tenga la capacidad y sea un build nativo.",
       };
     }
-    
+
     return {
       success: false,
-      error: error.message || 'Error al iniciar sesión con Apple',
+      error: error.message || "Error al iniciar sesión con Apple",
     };
   }
 };
@@ -279,10 +322,10 @@ export const signOut = async (): Promise<AuthResult> => {
       success: true,
     };
   } catch (error: any) {
-    console.error('Error signing out:', error);
+    console.error("Error signing out:", error);
     return {
       success: false,
-      error: error.message || 'Error al cerrar sesión',
+      error: error.message || "Error al cerrar sesión",
     };
   }
 };

@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "658620815834",
+    "project_id": "twgod-29420",
+    "storage_bucket": "twgod-29420.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:658620815834:android:b4032400d8edfb7d8f48e3",
+        "android_client_info": {
+          "package_name": "com.timewithgod.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "658620815834-7d9ggdpbt90tldjtbu57ouiftlgit748.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.timewithgod.app",
+            "certificate_hash": "e673715953e78cf1554bc8061bacfc866df575ca"
+          }
+        },
+        {
+          "client_id": "658620815834-u4m8u17c1hduh3hmrlse4oh30bqc05dr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.timewithgod.app",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "658620815834-2lhb09l16qr4f9qqmpa33r4fin9ud097.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChS88yvInVl6d9HFnfzicxWPA_tyPWdjw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "658620815834-2lhb09l16qr4f9qqmpa33r4fin9ud097.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "658620815834-na0fo6gfeehr595kmio2t4haseibnhl9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.timewithgod.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
