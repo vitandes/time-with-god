@@ -9,8 +9,8 @@
     "newArchEnabled": true,
     "description": "Una app para momentos diarios de oración, reflexión y meditación espiritual",
     "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
+      "image": "./assets/splash-bg.jpg",
+      "resizeMode": "cover",
       "backgroundColor": "#F8F6FF"
     },
     "ios": {
