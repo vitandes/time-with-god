@@ -27,7 +27,8 @@ const iosSizes = [
 ];
 
 async function generateIcons() {
-  const logoPath = path.join(__dirname, 'assets', 'twg-logo.png');
+  // Usar la imagen del splash como fuente para todos los iconos
+  const sourcePath = path.join(__dirname, 'assets', 'splash-bg.jpg');
   
   // Crear directorios si no existen
   const androidDir = path.join(__dirname, 'assets', 'android');
@@ -43,11 +44,11 @@ async function generateIcons() {
 
   console.log('Generando iconos para Android...');
   
-  // Generar iconos para Android
+  // Generar iconos para Android (Android aplica máscara circular automáticamente)
   for (const { size, density } of androidSizes) {
     const outputPath = path.join(androidDir, `icon-${size}.png`);
-    await sharp(logoPath)
-      .resize(size, size)
+    await sharp(sourcePath)
+      .resize(size, size, { fit: 'cover', position: 'centre' })
       .png()
       .toFile(outputPath);
     console.log(`✓ Generado: ${density} (${size}x${size})`);
@@ -55,11 +56,11 @@ async function generateIcons() {
 
   console.log('\nGenerando iconos para iOS...');
   
-  // Generar iconos para iOS
+  // Generar iconos para iOS (cuadrados, sin bordes vacíos)
   for (const { size, name } of iosSizes) {
     const outputPath = path.join(iosDir, name);
-    await sharp(logoPath)
-      .resize(size, size)
+    await sharp(sourcePath)
+      .resize(size, size, { fit: 'cover', position: 'centre' })
       .png()
       .toFile(outputPath);
     console.log(`✓ Generado: ${name} (${size}x${size})`);
@@ -67,8 +68,8 @@ async function generateIcons() {
 
   // Generar icono principal
   const mainIconPath = path.join(__dirname, 'assets', 'icon.png');
-  await sharp(logoPath)
-    .resize(1024, 1024)
+  await sharp(sourcePath)
+    .resize(1024, 1024, { fit: 'cover', position: 'centre' })
     .png()
     .toFile(mainIconPath);
   console.log(`\n✓ Generado icono principal: icon.png (1024x1024)`);
