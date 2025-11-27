@@ -17,11 +17,13 @@ import { useTranslation } from 'react-i18next';
 
 import Colors from "../constants/Colors";
 import LanguageSwitcher from '../components/LanguageSwitcher';
+import { usePaywall } from "../context/PaywallContext";
 
 const { width, height } = Dimensions.get("window");
 
 const OnboardingScreen = ({ navigation }) => {
   const { t } = useTranslation(['onboarding', 'common']);
+  const { markOnboardingCompleted } = usePaywall();
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedTime, setSelectedTime] = useState(null);
   const [showFeedback, setShowFeedback] = useState(false);
@@ -162,7 +164,7 @@ const OnboardingScreen = ({ navigation }) => {
     }
   };
 
-  const finishOnboarding = () => {
+  const finishOnboarding = async () => {
     // Mostrar mensaje de refuerzo emocional antes de navegar
     showFeedbackMessage(
       t('onboarding:feedbackMessages.firstStep'),
@@ -173,8 +175,9 @@ const OnboardingScreen = ({ navigation }) => {
     // Por ejemplo, el tiempo seleccionado para la sesión diaria
 
     // Navegar a la pantalla de registro después de un breve retraso
-    setTimeout(() => {
-      navigation.navigate("Register");
+    setTimeout(async () => {
+      await markOnboardingCompleted();
+      navigation.replace("Paywall");
     }, 2000);
   };
 

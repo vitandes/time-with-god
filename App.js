@@ -5,6 +5,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { I18nextProvider } from 'react-i18next';
 
 import { AuthProvider } from './src/context/AuthContext';
+import { PaywallProvider } from './src/context/PaywallContext';
 import { SettingsProvider } from './src/context/SettingsContext';
 import AppNavigator from './src/navigation/AppNavigator';
 import Colors from './src/constants/Colors';
@@ -16,10 +17,12 @@ export default function App() {
       <GestureHandlerRootView style={{ flex: 1 }}>
         <NavigationContainer>
           <AuthProvider>
-            <SettingsProvider>
-              <AppNavigator />
-            </SettingsProvider>
-            <StatusBar style="light" backgroundColor={Colors.primary} />
+            <PaywallProvider>
+              <SettingsProvider>
+                <AppNavigator />
+              </SettingsProvider>
+              <StatusBar style="light" backgroundColor={Colors.primary} />
+            </PaywallProvider>
           </AuthProvider>
         </NavigationContainer>
       </GestureHandlerRootView>

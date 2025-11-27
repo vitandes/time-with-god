@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 
 import { useAuth } from '../context/AuthContext';
+import { usePaywall } from '../context/PaywallContext';
 import Colors from '../constants/Colors';
 
 // Importar pantallas
@@ -18,6 +19,7 @@ import SessionScreen from '../screens/SessionScreen';
 import SessionCompleteScreen from '../screens/SessionCompleteScreen';
 import HistoryScreen from '../screens/HistoryScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import SubscriptionPaywall from '../screens/Paywall';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -81,17 +83,25 @@ const MainTabNavigator = () => {
 
 // Navegador de autenticación
 const AuthNavigator = () => {
+  const { initRevenueCat, getInitialAuthRoute } = usePaywall();
+
+  useEffect(() => {
+    initRevenueCat();
+  }, []);
+
+  const initialRouteName = getInitialAuthRoute();
   return (
     <Stack.Navigator
+      initialRouteName={initialRouteName}
       screenOptions={{
         headerShown: false,
         cardStyle: { backgroundColor: Colors.background },
       }}
     >
-      <Stack.Screen name="Welcome" component={OnboardingScreen} />
+      <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+      <Stack.Screen name="Paywall" component={SubscriptionPaywall} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
-      {/* <Stack.Screen name="Subscription" component={SubscriptionScreen} /> */}
     </Stack.Navigator>
   );
 };

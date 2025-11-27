@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { onAuthStateChanged } from 'firebase/auth';
+import { logInRC, logOutRC, getCustomerInfoRC } from '../services/revenuecat';
 import { auth } from '../firebase/firebaseConfig';
 import {
   signInWithEmail as firebaseSignInWithEmail,
@@ -175,6 +176,17 @@ export const AuthProvider = ({ children }) => {
         };
         
         dispatch({ type: ActionTypes.LOGIN_SUCCESS, payload: userData });
+        // Sincronizar RevenueCat App User ID y actualizar suscripción si aplica
+        try {
+          await logInRC(firebaseUser.uid);
+          const rcInfo = await getCustomerInfoRC();
+          const hasActive = rcInfo && Object.keys(rcInfo?.entitlements?.active || {}).length > 0;
+          if (hasActive) {
+            dispatch({ type: ActionTypes.UPDATE_SUBSCRIPTION, payload: { isActive: true, isTrialActive: false } });
+          }
+        } catch (e) {
+          // continuar sin bloquear
+        }
         await saveUserData({ ...state, ...userData });
       } else {
         // Usuario no autenticado
@@ -296,6 +308,15 @@ export const AuthProvider = ({ children }) => {
     try {
       const result = await firebaseSignOut();
       if (result.success) {
+        // Marcar estado previo de suscripción en RevenueCat y luego cerrar sesión
+        try {
+          const rcInfoBefore = await getCustomerInfoRC();
+          const hadActive = rcInfoBefore && Object.keys(rcInfoBefore?.entitlements?.active || {}).length > 0;
+          await AsyncStorage.setItem('hadActiveAtLogout', hadActive ? 'true' : 'false');
+          await logOutRC();
+        } catch (e) {
+          // ignore
+        }
         await AsyncStorage.removeItem('userData');
         dispatch({ type: ActionTypes.LOGOUT });
         return { success: true };
