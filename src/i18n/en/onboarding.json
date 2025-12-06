@@ -57,6 +57,7 @@
     "description": "You're ready to start this beautiful spiritual adventure."
   },
   "getStarted": "Get Started",
+  "next": "Next",
   "skip": "Skip",
   "question1": "How much time do you currently dedicate to daily prayer?",
   "question2": "What type of spiritual activities do you prefer?",
@@ -79,6 +80,28 @@
       "afternoon": "Afternoon",
       "evening": "Evening",
       "flexible": "Flexible"
+    }
+  },
+  "slides": {
+    "welcome": {
+      "title": "Time with God",
+      "subtitle": "Your companion for daily moments of prayer, reflection, and inner peace"
+    },
+    "time": {
+      "title": "Personalized Moments",
+      "subtitle": "How much time would you like to dedicate to your spiritual connection today?"
+    },
+    "garden": {
+      "title": "Spiritual Garden",
+      "subtitle": "Cultivate your faith. Your consistency will make beautiful spiritual plants bloom"
+    },
+    "verse": {
+      "title": "Daily Inspiration",
+      "subtitle": "New biblical verses every day to guide your walk"
+    },
+    "music": {
+      "title": "Atmosphere of Peace",
+      "subtitle": "Soft instrumental music to accompany your prayer moments"
     }
   }
 }

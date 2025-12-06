@@ -40,45 +40,6 @@ const ONBOARDING_IMAGES = {
     ob5: require('../../assets/onboarding/ob5.png'),
 };
 
-const onboardingData = [
-    {
-        id: 'welcome',
-        title: 'Tiempo con Dios',
-        subtitle: 'Tu compañero para momentos diarios de oración, reflexión y paz interior',
-        icon: 'flower',
-        image: ONBOARDING_IMAGES.ob1,
-    },
-    {
-        id: 'time',
-        type: 'selection', // Special type for interactive selection
-        title: 'Momentos Personalizados',
-        subtitle: '¿Cuánto tiempo te gustaría dedicar a tu conexión espiritual hoy?',
-        icon: 'time',
-        image: ONBOARDING_IMAGES.ob2,
-    },
-    {
-        id: 'garden',
-        title: 'Jardín Espiritual',
-        subtitle: 'Cultiva tu fe. Tu constancia hará florecer hermosas plantas espirituales',
-        icon: 'leaf',
-        image: ONBOARDING_IMAGES.ob3,
-    },
-    {
-        id: 'verse',
-        title: 'Inspiración Diaria',
-        subtitle: 'Nuevos versículos bíblicos cada día para guiar tu caminata',
-        icon: 'book',
-        image: ONBOARDING_IMAGES.ob4,
-    },
-    {
-        id: 'music',
-        title: 'Atmósfera de Paz',
-        subtitle: 'Música instrumental suave para acompañar tus momentos de oración',
-        icon: 'musical-notes',
-        image: ONBOARDING_IMAGES.ob5,
-    },
-];
-
 const TimeOption = ({ minutes, isSelected, onSelect }) => (
     <TouchableOpacity
         onPress={() => onSelect(minutes)}
@@ -221,10 +182,50 @@ const Paginator = ({ data, scrollX }) => {
 };
 
 const OnboardingScreen = ({ navigation }) => {
+    const { t } = useTranslation('onboarding');
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selectedTime, setSelectedTime] = useState(null); // State for time selection
     const scrollX = useSharedValue(0);
     const flatListRef = useRef(null);
+
+    const onboardingData = React.useMemo(() => [
+        {
+            id: 'welcome',
+            title: t('slides.welcome.title'),
+            subtitle: t('slides.welcome.subtitle'),
+            icon: 'flower',
+            image: ONBOARDING_IMAGES.ob1,
+        },
+        {
+            id: 'time',
+            type: 'selection',
+            title: t('slides.time.title'),
+            subtitle: t('slides.time.subtitle'),
+            icon: 'time',
+            image: ONBOARDING_IMAGES.ob2,
+        },
+        {
+            id: 'garden',
+            title: t('slides.garden.title'),
+            subtitle: t('slides.garden.subtitle'),
+            icon: 'leaf',
+            image: ONBOARDING_IMAGES.ob3,
+        },
+        {
+            id: 'verse',
+            title: t('slides.verse.title'),
+            subtitle: t('slides.verse.subtitle'),
+            icon: 'book',
+            image: ONBOARDING_IMAGES.ob4,
+        },
+        {
+            id: 'music',
+            title: t('slides.music.title'),
+            subtitle: t('slides.music.subtitle'),
+            icon: 'musical-notes',
+            image: ONBOARDING_IMAGES.ob5,
+        },
+    ], [t]);
 
     // Ambient animations
     const particle1Y = useSharedValue(0);
@@ -321,7 +322,7 @@ const OnboardingScreen = ({ navigation }) => {
 
                     <TouchableOpacity onPress={handleSkip} style={styles.skipButton}>
                         <Text style={styles.skipText}>
-                            {currentIndex === onboardingData.length - 1 ? '' : 'Omitir'}
+                            {currentIndex === onboardingData.length - 1 ? '' : t('skip')}
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -358,7 +359,7 @@ const OnboardingScreen = ({ navigation }) => {
                         style={styles.nextButton}
                         onPress={handleNext}
                         activeOpacity={0.8}
-                        accessibilityLabel={currentIndex === onboardingData.length - 1 ? 'Comenzar' : 'Siguiente'}
+                        accessibilityLabel={currentIndex === onboardingData.length - 1 ? t('getStarted') : t('next')}
                     >
                         <LinearGradient
                             colors={currentIndex === onboardingData.length - 1 ? ['#FFFFFF', '#E6E6FA'] : ['rgba(255,255,255,0.25)', 'rgba(255,255,255,0.1)']}
@@ -370,7 +371,7 @@ const OnboardingScreen = ({ navigation }) => {
                                 styles.nextButtonText,
                                 currentIndex === onboardingData.length - 1 && styles.nextButtonTextActive
                             ]}>
-                                {currentIndex === onboardingData.length - 1 ? 'Comenzar' : 'Siguiente'}
+                                {currentIndex === onboardingData.length - 1 ? t('getStarted') : t('next')}
                             </Text>
                             <Ionicons
                                 name={currentIndex === onboardingData.length - 1 ? "rocket-outline" : "arrow-forward"}

@@ -57,6 +57,7 @@
     "description": "Estás listo para comenzar esta hermosa aventura espiritual."
   },
   "getStarted": "Comenzar",
+  "next": "Siguiente",
   "skip": "Omitir",
   "question1": "¿Cuánto tiempo dedicas actualmente a la oración diaria?",
   "question2": "¿Qué tipo de actividades espirituales prefieres?",
@@ -79,6 +80,28 @@
       "afternoon": "Tarde",
       "evening": "Noche",
       "flexible": "Flexible"
+    }
+  },
+  "slides": {
+    "welcome": {
+      "title": "Tiempo con Dios",
+      "subtitle": "Tu compañero para momentos diarios de oración, reflexión y paz interior"
+    },
+    "time": {
+      "title": "Momentos Personalizados",
+      "subtitle": "¿Cuánto tiempo te gustaría dedicar a tu conexión espiritual hoy?"
+    },
+    "garden": {
+      "title": "Jardín Espiritual",
+      "subtitle": "Cultiva tu fe. Tu constancia hará florecer hermosas plantas espirituales"
+    },
+    "verse": {
+      "title": "Inspiración Diaria",
+      "subtitle": "Nuevos versículos bíblicos cada día para guiar tu caminata"
+    },
+    "music": {
+      "title": "Atmósfera de Paz",
+      "subtitle": "Música instrumental suave para acompañar tus momentos de oración"
     }
   }
 }
