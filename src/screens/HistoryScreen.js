@@ -8,6 +8,7 @@ import {
   Dimensions,
   Image,
   Modal,
+  Platform,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
@@ -18,6 +19,8 @@ import Animated, {
   withTiming,
   withDelay,
   Easing,
+  withRepeat,
+  withSequence,
 } from 'react-native-reanimated';
 
 import { useAuth } from '../context/AuthContext';
@@ -55,17 +58,6 @@ const PLANT_IMAGES = {
 
 const { width } = Dimensions.get('window');
 
-const moodEmojis = {
-  peaceful: '😌',
-  grateful: '🙏',
-  calm: '😊',
-  joyful: '😄',
-  inspired: '✨',
-  loved: '💕',
-  strengthened: '💪',
-  comforted: '🤗'
-};
-
 const HistoryScreen = () => {
   const { t } = useTranslation('app');
   const { user } = useAuth();
@@ -75,18 +67,18 @@ const HistoryScreen = () => {
   const [selectedPeriod, setSelectedPeriod] = useState('week');
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedMedal, setSelectedMedal] = useState(null);
-  
+
   // Animaciones
   const fadeIn = useSharedValue(0);
   const slideUp = useSharedValue(30);
+  const particle1Y = useSharedValue(0);
+  const particle2Y = useSharedValue(0);
 
   // Obtener datos dinámicos del historial
   const currentData = getStats(selectedPeriod);
-  
+
   // Mostrar solo plantas reales obtenidas por el usuario
   const displayPlants = obtainedPlants;
-  
-
 
   const handleMedalPress = (plantData) => {
     // Buscar primero por image en plants, luego en seedPlant
@@ -94,7 +86,7 @@ const HistoryScreen = () => {
     if (!plant && plantData.id === 'semilla') {
       plant = seedPlant;
     }
-    
+
     if (plant) {
       setSelectedMedal({
         ...plant,
@@ -125,29 +117,46 @@ const HistoryScreen = () => {
 
   const startAnimations = () => {
     fadeIn.value = withTiming(1, { duration: 800 });
-    slideUp.value = withTiming(0, { 
-      duration: 600, 
-      easing: Easing.out(Easing.ease) 
+    slideUp.value = withTiming(0, {
+      duration: 600,
+      easing: Easing.out(Easing.ease)
     });
+
+    // Partículas flotantes
+    particle1Y.value = withRepeat(
+      withSequence(
+        withTiming(-20, { duration: 4000, easing: Easing.inOut(Easing.ease) }),
+        withTiming(0, { duration: 4000, easing: Easing.inOut(Easing.ease) })
+      ),
+      -1,
+      true
+    );
+
+    particle2Y.value = withDelay(1000, withRepeat(
+      withSequence(
+        withTiming(-30, { duration: 5000, easing: Easing.inOut(Easing.ease) }),
+        withTiming(0, { duration: 5000, easing: Easing.inOut(Easing.ease) })
+      ),
+      -1,
+      true
+    ));
   };
-
-
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const today = new Date();
     const yesterday = new Date(today);
     yesterday.setDate(yesterday.getDate() - 1);
-    
+
     if (date.toDateString() === today.toDateString()) {
       return t('history.dates.today');
     } else if (date.toDateString() === yesterday.toDateString()) {
       return t('history.dates.yesterday');
     } else {
-      return date.toLocaleDateString('es-ES', { 
-        weekday: 'short', 
-        day: 'numeric', 
-        month: 'short' 
+      return date.toLocaleDateString('es-ES', {
+        weekday: 'short',
+        day: 'numeric',
+        month: 'short'
       });
     }
   };
@@ -176,14 +185,34 @@ const HistoryScreen = () => {
     };
   });
 
+  const particle1Style = useAnimatedStyle(() => ({
+    transform: [{ translateY: particle1Y.value }],
+  }));
+
+  const particle2Style = useAnimatedStyle(() => ({
+    transform: [{ translateY: particle2Y.value }],
+  }));
 
   const plantStage = getPlantStage(currentData.totalSessions);
 
   return (
-    <LinearGradient
-      colors={Colors.gradients.primary}
-      style={styles.container}
-    >
+    <View style={styles.container}>
+      <LinearGradient
+        colors={Colors.gradients.spiritual}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.background}
+      />
+
+      {/* Efectos de fondo (Luces ambientales) */}
+      <View style={[styles.ambientLight, styles.ambientLightTop]} />
+      <View style={[styles.ambientLight, styles.ambientLightBottom]} />
+
+      {/* Partículas */}
+      <Animated.View style={[styles.particle, { top: '15%', left: '10%', width: 4, height: 4 }, particle1Style]} />
+      <Animated.View style={[styles.particle, { top: '25%', right: '15%', width: 6, height: 6, opacity: 0.4 }, particle2Style]} />
+      <Animated.View style={[styles.particle, { bottom: '30%', left: '20%', width: 3, height: 3, opacity: 0.3 }, particle1Style]} />
+
       <SafeAreaView style={styles.safeArea}>
         <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
           {/* Header */}
@@ -193,100 +222,126 @@ const HistoryScreen = () => {
           </View>
 
           {/* Medallas de plantas obtenidas - Slider */}
-          <View style={styles.gardenSection}>
+          <View style={styles.glassCard}>
             <Text style={styles.gardenTitle}>{t('history.plantsObtained')}</Text>
             {displayPlants.length > 0 ? (
-               <ScrollView 
-                 horizontal 
-                 showsHorizontalScrollIndicator={false}
-                 contentContainerStyle={styles.plantsSlider}
-                 style={styles.sliderContainer}
-               >
-                 {displayPlants && displayPlants.map((plantData, index) => {
-                   const plantId = typeof plantData === 'string' ? plantData : plantData.id;
-                   // Buscar primero por image en plants (es un array), luego en seedPlant
-                   let plant = plants.find(p => p.image === plantId || p.id === plantId);
-                   if (!plant && plantId === 'semilla') {
-                     plant = seedPlant;
-                   }
-                   return (
-                     <TouchableOpacity 
-                       key={index} 
-                       style={styles.plantMedal}
-                       onPress={() => handleMedalPress(typeof plantData === 'string' ? { id: plantData } : plantData)}
-                     >
-                       <Image 
-                         source={PLANT_IMAGES[plant?.image]} 
-                         style={styles.medalImage}
-                         resizeMode="cover"
-                       />
-                       <Text style={styles.medalName}>{plant?.name}</Text>
-                     </TouchableOpacity>
-                   );
-                 })}
-                 {displayPlants && Array.from({ length: Math.max(0, 10 - displayPlants.length) }).map((_, index) => (
-                   <View key={`empty-${index}`} style={[styles.plantMedal, styles.emptyMedal]}>
-                     <View style={[styles.medalImage, { backgroundColor: 'rgba(200, 200, 200, 0.3)', justifyContent: 'center', alignItems: 'center' }]}>
-                       <Ionicons name="leaf-outline" size={24} color={Colors.text.secondary} />
-                     </View>
-                     <Text style={styles.medalName}>?</Text>
-                   </View>
-                 ))}
-               </ScrollView>
-             ) : (
-               <View style={styles.emptyGardenContainer}>
-                 <Ionicons name="leaf-outline" size={48} color="#7B8794" />
-                 <Text style={styles.emptyGardenText}>{t('history.emptyGarden.title')}</Text>
-                 <Text style={styles.emptyGardenSubtext}>{t('history.emptyGarden.subtitle')}</Text>
-               </View>
-             )}
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.plantsSlider}
+                style={styles.sliderContainer}
+              >
+                {displayPlants && displayPlants.map((plantData, index) => {
+                  const plantId = typeof plantData === 'string' ? plantData : plantData.id;
+                  let plant = plants.find(p => p.image === plantId || p.id === plantId);
+                  if (!plant && plantId === 'semilla') {
+                    plant = seedPlant;
+                  }
+                  return (
+                    <TouchableOpacity
+                      key={index}
+                      style={styles.plantMedal}
+                      onPress={() => handleMedalPress(typeof plantData === 'string' ? { id: plantData } : plantData)}
+                    >
+                      <LinearGradient
+                        colors={['rgba(255,255,255,0.2)', 'rgba(255,255,255,0.05)']}
+                        style={styles.medalGradient}
+                      >
+                        <Image
+                          source={PLANT_IMAGES[plant?.image]}
+                          style={styles.medalImage}
+                          resizeMode="cover"
+                        />
+                        <Text style={styles.medalName}>{plant?.name}</Text>
+                      </LinearGradient>
+                    </TouchableOpacity>
+                  );
+                })}
+                {displayPlants && Array.from({ length: Math.max(0, 10 - displayPlants.length) }).map((_, index) => (
+                  <View key={`empty-${index}`} style={[styles.plantMedal, styles.emptyMedal]}>
+                    <LinearGradient
+                      colors={['rgba(255,255,255,0.1)', 'rgba(255,255,255,0.02)']}
+                      style={styles.medalGradient}
+                    >
+                      <View style={styles.emptyIconContainer}>
+                        <Ionicons name="leaf-outline" size={24} color="rgba(255,255,255,0.3)" />
+                      </View>
+                      <Text style={styles.medalName}>?</Text>
+                    </LinearGradient>
+                  </View>
+                ))}
+              </ScrollView>
+            ) : (
+              <View style={styles.emptyGardenContainer}>
+                <Ionicons name="leaf-outline" size={48} color="rgba(255,255,255,0.3)" />
+                <Text style={styles.emptyGardenText}>{t('history.emptyGarden.title')}</Text>
+                <Text style={styles.emptyGardenSubtext}>{t('history.emptyGarden.subtitle')}</Text>
+              </View>
+            )}
           </View>
 
           {/* Selector de período */}
-          <View style={styles.periodSelector}>
-            {periods && periods.map((period) => (
-              <TouchableOpacity
-                key={period.key}
-                style={[
-                  styles.periodButton,
-                  selectedPeriod === period.key && styles.periodButtonActive
-                ]}
-                onPress={() => setSelectedPeriod(period.key)}
-              >
-                <Text style={[
-                  styles.periodButtonText,
-                  selectedPeriod === period.key && styles.periodButtonTextActive
-                ]}>
-                  {period.label}
-                </Text>
-              </TouchableOpacity>
-            ))}
+          <View style={styles.periodSelectorContainer}>
+            <View style={styles.periodSelector}>
+              {periods && periods.map((period) => (
+                <TouchableOpacity
+                  key={period.key}
+                  style={[
+                    styles.periodButton,
+                    selectedPeriod === period.key && styles.periodButtonActive
+                  ]}
+                  onPress={() => setSelectedPeriod(period.key)}
+                >
+                  <Text style={[
+                    styles.periodButtonText,
+                    selectedPeriod === period.key && styles.periodButtonTextActive
+                  ]}>
+                    {period.label}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
           </View>
 
           <Animated.View style={animatedStyle}>
             {/* Estadísticas principales */}
             <View style={styles.statsContainer}>
               <View style={styles.statCard}>
-                <Ionicons name="time" size={24} color="#3F51B5" />
-                <Text style={styles.statNumber}>{currentData.totalMinutes}</Text>
-                <Text style={styles.statLabel}>{t('history.stats.minutes')}</Text>
+                <LinearGradient
+                  colors={['rgba(255,255,255,0.15)', 'rgba(255,255,255,0.05)']}
+                  style={styles.statGradient}
+                >
+                  <Ionicons name="time" size={24} color="#B0E0E6" />
+                  <Text style={styles.statNumber}>{currentData.totalMinutes}</Text>
+                  <Text style={styles.statLabel}>{t('history.stats.minutes')}</Text>
+                </LinearGradient>
               </View>
-              
+
               <View style={styles.statCard}>
-                <Ionicons name="checkmark-circle" size={24} color="#4CAF50" />
-                <Text style={styles.statNumber}>{currentData.totalSessions}</Text>
-                <Text style={styles.statLabel}>{t('history.stats.sessions')}</Text>
+                <LinearGradient
+                  colors={['rgba(255,255,255,0.15)', 'rgba(255,255,255,0.05)']}
+                  style={styles.statGradient}
+                >
+                  <Ionicons name="checkmark-circle" size={24} color="#98FB98" />
+                  <Text style={styles.statNumber}>{currentData.totalSessions}</Text>
+                  <Text style={styles.statLabel}>{t('history.stats.sessions')}</Text>
+                </LinearGradient>
               </View>
-              
+
               <View style={styles.statCard}>
-                <Ionicons name="flame" size={24} color="#FF5722" />
-                <Text style={styles.statNumber}>{currentData.streak}</Text>
-                <Text style={styles.statLabel}>{t('history.stats.consecutiveDays')}</Text>
+                <LinearGradient
+                  colors={['rgba(255,255,255,0.15)', 'rgba(255,255,255,0.05)']}
+                  style={styles.statGradient}
+                >
+                  <Ionicons name="flame" size={24} color="#FFB6C1" />
+                  <Text style={styles.statNumber}>{currentData.streak}</Text>
+                  <Text style={styles.statLabel}>{t('history.stats.consecutiveDays')}</Text>
+                </LinearGradient>
               </View>
             </View>
 
             {/* Estado de la planta */}
-            <View style={styles.plantCard}>
+            <View style={styles.glassCard}>
               <View style={styles.plantHeader}>
                 <Text style={styles.plantStageIcon}>{plantStage.icon}</Text>
                 <View style={styles.plantInfo}>
@@ -294,31 +349,34 @@ const HistoryScreen = () => {
                   <Text style={styles.plantMessage}>{getStreakMessage(currentData.streak)}</Text>
                 </View>
               </View>
-              
+
               <View style={styles.progressBar}>
-                <View 
+                <LinearGradient
+                  colors={['#8A2BE2', '#9370DB']}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
                   style={[
-                    styles.progressFill, 
+                    styles.progressFill,
                     { width: `${Math.min((currentData.totalSessions % 25) * 4, 100)}%` }
-                  ]} 
+                  ]}
                 />
               </View>
-              
+
               <Text style={styles.progressText}>
                 {t('history.progressText', { sessions: 25 - (currentData.totalSessions % 25) })}
               </Text>
             </View>
 
             {/* Racha actual */}
-            <View style={styles.streakCard}>
+            <View style={styles.glassCard}>
               <View style={styles.streakHeader}>
-                <Ionicons name="calendar" size={20} color="#34495E" />
+                <Ionicons name="calendar" size={20} color="#E6E6FA" />
                 <Text style={styles.streakTitle}>{t('history.currentStreak')}</Text>
               </View>
-              
+
               <Text style={styles.streakDays}>{t('history.consecutiveDays', { days: currentData.streak })}</Text>
               <Text style={styles.streakMessage}>{getStreakMessage(currentData.streak)}</Text>
-              
+
               <View style={styles.streakVisual}>
                 {Array(7).fill().map((_, index) => (
                   <View
@@ -333,25 +391,25 @@ const HistoryScreen = () => {
             </View>
 
             {/* Historial de sesiones */}
-            <View style={styles.historyCard}>
+            <View style={styles.glassCard}>
               <Text style={styles.historyTitle}>{t('history.recentSessions')}</Text>
-              
+
               {currentData.sessions && currentData.sessions.map((session, index) => (
                 <View key={index} style={styles.sessionItem}>
                   <View style={styles.sessionDate}>
                     <Text style={styles.sessionDateText}>{formatDate(session.date)}</Text>
                   </View>
-                  
+
                   <View style={styles.sessionInfo}>
                     <View style={styles.sessionDuration}>
-                      <Ionicons 
-                        name={session.completed ? "checkmark-circle" : "close-circle"} 
-                        size={16} 
-                        color={session.completed ? Colors.plant.healthy : Colors.plant.withering} 
+                      <Ionicons
+                        name={session.completed ? "checkmark-circle" : "close-circle"}
+                        size={16}
+                        color={session.completed ? "#98FB98" : "#FFB6C1"}
                       />
                       <Text style={styles.sessionDurationText}>{session.duration} min</Text>
                     </View>
-                    
+
                     {session.mood && (
                       <View style={styles.sessionMood}>
                         <Text style={styles.sessionMoodEmoji}>{moodEmojis[session.mood]}</Text>
@@ -363,8 +421,8 @@ const HistoryScreen = () => {
             </View>
 
             {/* Mensaje inspirador */}
-            <View style={styles.inspirationCard}>
-              <Ionicons name="heart" size={20} color={Colors.accent} />
+            <View style={[styles.glassCard, { marginBottom: 100 }]}>
+              <Ionicons name="heart" size={20} color="#FFB6C1" />
               <Text style={styles.inspirationText}>
                 {t('history.inspirationalMessage')}
               </Text>
@@ -381,47 +439,80 @@ const HistoryScreen = () => {
         >
           <View style={styles.modalOverlay}>
             <View style={styles.modalContent}>
-              <TouchableOpacity 
-                style={styles.modalCloseButton}
-                onPress={() => setModalVisible(false)}
+              <LinearGradient
+                colors={['#2E1A47', '#4B0082']}
+                style={styles.modalGradient}
               >
-                <Ionicons name="close" size={24} color={Colors.text.secondary} />
-              </TouchableOpacity>
-              
-              {selectedMedal && (
-                <>
-                  <Image 
-                    source={PLANT_IMAGES[selectedMedal.image]} 
-                    style={styles.modalMedalImage}
-                    resizeMode="cover"
-                  />
-                  <Text style={styles.modalMedalName}>{selectedMedal.name}</Text>
-                   <Text style={styles.modalMedalDescription}>{selectedMedal.description}</Text>
-                   <Text style={styles.modalMedalMeaning}>{selectedMedal.meaning}</Text>
-                   {selectedMedal.completedDate && (
-                     <Text style={styles.modalCompletedDate}>
-                       {t('history.obtainedOn', { date: selectedMedal.completedDate })}
-                     </Text>
-                   )}
-                </>
-              )}
+                <TouchableOpacity
+                  style={styles.modalCloseButton}
+                  onPress={() => setModalVisible(false)}
+                >
+                  <Ionicons name="close" size={24} color="#FFFFFF" />
+                </TouchableOpacity>
+
+                {selectedMedal && (
+                  <>
+                    <Image
+                      source={PLANT_IMAGES[selectedMedal.image]}
+                      style={styles.modalMedalImage}
+                      resizeMode="cover"
+                    />
+                    <Text style={styles.modalMedalName}>{selectedMedal.name}</Text>
+                    <Text style={styles.modalMedalDescription}>{selectedMedal.description}</Text>
+                    <Text style={styles.modalMedalMeaning}>{selectedMedal.meaning}</Text>
+                    {selectedMedal.completedDate && (
+                      <Text style={styles.modalCompletedDate}>
+                        {t('history.obtainedOn', { date: selectedMedal.completedDate })}
+                      </Text>
+                    )}
+                  </>
+                )}
+              </LinearGradient>
             </View>
           </View>
         </Modal>
       </SafeAreaView>
-    </LinearGradient>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.primary,
+  },
+  background: {
+    ...StyleSheet.absoluteFillObject,
   },
   safeArea: {
     flex: 1,
   },
   scrollView: {
     flex: 1,
+  },
+  ambientLight: {
+    position: 'absolute',
+    width: width * 1.5,
+    height: width * 1.5,
+    borderRadius: width,
+    opacity: 0.15,
+  },
+  ambientLightTop: {
+    top: -width * 0.8,
+    left: -width * 0.2,
+    backgroundColor: '#8A2BE2', // BlueViolet
+    transform: [{ scale: 1.2 }],
+  },
+  ambientLightBottom: {
+    bottom: -width * 0.8,
+    right: -width * 0.2,
+    backgroundColor: '#4B0082', // Indigo
+  },
+  particle: {
+    position: 'absolute',
+    backgroundColor: '#FFF',
+    borderRadius: 50,
+    opacity: 0.5,
   },
   header: {
     alignItems: 'center',
@@ -431,118 +522,137 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 28,
-    fontWeight: 'bold',
-    color: Colors.white,
+    fontWeight: '300',
+    color: '#FFFFFF',
     marginBottom: 8,
+    letterSpacing: 0.5,
+    fontFamily: Platform.OS === 'ios' ? 'System' : 'sans-serif-light',
   },
   subtitle: {
     fontSize: 16,
-    color: Colors.white,
-    opacity: 0.8,
+    color: 'rgba(255, 255, 255, 0.7)',
+    letterSpacing: 0.5,
   },
-  gardenSection: {
+  glassCard: {
     marginHorizontal: 20,
-    marginBottom: 25,
-    backgroundColor: Colors.surface,
-    borderRadius: 16,
+    marginBottom: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: 20,
     padding: 20,
-    shadowColor: Colors.shadow.medium,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.2)',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 4,
     },
     shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowRadius: 8,
+    elevation: 5,
   },
   gardenTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: Colors.text.primary,
+    color: '#FFFFFF',
     marginBottom: 16,
     textAlign: 'center',
+    letterSpacing: 0.5,
   },
   sliderContainer: {
-    maxHeight: 120,
+    maxHeight: 130,
   },
   plantsSlider: {
-    paddingHorizontal: 15,
+    paddingHorizontal: 5,
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  plantsGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    paddingHorizontal: 10,
   },
   plantMedal: {
     width: 100,
-    alignItems: 'center',
-    marginBottom: 15,
-    marginRight: 20,
-    padding: 10,
+    marginRight: 15,
     borderRadius: 15,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    shadowColor: Colors.shadow.light,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    overflow: 'hidden',
+  },
+  medalGradient: {
+    padding: 10,
+    alignItems: 'center',
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
   },
   medalImage: {
     width: 70,
     height: 70,
     borderRadius: 35,
-    borderWidth: 3,
-    borderColor: Colors.plant.healthy,
+    borderWidth: 2,
+    borderColor: 'rgba(255, 255, 255, 0.5)',
     marginBottom: 8,
-    shadowColor: Colors.shadow.medium,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 4,
   },
   medalName: {
     fontSize: 10,
-    color: Colors.text.primary,
+    color: '#FFFFFF',
     textAlign: 'center',
     fontWeight: '500',
     lineHeight: 12,
   },
   emptyMedal: {
-    opacity: 0.5,
+    opacity: 0.7,
+  },
+  emptyIconContainer: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 8,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+  },
+  emptyGardenContainer: {
+    alignItems: 'center',
+    padding: 20,
+  },
+  emptyGardenText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600',
+    marginTop: 10,
+  },
+  emptyGardenSubtext: {
+    color: 'rgba(255, 255, 255, 0.6)',
+    fontSize: 12,
+    textAlign: 'center',
+    marginTop: 5,
+  },
+  periodSelectorContainer: {
+    marginHorizontal: 20,
+    marginBottom: 30,
   },
   periodSelector: {
     flexDirection: 'row',
-    marginHorizontal: 20,
-    marginBottom: 30,
-    backgroundColor: Colors.surface,
-    borderRadius: 12,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: 15,
     padding: 4,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
   },
   periodButton: {
     flex: 1,
-    paddingVertical: 12,
+    paddingVertical: 10,
     alignItems: 'center',
-    borderRadius: 8,
+    borderRadius: 12,
   },
   periodButtonActive: {
-    backgroundColor: Colors.primary,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
   },
   periodButtonText: {
     fontSize: 14,
     fontWeight: '500',
-    color: Colors.text.secondary,
+    color: 'rgba(255, 255, 255, 0.6)',
   },
   periodButtonTextActive: {
-    color: Colors.text.light,
+    color: '#FFFFFF',
+    fontWeight: '600',
   },
   statsContainer: {
     flexDirection: 'row',
@@ -552,48 +662,33 @@ const styles = StyleSheet.create({
   },
   statCard: {
     flex: 1,
-    backgroundColor: Colors.surface,
     borderRadius: 16,
-    paddingVertical: 20,
-    paddingHorizontal: 12,
-    alignItems: 'center',
-    shadowColor: Colors.shadow.medium,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
   },
+  statGradient: {
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: 16,
+  },
   statNumber: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: 'bold',
-    color: Colors.text.primary,
+    color: '#FFFFFF',
     marginTop: 8,
   },
   statLabel: {
-    fontSize: 11,
+    fontSize: 10,
     textAlign: 'center',
-    color: Colors.text.secondary,
+    color: 'rgba(255, 255, 255, 0.7)',
     marginTop: 4,
-    lineHeight: 13,
-    paddingHorizontal: 2,
-  },
-  plantCard: {
-    backgroundColor: Colors.surface,
-    marginHorizontal: 20,
-    marginBottom: 20,
-    borderRadius: 16,
-    padding: 20,
-    shadowColor: Colors.shadow.medium,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
   },
   plantHeader: {
     flexDirection: 'row',
@@ -610,44 +705,28 @@ const styles = StyleSheet.create({
   plantStage: {
     fontSize: 18,
     fontWeight: '600',
-    color: Colors.text.primary,
+    color: '#FFFFFF',
   },
   plantMessage: {
     fontSize: 14,
-    color: Colors.text.secondary,
+    color: 'rgba(255, 255, 255, 0.7)',
     marginTop: 4,
   },
   progressBar: {
     height: 8,
-    backgroundColor: Colors.secondary,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
     borderRadius: 4,
     marginBottom: 8,
     overflow: 'hidden',
   },
   progressFill: {
     height: '100%',
-    backgroundColor: Colors.plant.healthy,
     borderRadius: 4,
   },
   progressText: {
     fontSize: 12,
-    color: Colors.text.secondary,
+    color: 'rgba(255, 255, 255, 0.6)',
     textAlign: 'center',
-  },
-  streakCard: {
-    backgroundColor: Colors.surface,
-    marginHorizontal: 20,
-    marginBottom: 20,
-    borderRadius: 16,
-    padding: 20,
-    shadowColor: Colors.shadow.medium,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
   },
   streakHeader: {
     flexDirection: 'row',
@@ -657,53 +736,44 @@ const styles = StyleSheet.create({
   streakTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: Colors.text.primary,
+    color: '#FFFFFF',
     marginLeft: 8,
   },
   streakDays: {
-    fontSize: 24,
+    fontSize: 32,
     fontWeight: 'bold',
-    color: Colors.accent,
+    color: '#FFFFFF',
     marginBottom: 4,
+    textAlign: 'center',
   },
   streakMessage: {
     fontSize: 14,
-    color: Colors.text.secondary,
-    marginBottom: 16,
+    color: 'rgba(255, 255, 255, 0.7)',
+    marginBottom: 20,
+    textAlign: 'center',
   },
   streakVisual: {
     flexDirection: 'row',
     justifyContent: 'center',
-    gap: 8,
+    gap: 10,
   },
   streakDot: {
     width: 12,
     height: 12,
     borderRadius: 6,
-    backgroundColor: Colors.secondary,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
   },
   streakDotActive: {
-    backgroundColor: Colors.accent,
-  },
-  historyCard: {
-    backgroundColor: Colors.surface,
-    marginHorizontal: 20,
-    marginBottom: 20,
-    borderRadius: 16,
-    padding: 20,
-    shadowColor: Colors.shadow.medium,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    backgroundColor: '#FFFFFF',
+    shadowColor: '#FFF',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.8,
+    shadowRadius: 5,
   },
   historyTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: Colors.text.primary,
+    color: '#FFFFFF',
     marginBottom: 16,
   },
   sessionItem: {
@@ -711,14 +781,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.secondary,
+    borderBottomColor: 'rgba(255, 255, 255, 0.1)',
   },
   sessionDate: {
     width: 80,
   },
   sessionDateText: {
     fontSize: 12,
-    color: Colors.text.secondary,
+    color: 'rgba(255, 255, 255, 0.7)',
     fontWeight: '500',
   },
   sessionInfo: {
@@ -733,7 +803,7 @@ const styles = StyleSheet.create({
   },
   sessionDurationText: {
     fontSize: 14,
-    color: Colors.text.primary,
+    color: '#FFFFFF',
     marginLeft: 6,
   },
   sessionMood: {
@@ -742,121 +812,78 @@ const styles = StyleSheet.create({
   sessionMoodEmoji: {
     fontSize: 20,
   },
-  inspirationCard: {
-    backgroundColor: Colors.surface,
-    marginHorizontal: 20,
-    marginBottom: 30,
-    borderRadius: 16,
-    padding: 20,
-    alignItems: 'center',
-    shadowColor: Colors.shadow.medium,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
   inspirationText: {
     fontSize: 14,
-    color: Colors.text.secondary,
+    color: 'rgba(255, 255, 255, 0.8)',
     textAlign: 'center',
     fontStyle: 'italic',
     marginTop: 8,
-    lineHeight: 20,
+    lineHeight: 22,
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
     justifyContent: 'center',
     alignItems: 'center',
   },
   modalContent: {
-    backgroundColor: Colors.surface,
-    borderRadius: 20,
-    padding: 30,
-    alignItems: 'center',
-    marginHorizontal: 40,
-    shadowColor: Colors.shadow.medium,
+    width: '85%',
+    borderRadius: 25,
+    overflow: 'hidden',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 4,
+      height: 10,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 8,
-    elevation: 8,
+    shadowOpacity: 0.5,
+    shadowRadius: 20,
+    elevation: 10,
+  },
+  modalGradient: {
+    padding: 30,
+    alignItems: 'center',
   },
   modalCloseButton: {
     position: 'absolute',
     top: 15,
     right: 15,
     zIndex: 1,
+    padding: 5,
   },
   modalMedalImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    borderWidth: 3,
-    borderColor: Colors.plant.healthy,
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    borderWidth: 4,
+    borderColor: 'rgba(255, 255, 255, 0.3)',
     marginBottom: 20,
   },
   modalMedalName: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: Colors.text.primary,
+    color: '#FFFFFF',
     marginBottom: 10,
     textAlign: 'center',
   },
   modalMedalDescription: {
-     fontSize: 16,
-     color: Colors.text.secondary,
-     textAlign: 'center',
-     lineHeight: 22,
-     marginBottom: 15,
-     fontWeight: '500',
-   },
-   modalMedalMeaning: {
-     fontSize: 15,
-     color: Colors.text.primary,
-     textAlign: 'center',
-     lineHeight: 20,
-     marginBottom: 20,
-     fontStyle: 'italic',
-     paddingHorizontal: 10,
-   },
-   modalCompletedDate: {
-     fontSize: 16,
-     color: Colors.plant.healthy,
-     fontWeight: '700',
-     textAlign: 'center',
-     backgroundColor: 'rgba(76, 175, 80, 0.1)',
-     paddingVertical: 8,
-     paddingHorizontal: 15,
-     borderRadius: 20,
-     borderWidth: 1,
-     borderColor: Colors.plant.healthy,
-   },
-   emptyGardenContainer: {
-     alignItems: 'center',
-     justifyContent: 'center',
-     paddingVertical: 40,
-     paddingHorizontal: 20,
-   },
-   emptyGardenText: {
-     fontSize: 18,
-     fontWeight: '600',
-     color: Colors.text.primary,
-     textAlign: 'center',
-     marginTop: 15,
-     marginBottom: 8,
-   },
-   emptyGardenSubtext: {
-     fontSize: 14,
-     color: Colors.text.secondary,
-     textAlign: 'center',
-     lineHeight: 20,
-   },
+    fontSize: 16,
+    color: 'rgba(255, 255, 255, 0.9)',
+    textAlign: 'center',
+    marginBottom: 15,
+    lineHeight: 22,
+  },
+  modalMedalMeaning: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.7)',
+    textAlign: 'center',
+    fontStyle: 'italic',
+    marginBottom: 20,
+  },
+  modalCompletedDate: {
+    fontSize: 12,
+    color: 'rgba(255, 255, 255, 0.5)',
+    marginTop: 10,
+  },
 });
 
 export default HistoryScreen;

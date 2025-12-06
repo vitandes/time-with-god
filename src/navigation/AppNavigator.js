@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
+import { View, Platform } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import { useAuth } from '../context/AuthContext';
 import { usePaywall } from '../context/PaywallContext';
@@ -27,54 +29,77 @@ const Tab = createBottomTabNavigator();
 // Navegador de pestañas principales
 const MainTabNavigator = () => {
   const { t } = useTranslation('common');
-  
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
+        headerShown: false,
+        tabBarShowLabel: false,
+        tabBarActiveTintColor: '#FFFFFF',
+        tabBarInactiveTintColor: 'rgba(255, 255, 255, 0.5)',
+        tabBarStyle: {
+          height: 80,
+          paddingBottom: 20,
+          paddingTop: 10,
+          backgroundColor: '#2E1A47', // Deep spiritual purple
+          borderTopWidth: 0,
+          elevation: 0,
+          shadowOpacity: 0,
+        },
+        tabBarIcon: ({ focused, color }) => {
           let iconName;
 
           if (route.name === 'Home') {
             iconName = focused ? 'home' : 'home-outline';
           } else if (route.name === 'History') {
-            iconName = focused ? 'flower' : 'flower-outline';
+            iconName = focused ? 'leaf' : 'leaf-outline';
           } else if (route.name === 'Profile') {
             iconName = focused ? 'person' : 'person-outline';
           }
 
-          return <Ionicons name={iconName} size={size} color={color} />;
+          return (
+            <View style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '100%',
+              width: 50,
+            }}>
+              <Ionicons
+                name={iconName}
+                size={28}
+                color={color}
+                style={{
+                  marginBottom: 4
+                }}
+              />
+              {focused && (
+                <View style={{
+                  width: 4,
+                  height: 4,
+                  borderRadius: 2,
+                  backgroundColor: '#FFFFFF',
+                  position: 'absolute',
+                  bottom: 10,
+                }} />
+              )}
+            </View>
+          );
         },
-        tabBarActiveTintColor: Colors.primary,
-        tabBarInactiveTintColor: Colors.text.muted,
-        tabBarStyle: {
-          backgroundColor: Colors.surface,
-          borderTopColor: Colors.primary,
-          borderTopWidth: 1,
-          paddingBottom: 25,
-          paddingTop: 5,
-          height: 80,
-          marginBottom: 10,
-        },
-        tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: '500',
-        },
-        headerShown: false,
       })}
     >
-      <Tab.Screen 
-        name="Home" 
-        component={HomeScreen} 
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
         options={{ tabBarLabel: t('home') }}
       />
-      <Tab.Screen 
-        name="History" 
-        component={HistoryScreen} 
+      <Tab.Screen
+        name="History"
+        component={HistoryScreen}
         options={{ tabBarLabel: t('garden') }}
       />
-      <Tab.Screen 
-        name="Profile" 
-        component={ProfileScreen} 
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
         options={{ tabBarLabel: t('profile') }}
       />
     </Tab.Navigator>
@@ -125,28 +150,28 @@ const AppNavigator = () => {
         cardStyle: { backgroundColor: Colors.background },
       }}
     >
-        {!isAuthenticated ? (
-          // Usuario no autenticado
-          <Stack.Screen name="Auth" component={AuthNavigator} />
-        ) : 
+      {!isAuthenticated ? (
+        // Usuario no autenticado
+        <Stack.Screen name="Auth" component={AuthNavigator} />
+      ) :
         // !hasActiveSubscription() ? (
         //   // Usuario autenticado pero sin suscripción activa
         //   <Stack.Screen name="Subscription" component={SubscriptionScreen} />
         // ) : 
-         (
+        (
           // Usuario autenticado con suscripción activa
           <>
             <Stack.Screen name="Main" component={MainTabNavigator} />
-            <Stack.Screen 
-              name="Session" 
+            <Stack.Screen
+              name="Session"
               component={SessionScreen}
               options={{
                 presentation: 'modal',
                 gestureEnabled: false,
               }}
             />
-            <Stack.Screen 
-              name="SessionComplete" 
+            <Stack.Screen
+              name="SessionComplete"
               component={SessionCompleteScreen}
               options={{
                 presentation: 'modal',
@@ -155,7 +180,7 @@ const AppNavigator = () => {
             />
           </>
         )}
-      </Stack.Navigator>
+    </Stack.Navigator>
   );
 };
 

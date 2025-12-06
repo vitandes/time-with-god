@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   Alert,
   Switch,
+  Dimensions,
+  Platform,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
@@ -18,6 +20,9 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
   withDelay,
+  Easing,
+  withRepeat,
+  withSequence,
 } from 'react-native-reanimated';
 
 import { useAuth } from '../context/AuthContext';
@@ -25,6 +30,8 @@ import { useSessionHistory } from '../hooks/useSessionHistory';
 import { useMorningNotifications } from '../hooks/useMorningNotifications';
 import { useConstants } from '../hooks/useConstants';
 import Colors from '../constants/Colors';
+
+const { width } = Dimensions.get('window');
 
 const ProfileScreen = ({ navigation }) => {
   const { t } = useTranslation(['app', 'common']);
@@ -38,18 +45,39 @@ const ProfileScreen = ({ navigation }) => {
     toggleNotifications,
     updateNotificationTime
   } = useMorningNotifications();
-  
+
   // Obtener estadísticas dinámicas totales
   const allTimeStats = getStats('year'); // Usar 'year' para obtener todas las estadísticas
   const [musicEnabled, setMusicEnabled] = useState(true);
-  
+
   // Animaciones
   const fadeIn = useSharedValue(0);
   const slideUp = useSharedValue(30);
+  const particle1Y = useSharedValue(0);
+  const particle2Y = useSharedValue(0);
 
   React.useEffect(() => {
     fadeIn.value = withTiming(1, { duration: 800 });
     slideUp.value = withTiming(0, { duration: 600 });
+
+    // Partículas flotantes
+    particle1Y.value = withRepeat(
+      withSequence(
+        withTiming(-20, { duration: 4000, easing: Easing.inOut(Easing.ease) }),
+        withTiming(0, { duration: 4000, easing: Easing.inOut(Easing.ease) })
+      ),
+      -1,
+      true
+    );
+
+    particle2Y.value = withDelay(1000, withRepeat(
+      withSequence(
+        withTiming(-30, { duration: 5000, easing: Easing.inOut(Easing.ease) }),
+        withTiming(0, { duration: 5000, easing: Easing.inOut(Easing.ease) })
+      ),
+      -1,
+      true
+    ));
   }, []);
 
   const handleLogout = () => {
@@ -58,8 +86,8 @@ const ProfileScreen = ({ navigation }) => {
       t('app:profile.alerts.logout.message'),
       [
         { text: t('app:profile.alerts.logout.cancel'), style: 'cancel' },
-        { 
-          text: t('app:profile.alerts.logout.confirm'), 
+        {
+          text: t('app:profile.alerts.logout.confirm'),
           style: 'destructive',
           onPress: logout
         }
@@ -88,8 +116,8 @@ const ProfileScreen = ({ navigation }) => {
       t('app:profile.alerts.deleteAccount.message'),
       [
         { text: t('app:profile.alerts.deleteAccount.cancel'), style: 'cancel' },
-        { 
-          text: t('app:profile.alerts.deleteAccount.confirm'), 
+        {
+          text: t('app:profile.alerts.deleteAccount.confirm'),
           style: 'destructive',
           onPress: () => {
             Alert.alert(
@@ -144,8 +172,6 @@ const ProfileScreen = ({ navigation }) => {
     );
   };
 
-
-
   const getNotificationSubtitle = () => {
     if (!notificationsEnabled) return t('app:profile.notifications.disabled');
     if (permissionStatus !== 'granted') return t('app:profile.notifications.permissionsRequired');
@@ -158,21 +184,21 @@ const ProfileScreen = ({ navigation }) => {
       return {
         status: t('app:profile.subscription.active'),
         plan: plan?.name || 'Plan Premium',
-        color: Colors.plant.healthy,
+        color: '#98FB98',
         icon: 'checkmark-circle'
       };
     } else if (user?.subscription?.isTrialActive) {
       return {
         status: t('app:profile.subscription.trial'),
         plan: `${user.subscription.trialDaysLeft} ${t('app:profile.subscription.daysLeft')}`,
-        color: Colors.accent,
+        color: '#FFB6C1',
         icon: 'time'
       };
     } else {
       return {
         status: t('app:profile.subscription.inactive'),
         plan: t('app:profile.subscription.upgradeAccess'),
-        color: Colors.plant.withering,
+        color: '#FFB6C1',
         icon: 'alert-circle'
       };
     }
@@ -185,26 +211,34 @@ const ProfileScreen = ({ navigation }) => {
     };
   });
 
+  const particle1Style = useAnimatedStyle(() => ({
+    transform: [{ translateY: particle1Y.value }],
+  }));
+
+  const particle2Style = useAnimatedStyle(() => ({
+    transform: [{ translateY: particle2Y.value }],
+  }));
+
   const subscriptionStatus = getSubscriptionStatus();
 
   const menuSections = [
-      {
-        title: t('app:profile.settings'),
-        items: [
-          {
-            icon: 'musical-notes',
-            title: t('app:profile.music.title'),
-            subtitle: t('app:profile.music.subtitle'),
-            onPress: () => {}
-          },
-          {
-            icon: 'language',
-            title: t('app:profile.language'),
-            subtitle: t('app:profile.languageSubtitle'),
-            rightComponent: <LanguageSwitcher />
-          }
-        ]
-      },
+    {
+      title: t('app:profile.settings'),
+      items: [
+        {
+          icon: 'musical-notes',
+          title: t('app:profile.music.title'),
+          subtitle: t('app:profile.music.subtitle'),
+          onPress: () => { }
+        },
+        {
+          icon: 'language',
+          title: t('app:profile.language'),
+          subtitle: t('app:profile.languageSubtitle'),
+          rightComponent: <LanguageSwitcher />
+        }
+      ]
+    },
     {
       title: t('app:profile.subscription.title'),
       items: [
@@ -223,7 +257,7 @@ const ProfileScreen = ({ navigation }) => {
         {
           icon: 'help-circle',
           title: t('app:profile.appInfo.helpCenter'),
-          onPress: () => {}
+          onPress: () => { }
         },
         {
           icon: 'mail',
@@ -233,12 +267,12 @@ const ProfileScreen = ({ navigation }) => {
         {
           icon: 'star',
           title: t('app:profile.appInfo.rateApp'),
-          onPress: () => {}
+          onPress: () => { }
         },
         {
           icon: 'document-text',
           title: t('app:profile.appInfo.legal'),
-          onPress: () => {}
+          onPress: () => { }
         }
       ]
     },
@@ -248,13 +282,13 @@ const ProfileScreen = ({ navigation }) => {
         {
           icon: 'log-out',
           title: t('app:profile.logout'),
-          color: Colors.plant.withering,
+          color: '#FFB6C1',
           onPress: handleLogout
         },
         {
           icon: 'trash',
           title: t('app:profile.deleteAccount'),
-          color: Colors.plant.withering,
+          color: '#FFB6C1',
           onPress: handleDeleteAccount
         }
       ]
@@ -262,39 +296,59 @@ const ProfileScreen = ({ navigation }) => {
   ];
 
   return (
-    <LinearGradient
-      colors={Colors.gradients.primary}
-      style={styles.container}
-    >
+    <View style={styles.container}>
+      <LinearGradient
+        colors={Colors.gradients.spiritual}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.background}
+      />
+
+      {/* Efectos de fondo (Luces ambientales) */}
+      <View style={[styles.ambientLight, styles.ambientLightTop]} />
+      <View style={[styles.ambientLight, styles.ambientLightBottom]} />
+
+      {/* Partículas */}
+      <Animated.View style={[styles.particle, { top: '15%', left: '10%', width: 4, height: 4 }, particle1Style]} />
+      <Animated.View style={[styles.particle, { top: '25%', right: '15%', width: 6, height: 6, opacity: 0.4 }, particle2Style]} />
+      <Animated.View style={[styles.particle, { bottom: '30%', left: '20%', width: 3, height: 3, opacity: 0.3 }, particle1Style]} />
+
       <SafeAreaView style={styles.safeArea}>
         <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
           {/* Header */}
           <View style={styles.header}>
             <View style={styles.profileInfo}>
-              <View style={styles.avatar}>
-                <Ionicons name="person" size={32} color={Colors.text.light} />
+              <View style={styles.avatarContainer}>
+                <LinearGradient
+                  colors={['rgba(255,255,255,0.2)', 'rgba(255,255,255,0.05)']}
+                  style={styles.avatar}
+                >
+                  <Ionicons name="person" size={32} color="#FFFFFF" />
+                </LinearGradient>
               </View>
               <View style={styles.userInfo}>
                 <Text style={styles.userName}>{user?.name || 'Usuario'}</Text>
                 <Text style={styles.userEmail}>{user?.email || 'usuario@ejemplo.com'}</Text>
               </View>
             </View>
-            
+
             {/* Estadísticas rápidas */}
-            <View style={styles.quickStats}>
-              <View style={styles.statItem}>
-                <Text style={styles.statNumber}>{allTimeStats.totalSessions}</Text>
-                <Text style={styles.statLabel}>{t('app:profile.stats.totalSessions')}</Text>
-              </View>
-              <View style={styles.statDivider} />
-              <View style={styles.statItem}>
-                <Text style={styles.statNumber}>{allTimeStats.totalMinutes}</Text>
-                <Text style={styles.statLabel}>{t('app:profile.stats.totalMinutes')}</Text>
-              </View>
-              <View style={styles.statDivider} />
-              <View style={styles.statItem}>
-                <Text style={styles.statNumber}>{allTimeStats.streak}</Text>
-                <Text style={styles.statLabel}>{t('app:profile.stats.currentStreak')}</Text>
+            <View style={styles.glassCard}>
+              <View style={styles.quickStats}>
+                <View style={styles.statItem}>
+                  <Text style={styles.statNumber}>{allTimeStats.totalSessions}</Text>
+                  <Text style={styles.statLabel}>{t('app:profile.stats.totalSessions')}</Text>
+                </View>
+                <View style={styles.statDivider} />
+                <View style={styles.statItem}>
+                  <Text style={styles.statNumber}>{allTimeStats.totalMinutes}</Text>
+                  <Text style={styles.statLabel}>{t('app:profile.stats.totalMinutes')}</Text>
+                </View>
+                <View style={styles.statDivider} />
+                <View style={styles.statItem}>
+                  <Text style={styles.statNumber}>{allTimeStats.streak}</Text>
+                  <Text style={styles.statLabel}>{t('app:profile.stats.currentStreak')}</Text>
+                </View>
               </View>
             </View>
           </View>
@@ -304,7 +358,7 @@ const ProfileScreen = ({ navigation }) => {
             {menuSections && menuSections.map((section, sectionIndex) => (
               <View key={sectionIndex} style={styles.section}>
                 <Text style={styles.sectionTitle}>{section.title}</Text>
-                <View style={styles.sectionContent}>
+                <View style={styles.glassCard}>
                   {section.items && section.items.map((item, itemIndex) => (
                     <TouchableOpacity
                       key={itemIndex}
@@ -315,11 +369,13 @@ const ProfileScreen = ({ navigation }) => {
                       onPress={item.onPress}
                     >
                       <View style={styles.menuItemLeft}>
-                        <Ionicons 
-                          name={item.icon} 
-                          size={20} 
-                          color={item.color || Colors.text.primary} 
-                        />
+                        <View style={[styles.iconContainer, item.color && { backgroundColor: `${item.color}20` }]}>
+                          <Ionicons
+                            name={item.icon}
+                            size={20}
+                            color={item.color || "#FFFFFF"}
+                          />
+                        </View>
                         <View style={styles.menuItemText}>
                           <Text style={[
                             styles.menuItemTitle,
@@ -332,12 +388,12 @@ const ProfileScreen = ({ navigation }) => {
                           )}
                         </View>
                       </View>
-                      
+
                       {item.rightComponent || (
-                        <Ionicons 
-                          name="chevron-forward" 
-                          size={16} 
-                          color={Colors.text.secondary} 
+                        <Ionicons
+                          name="chevron-forward"
+                          size={16}
+                          color="rgba(255, 255, 255, 0.3)"
                         />
                       )}
                     </TouchableOpacity>
@@ -356,13 +412,17 @@ const ProfileScreen = ({ navigation }) => {
           </Animated.View>
         </ScrollView>
       </SafeAreaView>
-    </LinearGradient>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.primary,
+  },
+  background: {
+    ...StyleSheet.absoluteFillObject,
   },
   safeArea: {
     flex: 1,
@@ -370,43 +430,89 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
   },
+  ambientLight: {
+    position: 'absolute',
+    width: width * 1.5,
+    height: width * 1.5,
+    borderRadius: width,
+    opacity: 0.15,
+  },
+  ambientLightTop: {
+    top: -width * 0.8,
+    left: -width * 0.2,
+    backgroundColor: '#8A2BE2', // BlueViolet
+    transform: [{ scale: 1.2 }],
+  },
+  ambientLightBottom: {
+    bottom: -width * 0.8,
+    right: -width * 0.2,
+    backgroundColor: '#4B0082', // Indigo
+  },
+  particle: {
+    position: 'absolute',
+    backgroundColor: '#FFF',
+    borderRadius: 50,
+    opacity: 0.5,
+  },
   header: {
     paddingHorizontal: 20,
     paddingTop: 20,
-    paddingBottom: 30,
+    paddingBottom: 20,
   },
   profileInfo: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 30,
   },
+  avatarContainer: {
+    marginRight: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 5,
+  },
   avatar: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    width: 70,
+    height: 70,
+    borderRadius: 35,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 16,
+    borderWidth: 2,
+    borderColor: 'rgba(255, 255, 255, 0.2)',
   },
   userInfo: {
     flex: 1,
   },
   userName: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: Colors.text.light,
+    fontSize: 24,
+    fontWeight: '300',
+    color: '#FFFFFF',
     marginBottom: 4,
+    letterSpacing: 0.5,
+    fontFamily: Platform.OS === 'ios' ? 'System' : 'sans-serif-light',
   },
   userEmail: {
     fontSize: 14,
-    color: Colors.text.light,
-    opacity: 0.8,
+    color: 'rgba(255, 255, 255, 0.7)',
+  },
+  glassCard: {
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.2)',
+    overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 5,
   },
   quickStats: {
     flexDirection: 'row',
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    borderRadius: 16,
     padding: 20,
   },
   statItem: {
@@ -416,43 +522,30 @@ const styles = StyleSheet.create({
   statNumber: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: Colors.text.light,
+    color: '#FFFFFF',
     marginBottom: 4,
   },
   statLabel: {
     textAlign: 'center',
     fontSize: 12,
-    color: Colors.text.light,
-    opacity: 0.8,
+    color: 'rgba(255, 255, 255, 0.7)',
   },
   statDivider: {
     width: 1,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    marginHorizontal: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    marginHorizontal: 10,
   },
   section: {
-    marginBottom: 30,
+    marginBottom: 25,
     paddingHorizontal: 20,
   },
   sectionTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: Colors.text.primary,
+    color: '#FFFFFF',
     marginBottom: 12,
     marginLeft: 4,
-  },
-  sectionContent: {
-    backgroundColor: Colors.surface,
-    borderRadius: 16,
-    overflow: 'hidden',
-    shadowColor: Colors.shadow.medium,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    letterSpacing: 0.5,
   },
   menuItem: {
     flexDirection: 'row',
@@ -461,7 +554,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 16,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.secondary,
+    borderBottomColor: 'rgba(255, 255, 255, 0.1)',
   },
   menuItemLast: {
     borderBottomWidth: 0,
@@ -471,33 +564,41 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
+  iconContainer: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+  },
   menuItemText: {
-    marginLeft: 12,
     flex: 1,
   },
   menuItemTitle: {
     fontSize: 16,
     fontWeight: '500',
-    color: Colors.text.primary,
+    color: '#FFFFFF',
   },
   menuItemSubtitle: {
-    fontSize: 14,
-    color: Colors.text.secondary,
+    fontSize: 12,
+    color: 'rgba(255, 255, 255, 0.6)',
     marginTop: 2,
   },
   appInfo: {
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingBottom: 30,
+    paddingBottom: 100,
   },
   appVersion: {
     fontSize: 12,
-    color: Colors.text.secondary,
+    color: 'rgba(255, 255, 255, 0.5)',
     marginBottom: 4,
   },
   appDescription: {
     fontSize: 12,
-    color: Colors.text.secondary,
+    color: 'rgba(255, 255, 255, 0.5)',
     textAlign: 'center',
     fontStyle: 'italic',
   },
