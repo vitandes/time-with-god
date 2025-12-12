@@ -59,9 +59,9 @@
       "pageIndicator": "of"
     },
     "plant": {
-       "minutesRemaining": "minutes remaining",
-       "completed": "Plant completed!"
-     },
+      "minutesRemaining": "minutes remaining",
+      "completed": "Plant completed!"
+    },
     "plantProgress": "Plant progress",
     "level": "Level",
     "nextLevel": "Next level"
@@ -300,56 +300,56 @@
     "streakReminder": "Don't break your prayer streak!"
   },
   "register": {
-      "title": "Create Account",
-      "subtitle": "Join our spiritual community",
-      "continueWithApple": "Continue with Apple",
-      "continueWithGoogle": "Continue with Google",
-      "createWithEmail": "Create account with email and password",
-      "name": "Full name",
-      "namePlaceholder": "Enter your full name",
-      "email": "Email address",
-      "emailPlaceholder": "Enter your email address",
-      "password": "Password",
-      "passwordPlaceholder": "Create a secure password",
-      "confirmPassword": "Confirm password",
-      "confirmPasswordPlaceholder": "Confirm your password",
-      "createAccount": "Create my space",
-      "alreadyHaveAccount": "Already have an account?",
-      "signIn": "Sign in",
-      "termsAcceptance": "By creating an account, you accept our",
-      "termsOfService": "Terms of Service",
-      "and": "and",
-      "privacyPolicy": "Privacy Policy",
-      "validation": {
-        "nameRequired": "Name is required",
-        "emailRequired": "Email address is required",
-        "invalidEmail": "Enter a valid email address",
-        "passwordRequired": "Password is required",
-        "passwordTooShort": "Password must be at least 6 characters",
-        "passwordsDoNotMatch": "Passwords do not match",
-        "weakPassword": "Password is too weak. Use at least 8 characters with uppercase, lowercase and numbers"
-      },
-      "success": {
-        "accountCreated": "Account created successfully!",
-        "welcomeMessage": "Welcome to your new spiritual space"
-      },
-      "errors": {
-        "emailInUse": "This email address is already in use",
-        "weakPassword": "Password is too weak",
-        "networkError": "Connection error. Check your internet",
-        "unknownError": "An unexpected error occurred. Please try again"
-      },
-      "inspirationalMessage": {
-        "text": "\"For I know the plans I have for you,\" declares the Lord, \"plans to prosper you and not to harm you, to give you hope and a future.\"",
-        "reference": "Jeremiah 29:11"
-      }
+    "title": "Create Account",
+    "subtitle": "Join our spiritual community",
+    "continueWithApple": "Continue with Apple",
+    "continueWithGoogle": "Continue with Google",
+    "createWithEmail": "Create account with email and password",
+    "name": "Full name",
+    "namePlaceholder": "Enter your full name",
+    "email": "Email address",
+    "emailPlaceholder": "Enter your email address",
+    "password": "Password",
+    "passwordPlaceholder": "Create a secure password",
+    "confirmPassword": "Confirm password",
+    "confirmPasswordPlaceholder": "Confirm your password",
+    "createAccount": "Create my space",
+    "alreadyHaveAccount": "Already have an account?",
+    "signIn": "Sign in",
+    "termsAcceptance": "By creating an account, you accept our",
+    "termsOfService": "Terms of Service",
+    "and": "and",
+    "privacyPolicy": "Privacy Policy",
+    "validation": {
+      "nameRequired": "Name is required",
+      "emailRequired": "Email address is required",
+      "invalidEmail": "Enter a valid email address",
+      "passwordRequired": "Password is required",
+      "passwordTooShort": "Password must be at least 6 characters",
+      "passwordsDoNotMatch": "Passwords do not match",
+      "weakPassword": "Password is too weak. Use at least 8 characters with uppercase, lowercase and numbers"
     },
-    "login": {
-      "inspirationalMessage": {
-        "text": "\"Come to me, all you who are weary and burdened, and I will give you rest.\"",
-        "reference": "Matthew 11:28"
-      }
+    "success": {
+      "accountCreated": "Account created successfully!",
+      "welcomeMessage": "Welcome to your new spiritual space"
     },
+    "errors": {
+      "emailInUse": "This email address is already in use",
+      "weakPassword": "Password is too weak",
+      "networkError": "Connection error. Check your internet",
+      "unknownError": "An unexpected error occurred. Please try again"
+    },
+    "inspirationalMessage": {
+      "text": "\"For I know the plans I have for you,\" declares the Lord, \"plans to prosper you and not to harm you, to give you hope and a future.\"",
+      "reference": "Jeremiah 29:11"
+    }
+  },
+  "login": {
+    "inspirationalMessage": {
+      "text": "\"Come to me, all you who are weary and burdened, and I will give you rest.\"",
+      "reference": "Matthew 11:28"
+    }
+  },
   "sessionComplete": {
     "title": "God rejoices in this time with you",
     "subtitle": "You have dedicated {{minutes}} minutes to your connection with God",
@@ -357,6 +357,7 @@
     "noteTitle": "Personal note (optional)",
     "notePlaceholder": "Write how you felt during this moment...",
     "continueButton": "Continue",
+    "saveButton": "Save Session",
     "weeklyStats": "Total this week: {{minutes}} minutes • {{sessions}} sessions",
     "moods": {
       "peaceful": "Peaceful",
@@ -381,18 +382,18 @@
     }
   },
   "common": {
-      "error": "Error",
-      "success": "Success",
-      "cancel": "Cancel",
-      "confirm": "Confirm",
-      "ok": "OK",
-      "yes": "Yes",
-      "no": "No",
-      "save": "Save",
-      "delete": "Delete",
-      "edit": "Edit",
-      "close": "Close",
-      "loading": "Loading...",
-      "or": "or"
-    }
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "ok": "OK",
+    "yes": "Yes",
+    "no": "No",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "loading": "Loading...",
+    "or": "or"
   }
+}
