@@ -75,14 +75,14 @@ const HistoryScreen = () => {
   const particle2Y = useSharedValue(0);
 
   // Obtener datos dinámicos del historial
-  const currentData = getStats(selectedPeriod);
+  const currentData = React.useMemo(() => getStats(selectedPeriod), [getStats, selectedPeriod]);
 
   // Mostrar solo plantas reales obtenidas por el usuario
-  const displayPlants = obtainedPlants;
+  const displayPlants = obtainedPlants || [];
 
   const handleMedalPress = (plantData) => {
     // Buscar primero por image en plants, luego en seedPlant
-    let plant = plants.find(p => p.image === plantData.id || p.id === plantData.id);
+    let plant = plants?.find(p => p.image === plantData.id || p.id === plantData.id);
     if (!plant && plantData.id === 'semilla') {
       plant = seedPlant;
     }
@@ -248,7 +248,7 @@ const HistoryScreen = () => {
                         style={styles.medalGradient}
                       >
                         <Image
-                          source={PLANT_IMAGES[plant?.image]}
+                          source={PLANT_IMAGES[plant?.image] || PLANT_IMAGES['seed']}
                           style={styles.medalImage}
                           resizeMode="cover"
                         />
@@ -486,6 +486,7 @@ const styles = StyleSheet.create({
   },
   safeArea: {
     flex: 1,
+    zIndex: 10,
   },
   scrollView: {
     flex: 1,
@@ -538,17 +539,21 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
     borderRadius: 20,
+    zIndex: 20,
     padding: 20,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.2)',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 5,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 4,
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 8,
+      },
+    }),
   },
   gardenTitle: {
     fontSize: 18,
@@ -627,6 +632,7 @@ const styles = StyleSheet.create({
   periodSelectorContainer: {
     marginHorizontal: 20,
     marginBottom: 30,
+    zIndex: 20,
   },
   periodSelector: {
     flexDirection: 'row',
@@ -664,11 +670,14 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 16,
     overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+      },
+    }),
   },
   statGradient: {
     paddingVertical: 20,

@@ -27,21 +27,40 @@ export const usePlantProgress = () => {
       ]);
 
       if (obtained) {
-        setObtainedPlants(JSON.parse(obtained));
+        const parsedObtained = JSON.parse(obtained);
+        // Deduplicate existing plants
+        const uniqueObtained = [];
+        const seenIds = new Set();
+
+        for (const p of parsedObtained) {
+          // Handle both string IDs (legacy) and object IDs
+          const id = p.id || p;
+          if (!seenIds.has(id)) {
+            uniqueObtained.push(p);
+            seenIds.add(id);
+          }
+        }
+
+        setObtainedPlants(uniqueObtained);
+
+        // Save cleaned data if duplicates were found
+        if (uniqueObtained.length < parsedObtained.length) {
+          await AsyncStorage.setItem(STORAGE_KEYS.OBTAINED_PLANTS, JSON.stringify(uniqueObtained));
+        }
       }
-      
+
       if (current) {
         setCurrentPlant(JSON.parse(current));
       }
-      
+
       if (minutes) {
         setTotalMinutes(parseInt(minutes));
       } else {
-         // Inicializar en 0 para mostrar 5 minutos restantes para la semilla
-         const initialMinutes = 0;
-         setTotalMinutes(initialMinutes);
-         await AsyncStorage.setItem(STORAGE_KEYS.TOTAL_MINUTES, initialMinutes.toString());
-       }
+        // Inicializar en 0 para mostrar 5 minutos restantes para la semilla
+        const initialMinutes = 0;
+        setTotalMinutes(initialMinutes);
+        await AsyncStorage.setItem(STORAGE_KEYS.TOTAL_MINUTES, initialMinutes.toString());
+      }
     } catch (error) {
       console.error('Error loading plant data:', error);
     }
@@ -51,10 +70,10 @@ export const usePlantProgress = () => {
     try {
       // Solo establecer como planta actual, NO agregar a obtenidas hasta completarla
       setCurrentPlant(plant);
-      
+
       // Resetear totalMinutes al seleccionar una nueva planta
       setTotalMinutes(0);
-      
+
       // Guardar en storage
       await Promise.all([
         AsyncStorage.setItem(STORAGE_KEYS.CURRENT_PLANT, JSON.stringify(plant)),
@@ -69,22 +88,27 @@ export const usePlantProgress = () => {
     try {
       // Verificar si la planta ya fue obtenida antes
       const alreadyObtained = obtainedPlants.some(obtained => obtained.id === plant.id);
-      
-      if (!alreadyObtained) {
-        // Mostrar mensaje de felicitación solo si es la primera vez
-        Alert.alert(
-          '🌟 ¡Planta Obtenida! 🌟',
-          `¡Felicidades! Has obtenido la medalla:\n\n🌱 ${plant.name}\n\n${plant.description}\n\nContinúa tu hermoso camino espiritual.`,
-          [
-            {
-              text: 'Continuar',
-              style: 'default'
-            }
-          ],
-          { cancelable: false }
-        );
+
+      if (alreadyObtained) {
+        // Si ya se tiene, solo limpiar la planta actual y salir
+        setCurrentPlant(null);
+        await AsyncStorage.removeItem(STORAGE_KEYS.CURRENT_PLANT);
+        return;
       }
-      
+
+      // Mostrar mensaje de felicitación solo si es la primera vez
+      Alert.alert(
+        '🌟 ¡Planta Obtenida! 🌟',
+        `¡Felicidades! Has obtenido la medalla:\n\n🌱 ${plant.name}\n\n${plant.description}\n\nContinúa tu hermoso camino espiritual.`,
+        [
+          {
+            text: 'Continuar',
+            style: 'default'
+          }
+        ],
+        { cancelable: false }
+      );
+
       // Agregar planta a las obtenidas con fecha de obtención
       const plantWithDate = {
         id: plant.id,
@@ -97,10 +121,10 @@ export const usePlantProgress = () => {
       };
       const newObtained = [...obtainedPlants, plantWithDate];
       setObtainedPlants(newObtained);
-      
+
       // Resetear la planta actual cuando se completa
       setCurrentPlant(null);
-      
+
       // Guardar en storage
       await Promise.all([
         AsyncStorage.setItem(STORAGE_KEYS.OBTAINED_PLANTS, JSON.stringify(newObtained)),
@@ -115,7 +139,7 @@ export const usePlantProgress = () => {
     try {
       setCurrentPlant(null);
       setTotalMinutes(0);
-      
+
       await Promise.all([
         AsyncStorage.removeItem(STORAGE_KEYS.CURRENT_PLANT),
         AsyncStorage.setItem(STORAGE_KEYS.TOTAL_MINUTES, '0'),

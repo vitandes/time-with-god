@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 /**
@@ -7,7 +8,7 @@ import { useTranslation } from 'react-i18next';
  */
 export const useConstants = () => {
   const { t, i18n } = useTranslation('constants');
-  
+
   // Función helper para obtener constantes anidadas
   const getConstant = (path, defaultValue = null) => {
     try {
@@ -19,28 +20,28 @@ export const useConstants = () => {
   };
 
   // Acceso directo a las principales categorías de constantes
-  const constants = {
+  const constants = useMemo(() => ({
     // Plantas espirituales
     plants: getConstant('PLANTS', []),
     plantStages: getConstant('PLANT_STAGES', {}),
     seedPlant: getConstant('SEED_PLANT', {}),
-    
+
     // Versículos bíblicos
     bibleVerses: getConstant('BIBLE_VERSES', []),
-    
+
     // Mensajes de la aplicación
     messages: getConstant('MESSAGES', {}),
     inspirationalQuotes: getConstant('INSPIRATIONAL_QUOTES', []),
     morningMessages: getConstant('MORNING_MESSAGES', []),
-    
+
     // Configuraciones
     sessionDurations: getConstant('SESSION_DURATIONS', []),
     subscriptionPlans: getConstant('SUBSCRIPTION_PLANS', {}),
     appConfig: getConstant('APP_CONFIG', {}),
-    
+
     // Constantes numéricas
     seedMinutes: getConstant('SEED_MINUTES', 5),
-  };
+  }), [t]);
 
   return {
     ...constants,

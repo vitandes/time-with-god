@@ -54,7 +54,7 @@ const PLANT_IMAGES = {
 
 const { width } = Dimensions.get('window');
 
-const SpiritualPlant = ({ 
+const SpiritualPlant = ({
   onPlantPress,
   animated = true
 }) => {
@@ -63,30 +63,30 @@ const SpiritualPlant = ({
   const [showPlantSelector, setShowPlantSelector] = useState(false);
   // Estado para el modal de información de la planta
   const [showPlantInfo, setShowPlantInfo] = useState(false);
-  
+
   // Usar el hook de constantes
   const { seedMinutes, seedPlant } = useConstants();
-  
+
   // Usar el hook de progreso de plantas
   const { obtainedPlants, currentPlant, totalMinutes, selectNewPlant, completePlant } = usePlantProgress();
-  
+
   // Animaciones
   const plantScale = useSharedValue(1);
   const breathingScale = useSharedValue(1);
-  
+
   // Validar que totalMinutes sea un número válido
   const validTotalMinutes = typeof totalMinutes === 'number' && !isNaN(totalMinutes) ? totalMinutes : 0;
-  
+
   // Lógica para determinar qué mostrar
   const seedCompleted = validTotalMinutes >= seedMinutes;
-  
+
   // Determinar si la planta actual está completa
   const plantCompleted = currentPlant && validTotalMinutes >= (seedMinutes + currentPlant.minutes);
-  
+
   // Calcular progreso y tiempo restante
   let remainingMinutes = 0;
   let progressPercentage = 0;
-  
+
   if (!currentPlant) {
     // Solo semilla - mostrar progreso hacia completar la semilla
     remainingMinutes = Math.max(seedMinutes - validTotalMinutes, 0);
@@ -96,13 +96,20 @@ const SpiritualPlant = ({
     const minutesForPlant = Math.max(validTotalMinutes - seedMinutes, 0);
     remainingMinutes = Math.max(currentPlant.minutes - minutesForPlant, 0);
     progressPercentage = Math.min((minutesForPlant / currentPlant.minutes) * 100, 100);
-    
-    // Si la planta está completa, marcarla como obtenida
-    if (remainingMinutes === 0 && minutesForPlant >= currentPlant.minutes) {
+
+    // Si la planta está completa, marcarla como obtenida (MOVED TO USEEFFECT)
+    // if (remainingMinutes === 0 && minutesForPlant >= currentPlant.minutes) {
+    //   completePlant(currentPlant);
+    // }
+  }
+
+  // Efecto para completar la planta actual
+  useEffect(() => {
+    if (currentPlant && validTotalMinutes >= (seedMinutes + currentPlant.minutes)) {
       completePlant(currentPlant);
     }
-  }
-  
+  }, [currentPlant, validTotalMinutes, seedMinutes, completePlant]);
+
 
 
   useEffect(() => {
@@ -125,13 +132,13 @@ const SpiritualPlant = ({
     if (seedCompleted && !currentPlant && validTotalMinutes >= seedMinutes) {
       // Verificar si la semilla ya está en las plantas obtenidas
       const seedAlreadyObtained = obtainedPlants.some(plant => plant.id === 'semilla');
-      
+
       if (!seedAlreadyObtained) {
         // Completar la semilla automáticamente
         completePlant(seedPlant);
       }
     }
-  }, [seedCompleted, currentPlant, validTotalMinutes, obtainedPlants, completePlant]);
+  }, [seedCompleted, currentPlant, validTotalMinutes, obtainedPlants, completePlant, seedPlant]);
 
   // Animación cuando se toca la planta
   const handlePlantPress = () => {
@@ -139,12 +146,12 @@ const SpiritualPlant = ({
       withTiming(1.2, { duration: 150 }),
       withSpring(1, { damping: 10, stiffness: 100 })
     );
-    
+
     // Si hay una planta actual, mostrar información
     if (currentPlant) {
       setShowPlantInfo(true);
     }
-    
+
     if (onPlantPress) {
       onPlantPress();
     }
@@ -173,7 +180,7 @@ const SpiritualPlant = ({
   return (
     <View style={styles.container}>
       {/* Imagen de la flor */}
-      <TouchableOpacity 
+      <TouchableOpacity
         style={styles.flowerContainer}
         onPress={handlePlantPress}
         activeOpacity={0.8}
@@ -181,28 +188,28 @@ const SpiritualPlant = ({
         <Animated.View style={[styles.flower, animatedPlantStyle]}>
           {remainingMinutes > 0 && !currentPlant ? (
             // Mostrar semilla inicial mientras falten minutos
-            <Image 
-              source={require('../../assets/plants/semilla.png')} 
+            <Image
+              source={require('../../assets/plants/semilla.png')}
               style={styles.seedImage}
               resizeMode="cover"
             />
           ) : currentPlant && remainingMinutes > 0 ? (
             // Mostrar planta seleccionada mientras falten minutos
-            <Image 
-              source={PLANT_IMAGES[currentPlant.image]} 
+            <Image
+              source={PLANT_IMAGES[currentPlant.image]}
               style={styles.seedImage}
               resizeMode="cover"
             />
           ) : currentPlant && remainingMinutes <= 0 ? (
             // Mostrar planta completada
-            <Image 
-              source={PLANT_IMAGES[currentPlant.image]} 
+            <Image
+              source={PLANT_IMAGES[currentPlant.image]}
               style={styles.seedImage}
               resizeMode="cover"
             />
           ) : (
             // Mostrar botón "+" cuando la semilla esté completa y no haya planta seleccionada
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.addButton}
               onPress={handleShowPlantSelector}
             >
@@ -211,7 +218,7 @@ const SpiritualPlant = ({
           )}
         </Animated.View>
       </TouchableOpacity>
-      
+
       {/* Mostrar información de tiempo y planta */}
       <View style={styles.timeInfo}>
         {currentPlant ? (
@@ -229,7 +236,7 @@ const SpiritualPlant = ({
           </Text>
         )}
       </View>
-      
+
       {/* Modal de selección de plantas */}
       <PlantSelector
         visible={showPlantSelector}
@@ -237,7 +244,7 @@ const SpiritualPlant = ({
         onSelectPlant={handleSelectNewPlant}
         obtainedPlants={obtainedPlants}
       />
-      
+
       {/* Modal de información de la planta */}
       <Modal
         visible={showPlantInfo}
@@ -253,7 +260,7 @@ const SpiritualPlant = ({
             >
               <Ionicons name="close" size={24} color={Colors.text.secondary} />
             </TouchableOpacity>
-            
+
             {currentPlant && (
               <>
                 <Image
@@ -265,8 +272,8 @@ const SpiritualPlant = ({
                 <Text style={styles.modalPlantDescription}>{currentPlant.description}</Text>
                 <Text style={styles.modalPlantMeaning}>{currentPlant.meaning}</Text>
                 <Text style={styles.modalPlantProgress}>
-                  {remainingMinutes > 0 
-                    ? `${remainingMinutes} ${t('home.plant.minutesRemaining')}` 
+                  {remainingMinutes > 0
+                    ? `${remainingMinutes} ${t('home.plant.minutesRemaining')}`
                     : t('home.plant.completed')
                   }
                 </Text>

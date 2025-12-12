@@ -288,9 +288,19 @@ const OnboardingScreen = ({ navigation }) => {
         navigation.replace('Login');
     };
 
+    const currentIndexRef = useRef(0);
+
+    // Sync ref with state
+    React.useEffect(() => {
+        currentIndexRef.current = currentIndex;
+    }, [currentIndex]);
+
     const onViewableItemsChanged = useRef(({ viewableItems }) => {
         if (viewableItems.length > 0) {
-            setCurrentIndex(viewableItems[0].index);
+            const newIndex = viewableItems[0].index;
+            if (newIndex !== null && newIndex !== undefined && newIndex !== currentIndexRef.current) {
+                setCurrentIndex(newIndex);
+            }
         }
     }).current;
 
