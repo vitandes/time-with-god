@@ -39,6 +39,7 @@
   },
   "home": {
     "title": "Tiempo con Dios",
+    "subtitle": "Tu momento de paz",
     "greeting": "¡Empieza tu momento con Dios hoy!",
     "todaySession": "Sesión de hoy",
     "startSession": "Comenzar",
@@ -56,9 +57,9 @@
       "pageIndicator": "de"
     },
     "plant": {
-       "minutesRemaining": "minutos restantes",
-       "completed": "¡Planta completada!"
-     },
+      "minutesRemaining": "minutos restantes",
+      "completed": "¡Planta completada!"
+    },
     "timeWithGod": "Tiempo con Dios",
     "selectTime": "Selecciona un tiempo",
     "selectTimeMessage": "Por favor elige cuánto tiempo quieres dedicar a tu momento con Dios.",

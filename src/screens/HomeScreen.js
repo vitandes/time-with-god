@@ -160,7 +160,7 @@ const HomeScreen = ({ navigation }) => {
         {/* Header */}
         <View style={styles.header}>
           <Text style={styles.greetingTitle}>{t('home.greeting')}</Text>
-          <Text style={styles.greetingSubtitle}>{t('home.subtitle', 'Tu momento de paz')}</Text>
+          <Text style={styles.greetingSubtitle}>{t('home.subtitle')}</Text>
         </View>
 
         {/* Contenedor central con planta */}
@@ -276,6 +276,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     textAlign: 'center',
     letterSpacing: 0.5,
+    paddingHorizontal: 20,
     fontFamily: Platform.OS === 'ios' ? 'System' : 'sans-serif-light',
   },
   greetingSubtitle: {
